@@ -1,0 +1,11 @@
+{"version": "1.0.0",
+	"iot": {
+		"num_of_iot": 3,
+		"iot_info": [
+			{
+				"sensor_num": "1",
+				"sensor_pos": 1
+			}
+		]
+	}
+}

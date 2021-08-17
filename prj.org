@@ -1,0 +1,42 @@
+* WireFrame
+** pyenv
+#+BEGIN_SRC bash 
+  $ echo "install 3.9.1"
+  $ pyenv install 3.9.1
+  $ pyenv virtualenv 3.9.1 pyenv391
+  $ cd ~/.emacs.d/source/python/django/wireframe
+  $ pyenv local 3.9.1
+  $ echo "set venv as 3.9.1"
+  $ python3.9 -m venv env
+  $ source env/bin/activate
+  $ echo "django install from pip"
+  $ pip install Django==3.2.6
+  $ echo "django install from git"
+  $ git clone git://github.com/django/django.git
+  $ pip install -e django
+#+END_SRC
+*** osx
+	brew install homebrew/dupes/zlib
+	brew install readline xz
+*** amazon linux 2
+   sudo yum install gcc openssl-devel bzip2-devel libffi-devel
+** pip list
+Package        Version
+-------------- -------
+asgiref        3.4.1
+beautifulsoup4 4.9.3
+Django         3.2.6
+pip            21.2.4
+pytz           2021.1
+setuptools     49.2.1
+soupsieve      2.2.1
+sqlparse       0.4.1
+** .bash_profile
+*** linux
+export PATH="/home/lhy/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+*** osx 
+export PYENV_PATH=$HOME/.pyenv
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
