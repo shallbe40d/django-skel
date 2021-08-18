@@ -18,8 +18,8 @@ def tdd(request):
         contents = JSON.loads(data)
         soup = BeautifulSoup(html, 'html.parser')
         ver = soup.select_one('.version')
-        #ver.replace_with(data['version'])
-        return HttpResponse(soup.text)
+        ver.string.replace_with(contents['version'])
+        return HttpResponse(soup.prettify())
     return HttpResponse("empty")
 
 def json(request):
