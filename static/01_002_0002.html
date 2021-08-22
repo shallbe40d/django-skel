@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8" />
+	<title>공조설비 예지보전 시스템</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+
+	<!-- link rel="shortcut icon" href="assets/images/favicon.ico" -->
+
+	<link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+	<link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+	<link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body data-sidebar="dark">
+
+<!-- Begin page -->
+<div id="layout-wrapper">
+	<header id="page-topbar">
+		<div class="navbar-header">
+			<div class="d-flex"> 
+				<!-- LOGO -->
+				<div class="navbar-brand-box">
+					<a href="#" class="logo logo-dark"> 
+						<span class="logo-sm"><img src="assets/images/logo-sm-dark.png" alt="" height="20"></span> 
+						<span class="logo-lg"><img src="assets/images/logo-dark.png" alt="" height="30"></span>
+					</a> 
+					<a href="#" class="logo logo-light"> 
+						<span class="logo-sm"><img src="assets/images/logo-sm-light.png" alt="" height="20"></span>
+						<span class="logo-lg"> <img src="assets/images/logo-light.png" alt="" height="30"></span>
+					</a>
+				</div>
+				<button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn">
+					<i class="fa fa-fw fa-bars"></i>
+				</button>
+				
+				<div class="greeting">안녕하세요. 홍길동 님</div>
+			</div>
+			
+			<div class="d-flex">
+				<div class="dropdown d-none d-lg-inline-block me-2">
+					<button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btn-sm">
+						<i class="uil uil-exclamation-triangle me-1"></i>긴급진단
+					</button>
+				</div>
+				
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+						<img class="rounded-circle header-profile-user" src="assets/images/users/user.png" alt="Header Avatar">
+						<span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">production76</span> 
+						<i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
+					</button>
+					
+					<div class="dropdown-menu dropdown-menu-end">
+						<div class="mode-select border-bottom">
+							<h7 class="text-left mb-0">모드 선택</h7>
+							<div class="form-check form-switch mt-2">
+								<input type="checkbox" class="form-check-input theme-choice" id="light-mode-switch" checked />
+								<label class="form-check-label" for="light-mode-switch">라이트 모드</label>
+							</div>
+							<div class="form-check form-switch mt-2">
+								<input type="checkbox" class="form-check-input theme-choice" id="dark-mode-switch" />
+								<label class="form-check-label" for="dark-mode-switch">다크 모드</label>
+							</div>
+						</div>
+						<a class="dropdown-item" href="#"><i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span class="align-middle">로그아웃</span></a> 
+					</div>
+				</div>
+				
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="uil-cog"></i></button>
+					
+					<div class="dropdown-menu dropdown-menu-end"> 
+						<a class="dropdown-item" href="#"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">사용자 관리</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-circuit font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">시스템 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-shield-check font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">보안 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-suitcase-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">진단 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-sync-exclamation font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">시스템 초기화</span></a> 
+					</div>
+				</div>
+				
+				<div class="dropdown d-none d-lg-inline-block ms-1">
+					<button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
+						<i class="uil-minus-path"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<!-- ========== Left Sidebar Start ========== -->
+	<div class="vertical-menu"> 
+		
+		<!-- LOGO -->
+		<div class="navbar-brand-box">
+			<a href="#" class="logo logo-dark">
+				<span class="logo-sm"><img src="assets/images/logo-sm-dark.png" alt="" height="20"></span>
+				<span class="logo-lg"> <img src="assets/images/logo-dark.png" alt="" height="30"></span>
+			</a> 
+			<a href="#" class="logo logo-light"> 
+				<span class="logo-sm"><img src="assets/images/logo-sm-light.png" alt="" height="20"></span>
+				<span class="logo-lg"> <img src="assets/images/logo-light.png" alt="" height="30"></span>
+			</a>
+		</div>
+		
+		<button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn"><i class="fa fa-fw fa-bars"></i></button>
+		
+		<div data-simplebar class="sidebar-menu-scroll"> 
+			<!--- Sidemenu -->
+			<div id="sidebar-menu"> 
+				<!-- Left Menu Start -->
+				<ul class="metismenu list-unstyled" id="side-menu">
+					<li class="menu-title">메뉴</li>
+					<li> 
+						<a href="#">
+							<i class="uil-home-alt"></i><span>대시보드</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript: void(0);" class="has-arrow waves-effect">
+							<i class="uil-shutter-alt"></i><span>디바이스</span>
+						</a>
+						<ul class="sub-menu" aria-expanded="true">
+							<li><a href="#">IoT 센서</a></li>
+							<li><a href="#">기계사양</a></li>
+							<li><a href="#">결함주파수</a></li>
+							<li><a href="#">진단 임계치</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript: void(0);" class="has-arrow waves-effect">
+							<i class="uil-monitor"></i><span>모니터</span>
+						</a>
+						<ul class="sub-menu" aria-expanded="true">
+							<li><a href="#">설비가동여부</a></li>
+							<li><a href="#">센서별 시간파형</a></li>
+							<li><a href="#">센서별 FFT</a></li>
+							<li><a href="#">센서별 진동등급</a></li>
+							<li><a href="#">결함진단</a></li>
+							<li><a href="#">신율/전달효율</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- Sidebar --> 
+		</div>
+	</div>
+	<!-- Left Sidebar End --> 
+	
+	<!-- ============================================================== --> 
+	<!-- Start right Content here --> 
+	<!-- ============================================================== -->
+	<div class="main-content">
+		<div class="page-content">
+			<div class="container-fluid"> 
+				
+				<!-- start page title -->
+				<div class="row">
+					<div class="col-12">
+						<div class="page-title-box d-flex align-items-center justify-content-between">
+							<h3 class="mb-0">
+								기계사양
+								<p class="text-muted f-size mt-2 mb-0">기계설비 관련 정보를 설정합니다.</p>
+							</h3>
+							<div class="page-title-right">
+								<ol class="breadcrumb m-0">
+									<li class="breadcrumb-item">디바이스</li>
+									<li class="breadcrumb-item active">기계사양</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end page title -->
+				
+				<div class="row">
+					<div class="col-lg-12">
+						<div>
+							<div>
+								<button type="button" class="btn btn-secondary waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#sensorRegisterModal"><i class="fas fa-pencil-alt me-1"></i> 기계설비 정보 수정</button> 
+							</div>
+						</div>				
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-3">
+						<div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+							<a class="nav-link mb-2 active" data-bs-toggle="pill" href="#inFo1" role="tab">전동기 정보</a>
+							<a class="nav-link mb-2" data-bs-toggle="pill" href="#inFo2" role="tab">감속기 정보<span class="badge bg-warning font-size-12 ms-2">미설정</span></a>
+							<a class="nav-link mb-2" data-bs-toggle="pill" href="#inFo3" role="tab">베어링 정보</a>
+							<a class="nav-link mb-2" data-bs-toggle="pill" href="#inFo4" role="tab">풀리 및 V-벨트 정보<span class="badge bg-warning font-size-12 ms-2">미설정</span></a>
+							<a class="nav-link mb-2" data-bs-toggle="pill" href="#inFo5" role="tab">구동/피구동 스프라켓 및 구동체인 정보</a>
+							<a class="nav-link mb-2" data-bs-toggle="pill" href="#inFo6" role="tab">스텝체인 스프라켓 및 스텝체인 정보</a>
+							<a class="nav-link mb-2" data-bs-toggle="pill" href="#inFo7" role="tab">송풍기 정보<span class="badge bg-warning font-size-12 ms-2">미설정</span></a>
+						</div>
+					</div>
+					
+					<div class="col-md-9">
+						<div class="tab-content text-muted mt-4 mt-md-0">
+							<div class="tab-pane fade show active" id="inFo1" role="tabpanel">
+								<div class="table-responsive">
+									<div class="card">
+										<div class="card-body">
+											<div class="d-flex align-items-center justify-content-between p-2 mb-2">
+												<h5 class="mb-0">전동기 정보</h5>
+												<div class="text-right">	
+													<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+												</div>
+											</div>
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="30%"/>
+													<col width="*"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1">
+														<th>설비 이름</th>
+														<td data-field="a1">%입력값%</td>
+													</tr>
+													<tr data-id="2">	
+														<th>모델</th>
+														<td data-field="b1">%입력값%</td>
+													</tr>
+													<tr data-id="3">
+														<th>동력<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="c1">%입력값%</span> Kw</td>
+													</tr>
+													<tr data-id="4">	
+														<th>전원 주파수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="d1">%입력값%</span> Hz</td>
+													</tr>
+													<tr data-id="5">	
+														<th>효율<span class="text-danger ms-2">*</span></th>
+														<td data-field="e1">%입력값%</td>
+													</tr>
+													<tr data-id="6">	
+														<th>전압<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="f1">%입력값%</span> V</td>
+													</tr>
+													<tr data-id="7">	
+														<th>정격 속도<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="g1">%입력값%</span> RPM</td>
+													</tr>
+													<tr data-id="8">	
+														<th>명판 회전 속도<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="h1">%입력값%</span> m/min</td>
+													</tr>
+													<tr data-id="9">	
+														<th>실제 회전 속도</th>
+														<td><span data-field="i1">%입력값%</span> rpm</td>
+													</tr>
+													<tr data-id="10">	
+														<th>극수</th>
+														<td><span data-field="j1">%입력값%</span> 극</td>
+													</tr>
+													<tr data-id="10">	
+														<th>로터수</th>
+														<td><span data-field="k1">%입력값%</span> 개</td>
+													</tr>
+													<tr data-id="11">	
+														<th>블레이드 수</th>
+														<td><span data-field="l1">%입력값%</span> 개</td>
+													</tr>
+													<tr data-id="12">	
+														<th>극당 코일 수</th>
+														<td><span data-field="m1">%입력값%</span> 개</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="inFo2" role="tabpanel">
+								<div class="table-responsive">
+									<div class="card">
+										<div class="card-body">
+											<div class="d-flex align-items-center justify-content-between p-2 mb-2">
+												<h5 class="mb-0">감속기 정보</h5>
+												<div class="text-right">	
+													<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+												</div>
+											</div>
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="30%"/>
+													<col width="*"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1">
+														<th>모델</th>
+														<td data-field="a1">%입력값%</td>
+													</tr>
+													<tr data-id="2">	
+														<th>감속비<span class="text-danger ms-2">*</span></th>
+														<td>좌변: <span data-field="b1">%입력값%</span> / 우변: <span data-field="b2">%입력값%</span></td>
+													</tr>
+													<tr data-id="3">	
+														<th>감속기 기어 단 정보</th>
+														<td data-field="level">3단</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									
+									<div class="card">
+										<div class="card-body">
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="30%"/>
+													<col width="*"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1_1">
+														<th class="bt-none">감속기 단</th>
+														<td class="bt-none" data-field="a1_1">%입력값%</td>
+													</tr>
+													<tr data-id="1_2">	
+														<th>피니언</th>
+														<td>잇수: <span data-field="b1_1">%입력값%</span> 개 / 고유 진동수: <span data-field="b1_2">%입력값%</span> Hz</td>
+													</tr>
+													<tr data-id="1_3">	
+														<th>기어</th>
+														<td>잇수: <span data-field="c1_1">%입력값%</span> 개 / 고유 진동수: <span data-field="c1_2">%입력값%</span> Hz</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									
+									<div class="card">
+										<div class="card-body">
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="30%"/>
+													<col width="*"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1_1">
+														<th class="bt-none">감속기 단</th>
+														<td class="bt-none" data-field="a1_1">%입력값%</td>
+													</tr>
+													<tr data-id="1_2">	
+														<th>피니언</th>
+														<td>잇수: <span data-field="b1_1">%입력값%</span> 개 / 고유 진동수: <span data-field="b1_2">%입력값%</span> Hz</td>
+													</tr>
+													<tr data-id="1_3">	
+														<th>기어</th>
+														<td>잇수: <span data-field="c1_1">%입력값%</span> 개 / 고유 진동수: <span data-field="c1_2">%입력값%</span> Hz</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>	
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="inFo3" role="tabpanel">
+								<div class="table-responsive">
+									<div class="card">
+										<div class="card-body">
+											<div class="d-flex align-items-center justify-content-between p-2 mb-2">
+												<h5 class="mb-0">베어링 정보</h5>
+												<div class="text-right">	
+													<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+												</div>
+											</div>
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="30%"/>
+													<col width="*"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1">
+														<th>모델</th>
+														<td data-field="a1">%입력값%</td>
+													</tr>
+													<tr>
+														<th>베어링 개수</th>
+														<td>3</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									
+									<div class="card">
+										<div class="card-body">
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="20%"/>
+													<col width="30%"/>
+													<col width="20%"/>
+													<col width="30%"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1_1">
+														<th class="bt-none">베어링 위치<span class="text-danger ms-2">*</span> </th>
+														<td class="bt-none" data-field="position">좌측 축베어링 (drvnlsb)</td>
+													</tr>
+													<tr data-id="1_2">	
+														<th>볼개수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="b1_1">%입력값%</span> 개</td>
+														<th>볼직경<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="b1_2">%입력값%</span> mm</td>
+													</tr>
+													<tr data-id="1_3">	
+														<th>피치원<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="c1_1">%입력값%</span> mm</td>
+														<th>접촉각<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="c1_2">%입력값%</span> degree(')</td>
+													</tr>
+													<tr data-id="1_4">	
+														<th>고유주파수</th>
+														<td><span data-field="d1_1">%입력값%</span> Hz</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									
+									<div class="card">
+										<div class="card-body">
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="20%"/>
+													<col width="30%"/>
+													<col width="20%"/>
+													<col width="30%"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1_1">
+														<th class="bt-none">베어링 위치<span class="text-danger ms-2">*</span> </th>
+														<td class="bt-none" data-field="position">좌측 축베어링 (drvnlsb)</td>
+													</tr>
+													<tr data-id="1_2">	
+														<th>볼개수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="b1_1">%입력값%</span> 개</td>
+														<th>볼직경<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="b1_2">%입력값%</span> mm</td>
+													</tr>
+													<tr data-id="1_3">	
+														<th>피치원<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="c1_1">%입력값%</span> mm</td>
+														<th>접촉각<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="c1_2">%입력값%</span> degree(')</td>
+													</tr>
+													<tr data-id="1_4">	
+														<th>고유주파수</th>
+														<td><span data-field="d1_1">%입력값%</span> Hz</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									
+									<div class="card">
+										<div class="card-body">
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="20%"/>
+													<col width="30%"/>
+													<col width="20%"/>
+													<col width="30%"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1_1">
+														<th class="bt-none">베어링 위치<span class="text-danger ms-2">*</span> </th>
+														<td class="bt-none" data-field="position">좌측 축베어링 (drvnlsb)</td>
+													</tr>
+													<tr data-id="1_2">	
+														<th>볼개수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="b1_1">%입력값%</span> 개</td>
+														<th>볼직경<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="b1_2">%입력값%</span> mm</td>
+													</tr>
+													<tr data-id="1_3">	
+														<th>피치원<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="c1_1">%입력값%</span> mm</td>
+														<th>접촉각<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="c1_2">%입력값%</span> degree(')</td>
+													</tr>
+													<tr data-id="1_4">	
+														<th>고유주파수</th>
+														<td><span data-field="d1_1">%입력값%</span> Hz</td>
+													</tr>
+												</tbody>
+											</table>
+											<div class="text-end">
+												<button type="button" class="btn btn-danger btn-sm waves-effect waves-light">제거</button>
+											</div>
+										</div>
+									</div>
+
+									<div class="text-start mb-5">
+										<button type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus me-1"></i> 베어링 추가</button> 
+									</div>
+		
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="inFo4" role="tabpanel">
+								<div class="table-responsive">
+									<div class="card">
+										<div class="card-body">
+											<div class="d-flex align-items-center justify-content-between p-2 mb-2">
+												<h5 class="mb-0">풀리 및 V-벨트 정보</h5>
+												<div class="text-right">	
+													<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+												</div>
+											</div>
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="30%"/>
+													<col width="*"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1">
+														<th>풀리 모델</th>
+														<td data-field="a1">%입력값%</td>
+													</tr>
+													<tr data-id="2">
+														<th>V-벨트 모델</th>
+														<td data-field="b1">%입력값%</td>
+													</tr>
+													<tr data-id="3">
+														<th>구동부 풀리 피치원<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="c1">%입력값%</span> mm</td>
+													</tr>
+													<tr data-id="4">	
+														<th>피구동부 풀리 피치원<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="d1">%입력값%</span> mm</td>
+													</tr>
+													<tr data-id="5">	
+														<th>V-벨트 길이<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="e1">%입력값%</span> mm</td>
+													</tr>
+													<tr data-id="6">	
+														<th>V-벨트 고유진동수</th>
+														<td><span data-field="f1">%입력값%</span> 개</td>
+													</tr>
+													<tr data-id="7">	
+														<th>구동-피동 풀리 축간 거리</th>
+														<td><span data-field="g1">%입력값%</span> mm</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="inFo5" role="tabpanel">
+								<div class="table-responsive">
+									<div class="card">
+										<div class="card-body">
+											<div class="d-flex align-items-center justify-content-between p-2 mb-2">
+												<h5 class="mb-0">구동/피구동 스프라켓 및 구동체인 정보</h5>
+												<div class="text-right">	
+													<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+												</div>
+											</div>
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="30%"/>
+													<col width="*"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1">
+														<th>스프라켓 모델</th>
+														<td data-field="a1">%입력값%</td>
+													</tr>
+													<tr data-id="2">
+														<th>체인 모델</th>
+														<td data-field="b1">%입력값%</td>
+													</tr>
+													<tr data-id="3">
+														<th>구동부 스프라켓 잇 수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="c1">%입력값%</span> 개</td>
+													</tr>
+													<tr data-id="4">	
+														<th>구동부 스프라켓 피치원<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="d1">%입력값%</span> mm</td>
+													</tr>
+													<tr data-id="5">	
+														<th>피구동부 스프라켓 잇 수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="e1">%입력값%</span> 개</td>
+													</tr>
+													<tr data-id="6">	
+														<th>피구동부 스프라켓 피치원<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="f1">%입력값%</span> mm</td>
+													</tr>
+													<tr data-id="7">	
+														<th>구동체인 링크 개수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="g1">%입력값%</span> 개</td>
+													</tr>
+													<tr data-id="8">	
+														<th>구동체인 피치 길이<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="h1">%입력값%</span> mm</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="inFo6" role="tabpanel">
+								<div class="table-responsive">
+									<div class="card">
+										<div class="card-body">
+											<div class="d-flex align-items-center justify-content-between p-2 mb-2">
+												<h5 class="mb-0">스텝체인 스프라켓 및 스텝체인 정보</h5>
+												<div class="text-right">	
+													<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+												</div>
+											</div>
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="30%"/>
+													<col width="*"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1">
+														<th>스텝체인 스프라켓 잇 수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="a1">%입력값%</span> 개</td>
+													</tr>
+													<tr data-id="2">	
+														<th>스텝체인 스프라켓 피치원<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="b1">%입력값%</span> mm</td>
+													</tr>
+													<tr data-id="3">	
+														<th>스텝체인 링크 개수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="c1">%입력값%</span> 개</td>
+													</tr>
+													<tr data-id="4">	
+														<th>스텝체인 피치 길이<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="d1">%입력값%</span> mm</td>
+													</tr>
+													<tr data-id="5">	
+														<th>스텝체인 스텝 수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="e1">%입력값%</span> 개</td>
+													</tr>
+													<tr data-id="6">	
+														<th>스텝체인 롤러 재질<span class="text-danger ms-2">*</span></th>
+														<td data-field="material">스틸</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="tab-pane fade" id="inFo7" role="tabpanel">
+								<div class="table-responsive">
+									<div class="card">
+										<div class="card-body">
+											<div class="d-flex align-items-center justify-content-between p-2 mb-2">
+												<h5 class="mb-0">송풍기 정보</h5>
+												<div class="text-right">	
+													<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+												</div>
+											</div>
+											<table class="table table-editable table-nowrap align-middle table-edits">
+												<colgroup>
+													<col width="30%"/>
+													<col width="*"/>
+												</colgroup>
+												<tbody>
+													<tr data-id="1">
+														<th>모델</th>
+														<td data-field="a1">%입력값%</td>
+													</tr>
+													<tr data-id="2">	
+														<th>송풍기 팬 날개 수<span class="text-danger ms-2">*</span></th>
+														<td><span data-field="b1">%입력값%</span> 개</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>	
+			<!-- container-fluid --> 
+			</div>
+			<!-- End Page-content -->
+		
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-6">카피라이터, 사명, 사업자번호, 대표자명, 주소, 이용약관, 고객센터 정보, 사이트 맵 등등</div>
+						<div class="col-sm-6">
+							<div class="text-sm-end d-none d-sm-block"></div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+	</div>
+</div>
+<!-- END layout-wrapper --> 
+	
+<!-- JAVASCRIPT --> 
+<script src="assets/libs/jquery/jquery.min.js"></script> 
+<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script> 
+<script src="assets/libs/metismenu/metisMenu.min.js"></script> 
+<script src="assets/libs/simplebar/simplebar.min.js"></script> 
+<script src="assets/libs/node-waves/waves.min.js"></script> 
+<script src="assets/libs/waypoints/lib/jquery.waypoints.min.js"></script> 
+<script src="assets/libs/jquery.counterup/jquery.counterup.min.js"></script>
+	
+<!-- Table Editable plugin --> 
+<script src="assets/libs/table-edits/build/table-edits.min.js"></script> 
+<script src="assets/js/pages/table-editable.int.js"></script> 
+
+<!-- App js --> 
+<script src="assets/js/app.js"></script>
+</body>
+</html>

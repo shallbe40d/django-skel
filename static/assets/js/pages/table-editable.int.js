@@ -1,9 +1,11 @@
 $(function () {
 	var e = {};
-	$(".table-editable").editable({
-		//dropdowns: {
-			//gender: ["Male", "Female"]
-		//},
+	$(".table-responsive").editable({
+		dropdowns: {
+			level: ["2단", "3단"],
+			position: ["좌측 축베어링 (drvnlsb)", "우측 축베어링 (drvnrsb)", "전동기 부하측 베어링 (mlsb)", "전동기 반부하측 베어링 (mhlsb)", "감속기 1단 피니언 우측 베어링 (d1prb)", "감속기 1단 기어 좌측 베어링 (d1glb)", "감속기 1단 기어 우측 베어링 (d1grb)", "감속기 2단 피니언 좌측 베어링 (d2plb)", "감속기 2단 피니언 우측 베어링 (d2prb)", "감속기 2단 기어 좌측 베어링 (d2glb)", "감속기 2단 기어 우측 베어링 (d2grb)", "감속기 3단 피니언 좌측 베어링 (d3plb)", "감속기 3단 피니언 우측 베어링 (d3prb)", "감속기 3단 기어 좌측 베어링 (d3glb)", "감속기 3단 기어 우측 베어링 (d3grb)"],
+			material: ["스틸", "우레탄"]
+		},
 		edit: function (t) {
 			$(".edit i", this).removeClass("fa-pencil-alt").addClass("fa-save").attr("title", "Save")
 		},

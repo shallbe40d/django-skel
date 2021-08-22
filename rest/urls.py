@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'tdd', views.tdd, name='tdd'),
     url(r'json', views.json, name='json'),
+    path(r'<str:path>.html', views.wf, name='wf'),
 
 ]

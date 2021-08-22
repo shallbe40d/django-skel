@@ -45,6 +45,10 @@ def index(request):
 def tdd(request):
     print(request)
     return _bind_data('index')
+
+def wf(request,path):
+    print(request)
+    return _bind_data(path)
 """
 /rest/json
 """

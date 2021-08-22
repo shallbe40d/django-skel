@@ -201,16 +201,18 @@
 								<div class="card">
 									<div class="card-body">
 										<div class="table-responsive">
+											<div class="d-flex align-items-center justify-content-between p-2 mb-2">
+												<h5 class="mb-0">설비 가동여부 임계치</h5>
+												<div class="text-right">	
+													<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+												</div>
+											</div>
 											<table class="table table-editable table-nowrap align-middle table-edits">
 												<colgroup>
 													<col width="30%"/>
 													<col width="*"/>
 												</colgroup>
 												<tbody>
-													<tr>
-														<th class="bt-none"><h5 class="mb-0">설비 가동여부 임계치</h5></th>
-														<td class="text-right bt-none"><a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a></td>
-													</tr>
 													<tr data-id="1">
 														<th>가동 범위라 인정되는 최소 임계값</th>
 														<td data-field="a1">%값%</td>
@@ -221,7 +223,7 @@
 													</tr>
 													<tr data-id="3">
 														<th>가동을 감시할 주파수</th>
-														<td data-field="c1">%값% Hz</td>
+														<td><span data-field="c1">%값%</span> Hz</td>
 													</tr>
 													<tr data-id="4">	
 														<th>가동으로 인정할 주파수 파워의 최소 임계값</th>
@@ -230,32 +232,31 @@
 												</tbody>
 											</table>
 											
-											<table class="table table-editable table-nowrap align-middle table-edits mt-5">
+											<div class="d-flex align-items-center justify-content-between p-2 mb-2 mt-5">
+												<h5 class="mb-0">이상소음 진단 임계치</h5>
+											</div>
+											<table class="table table-editable table-nowrap align-middle table-edits">
 												<colgroup>
 													<col width="30%"/>
 													<col width="*"/>
 												</colgroup>
-												<tbody>		
-													<tr>
-														<th class="bt-none"><h5 class="mb-0">이상소음 진단 임계치</h5></th>
-														<td class="text-right bt-none"><a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a></td>
-													</tr>
+												<tbody>	
 													<tr data-id="5">
 														<th>이상수치의 기준 값</th>
 														<td data-field="e1" colspan="3">%값%</td>
 													</tr>
 												</tbody>
 											</table>
-
+											
+											<div class="d-flex align-items-center justify-content-between p-2 mb-2 mt-5">
+												<h5 class="mb-0">시스템 정보</h5>
+											</div>
 											<table class="table table-nowrap align-middle">
 												<colgroup>
 													<col width="30%"/>
 													<col width="*"/>
 												</colgroup>
 												<tbody>
-													<tr>
-														<th colspan="2" class="bt-none"><h5 class="mb-0 mt-5">시스템 정보</h5></th>
-													</tr>
 													<tr>
 														<th>최근 업데이트 일시</th>
 														<td>%YYYY/MM/DD hh24:mi:ss%</td>
@@ -289,48 +290,53 @@
 												<div class="tab-content text-muted mt-4 mt-md-0">
 													<div class="tab-pane fade show active" id="senSor1" role="tabpanel">
 														<div class="table-responsive">
+															<div class="d-flex align-items-center justify-content-between p-2 mb-2">
+																<h5 class="mb-0">결함 분석 임계치 범위</h5>
+																<div class="text-right">	
+																	<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+																</div>
+															</div>
 															<table class="table table-editable table-nowrap align-middle table-edits">
 																<colgroup>
 																	<col width="30%"/>
 																	<col width="*"/>
 																</colgroup>
 																<tbody>
-																	<tr>
-																		<th class="bt-none"><h5 class="mb-0">결함 분석 임계치 범위</h5></th>
-																		<td class="text-right bt-none"><a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a></td>
-																	</tr>
 																	<tr data-id="1">
 																		<th>저조파 범위</th>
-																		<td data-field="a1">%현재값% Hz</td>
+																		<td><span data-field="a1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="2">	
 																		<th>1xRPM 범위</th>
-																		<td data-field="b1">%현재값% Hz</td>
+																		<td><span data-field="b1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="3">
 																		<th>2xRPM 범위</th>
-																		<td data-field="c1">%현재값% Hz</td>
+																		<td><span data-field="c1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="4">	
 																		<th>3~4xRPM 범위</th>
-																		<td data-field="d1">%현재값% Hz</td>
+																		<td><span data-field="d1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="5">	
 																		<th>5~12xRPM 범위</th>
-																		<td data-field="e1">%현재값% Hz</td>
+																		<td><span data-field="e1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="6">	
 																		<th>고조파 범위</th>
-																		<td data-field="f1">%현재값% Hz</td>
+																		<td><span data-field="f1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="7">	
 																		<th>end point</th>
-																		<td data-field="g1">%현재값% Hz</td>
+																		<td><span data-field="g1">%현재값%</span> Hz</td>
 																	</tr>
 																</tbody>
 															</table>
 															
-															<table class="table table-editable table-nowrap align-middle table-edits mt-5">
+															<div class="d-flex align-items-center justify-content-between p-2 mb-2 mt-5">
+																<h5 class="mb-0">결함 분석 임계치</h5>
+															</div>
+															<table class="table table-editable table-nowrap align-middle table-edits">
 																<colgroup>
 																	<col width="25%"/>
 																	<col width="25%"/>
@@ -338,10 +344,6 @@
 																	<col width="25%"/>
 																</colgroup>
 																<tbody>
-																	<tr>
-																		<th colspan="3" class="bt-none"><h5 class="mb-0">결함 분석 임계치</h5></th>
-																		<td class="text-right bt-none"><a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a></td>
-																	</tr>
 																	<tr data-id="1">
 																		<th>IoT 센서 부착 위치</th>
 																		<td colspan="3" data-field="a1">%값%</td>
@@ -395,47 +397,52 @@
 													
 													<div class="tab-pane fade" id="senSor2" role="tabpanel">
 														<div class="table-responsive">
+															<div class="d-flex align-items-center justify-content-between p-2 mb-2">
+																<h5 class="mb-0">결함 분석 임계치 범위</h5>
+																<div class="text-right">	
+																	<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+																</div>
+															</div>
 															<table class="table table-editable table-nowrap align-middle table-edits">
 																<colgroup>
 																	<col width="30%"/>
 																	<col width="*"/>
 																</colgroup>
 																<tbody>
-																	<tr>
-																		<th class="bt-none"><h5 class="mb-0">결함 분석 임계치 범위</h5></th>
-																		<td class="text-right bt-none"><a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a></td>
-																	</tr>
 																	<tr data-id="1">
 																		<th>저조파 범위</th>
-																		<td data-field="a1">%현재값% Hz</td>
+																		<td><span data-field="a1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="2">	
 																		<th>1xRPM 범위</th>
-																		<td data-field="b1">%현재값% Hz</td>
+																		<td><span data-field="b1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="3">
 																		<th>2xRPM 범위</th>
-																		<td data-field="c1">%현재값% Hz</td>
+																		<td><span data-field="c1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="4">	
 																		<th>3~4xRPM 범위</th>
-																		<td data-field="d1">%현재값% Hz</td>
+																		<td><span data-field="d1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="5">	
 																		<th>5~12xRPM 범위</th>
-																		<td data-field="e1">%현재값% Hz</td>
+																		<td><span data-field="e1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="6">	
 																		<th>고조파 범위</th>
-																		<td data-field="f1">%현재값% Hz</td>
+																		<td><span data-field="f1">%현재값%</span> Hz</td>
 																	</tr>
 																	<tr data-id="7">	
 																		<th>end point</th>
-																		<td data-field="g1">%현재값% Hz</td>
+																		<td><span data-field="g1">%현재값%</span> Hz</td>
 																	</tr>
 																</tbody>
 															</table>
 															
+															<div class="d-flex align-items-center justify-content-between p-2 mb-2 mt-5">
+																<h5 class="mb-0">결함 분석 임계치</h5>
+															</div>
 															<table class="table table-editable table-nowrap align-middle table-edits mt-5">
 																<colgroup>
 																	<col width="25%"/>
@@ -444,10 +451,6 @@
 																	<col width="25%"/>
 																</colgroup>
 																<tbody>
-																	<tr>
-																		<th colspan="3" class="bt-none"><h5 class="mb-0">결함 분석 임계치</h5></th>
-																		<td class="text-right bt-none"><a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a></td>
-																	</tr>
 																	<tr data-id="1">
 																		<th>IoT 센서 부착 위치</th>
 																		<td colspan="3" data-field="a1">%값%</td>
