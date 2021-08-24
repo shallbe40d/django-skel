@@ -41,6 +41,41 @@ export PYENV_PATH=$HOME/.pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
+** member sqlite3
+*** create member
+#+header: :results silent
+#+begin_src sqlite :db /Users/helix/.emacs.d/source/python/django/wireframe/db.sqlite3
+  DROP TABLE member;	  
+  CREATE TABLE IF NOT EXISTS member (
+	idx INTEGER PRIMARY KEY AUTOINCREMENT,
+	id varchar(20) not null,
+	pw varchar(20) not null,
+	name varchar(20) default '', 
+	email varchar(100) default '', 
+	tel varchar(15) default '', 
+	role INTEGER default 0
+  );
+  insert into member (idx, id, pw) values(1, 'admin', '1234');
+#+end_src
+*** select member
+#+header: :list
+#+header: :separator \ 
+#+begin_src sqlite :db /Users/helix/.emacs.d/source/python/django/wireframe/db.sqlite3
+select * from member;
+#+end_src
+
+#+RESULTS:
+: 1 admin 1234    0
+
+*** show tables
+#+header: :list
+#+header: :separator \ 
+#+begin_src sqlite :db ./db.sqlite3
+SELECT * FROM sqlite_master WHERE type='table';
+#+end_src
+
+#+RESULTS:
+
 ** schedule
 *** prototype : json bind to html
 DEADLINE: <2021-08-22 Sun>
