@@ -275,3 +275,52 @@ body {
 .f-size{
 	font-size: .9rem;
 }
+.cus_1, .cus_2{
+	display: inline-flex;
+}
+.cus_1{
+	position: absolute;
+	top: 0;
+	left: 20px;
+	z-index: 2;
+}
+.cus_2{
+	position: absolute;
+	top: 0;
+	right: 205px;
+	z-index: 2;
+}
+.cus_1>span{
+	width: 50px;
+	line-height: 28px;
+}
+.cus_2>span{
+	width: 105px;
+	line-height: 28px;
+}
+#userList.table tbody>tr{
+	cursor: pointer;
+}
+#userList.table tbody>tr:hover{
+	background-color: #f8f9fa;
+}
+table.dataTable > thead > tr > th.disabled{
+  pointer-events: none !important;
+}
+table.dataTable > thead > tr > th.disabled.sorting:before,
+table.dataTable > thead > tr > th.disabled.sorting:after{
+	opacity: 0 !important;
+}
+.bullet-list>li{
+ padding: 5px 0;
+}
+.font-size-30{
+ font-size: 30px;
+}
+.p-4-1{
+ padding: 2.35rem!important;
+}
+
+
+
+
