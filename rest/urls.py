@@ -7,7 +7,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'tdd', views.tdd, name='tdd'),
+    url(r'login', views.login, name='login'),
+    url(r'logout', views.logout, name='logout'),
     url(r'json', views.json, name='json'),
     path(r'<str:path>.html', views.wf, name='wf'),
 ] + static("assets", document_root="static/assets")
+

@@ -1,7 +1,24 @@
 <html>
+  <head>
+	<script src="/static/assets/libs/jquery/jquery.min.js"></script> 
+	<script src="http://localhost:8080/skewer"></script> 
+	<script>
+	  $.post("/wf/login",
+			 { id: "admin", pw: "1234" },
+			 function(data, status) {
+				 console.log(data);
+				 console.log(status);
+			 }
+			);
+	</script>
+  </head>
   <body>Static Index!
+	<br/>
+	now : <font class="$wf now">current time</font>
 	<br/>
 	version : <b class="$wf version">0.9.0</b>
 	version : <font class="$wf iot.iot_info.0.sensor_num">0.9.0</font>
+	id : <font class="$wf db.member.id">whomai</font>
   </body>
 </html>
+

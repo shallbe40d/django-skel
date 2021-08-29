@@ -14,6 +14,10 @@
   $ echo "django install from git"
   $ git clone git://github.com/django/django.git
   $ pip install -e django
+  $ ./env/bin/python manage.py makemigrations
+  $ ./env/bin/python manage.py migrate
+  $ ./env/bin/python manage.py runserver
+  
 #+END_SRC
 *** osx
 	brew install homebrew/dupes/zlib
@@ -41,6 +45,41 @@ export PYENV_PATH=$HOME/.pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
+** member sqlite3
+*** create member
+#+header: :results silent
+#+begin_src sqlite :db /Users/helix/.emacs.d/source/python/django/wireframe/db.sqlite3
+  DROP TABLE member;	  
+  CREATE TABLE IF NOT EXISTS member (
+	idx INTEGER PRIMARY KEY AUTOINCREMENT,
+	id varchar(20) not null,
+	pw varchar(20) not null,
+	name varchar(20) default '', 
+	email varchar(100) default '', 
+	tel varchar(15) default '', 
+	role INTEGER default 0
+  );
+  insert into member (idx, id, pw) values(1, 'admin', '1234');
+#+end_src
+*** select member
+#+header: :list
+#+header: :separator \ 
+#+begin_src sqlite :db /Users/helix/.emacs.d/source/python/django/wireframe/db.sqlite3
+select * from member;
+#+end_src
+
+#+RESULTS:
+: 1 admin 1234    0
+
+*** show tables
+#+header: :list
+#+header: :separator \ 
+#+begin_src sqlite :db ./db.sqlite3
+SELECT * FROM sqlite_master WHERE type='table';
+#+end_src
+
+#+RESULTS:
+
 ** schedule
 *** prototype : json bind to html
 DEADLINE: <2021-08-22 Sun>
@@ -50,3 +89,30 @@ DEADLINE: <2021-08-29 Sun>
  - members, ip-chain, port ( ssh )
 *** rendering UI 
 DEADLINE: <2021-09-12 Sun>
+** tree
+├── 00_000.html
+├── 00_001.html : 로그인
+├── 00_002.html : 비밀번호 재 설정
+├── 01_001.html : 
+├── 01_002_0001.html
+├── 01_002_0002.html
+├── 01_003.html
+├── 01_004.html
+├── 03_001_0001.html
+├── 03_001_0002.html
+├── 03_001_0003.html
+├── 03_001_0004.html
+├── 03_002.html
+├── 03_003.html
+├── 03_004.html
+├── 03_005.html
+│       │   │   ├── buttons.html5.min.js
+│       │   ├── index.html
+│       │   ├── complex-repeater.html
+│       │   ├── index.html
+│       │   ├── index.pre.html
+│       │   ├── nested-repeater.html
+│       │   ├── repeater.html
+│       │   ├── index.html
+│       │   ├── demo.html
+└── index.html
