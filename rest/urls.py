@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'login', views.login, name='login'),
     url(r'logout', views.logout, name='logout'),
     url(r'json', views.json, name='json'),
+    url(r'commJs', views.commJs, name='commJs'),
     path(r'<str:path>.html', views.wf, name='wf'),
 ] + static("assets", document_root="static/assets")
 

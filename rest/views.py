@@ -16,6 +16,7 @@ def _change_ip():
     # dns 2개도 수정해야함
     call(["ifconfig", "en1", "172.30.1.42", "netmask", "255.255.255.0", "broadcast", "172.30.1.255"])
     call(["route", "add", "default" "gw" "172.30.1.1"])
+
 """ 
 json 객체에서 문자열 패턴으로 값을 가져온다 
 문자열 패턴은 . 으로 split
@@ -34,11 +35,13 @@ def _get_obj(obj, que):
     except:
         return "" 
 
+
 """ 
 login session 정보 반환
 """
 def _get_member(request):
     return {"member": request.session.get('user')}
+
 """
 login을 위한 member table select 
 """
@@ -75,8 +78,18 @@ def _bind_data(html_path, db=[]):
         for o in objs:
             o.string.replace_with(_get_obj(data, o['class'][1]))
         print(data)
+        head = soup.select('head')
+        comm_js = soup.new_tag("script", src="/wf/commJs")
+        soup.append(comm_js)
         return HttpResponse(soup.prettify())
     return HttpResponse("empty")
+
+"""
+common js 
+"""
+def commJs(request):
+    js = open('common.js', 'r')
+    return HttpResponse(js, content_type="application/x-javascript")
 
 """ 
 /rest/index 
@@ -97,20 +110,28 @@ def login(request):
         req_pw = ""
     #
     return JsonResponse(_login(request, req_id, req_pw))
+
+
 """
 /rest/logout
 """
 def logout(request):
-    if request.session['user']:
+    if request.session.get('user'):
        del(request.session['user'])
     #
     return redirect('/')
+
+
 """ 
 /wf/*.html 
 static 폴더의 html 과 json을 bind 하여 새로운 html 출력
 """
-def wf(request,path):
-    return _bind_data(path, _get_member(request))
+def wf(request, path):
+    if request.session.get('user', False):
+        return _bind_data(path, _get_member(request))
+    else:
+        return redirect('/wf/logout')
+
 
 """ 
 /rest/json
