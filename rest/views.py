@@ -119,7 +119,7 @@ def logout(request):
     if request.session.get('user'):
        del(request.session['user'])
     #
-    return redirect('/')
+    return redirect('/wf/00_001.html')
 
 
 """ 
@@ -127,11 +127,9 @@ def logout(request):
 static 폴더의 html 과 json을 bind 하여 새로운 html 출력
 """
 def wf(request, path):
-    if request.session.get('user', False):
-        return _bind_data(path, _get_member(request))
-    else:
-        return redirect('/wf/logout')
-
+    if not request.session.get('user', False):
+        path =  "00_001"
+    return _bind_data(path, _get_member(request))
 
 """ 
 /rest/json
