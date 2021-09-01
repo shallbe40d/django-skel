@@ -48,7 +48,7 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 ** member sqlite3
 *** create member
 #+header: :results silent
-#+begin_src sqlite :db /Users/helix/.emacs.d/source/python/django/wireframe/db.sqlite3
+#+begin_src sqlite :db ./db.sqlite3
   DROP TABLE member;	  
   CREATE TABLE IF NOT EXISTS member (
 	idx INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,7 +56,8 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 	pw varchar(20) not null,
 	name varchar(20) default '', 
 	email varchar(100) default '', 
-	tel varchar(15) default '', 
+	tel varchar(15) default '',
+	login1st INTEGER default 0,
 	role INTEGER default 0
   );
   insert into member (idx, id, pw) values(1, 'admin', '1234');
@@ -64,12 +65,12 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 *** select member
 #+header: :list
 #+header: :separator \ 
-#+begin_src sqlite :db /Users/helix/.emacs.d/source/python/django/wireframe/db.sqlite3
+#+begin_src sqlite :db ./db.sqlite3
 select * from member;
 #+end_src
 
 #+RESULTS:
-: 1 admin 1234    0
+: 1 admin 1234    0 0
 
 *** show tables
 #+header: :list
@@ -116,3 +117,8 @@ DEADLINE: <2021-09-12 Sun>
 │       │   ├── index.html
 │       │   ├── demo.html
 └── index.html
+#+BEGIN_SRC  plantuml
+
+
+
+#+END_SRC

@@ -49,7 +49,7 @@ def _get_member(request):
 def _login(request, req_id='', req_pw=''):
     con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
     cur = con.cursor()
-    cur.execute(f"SELECT id, pw, name FROM member where id='{req_id}' and pw='{req_pw}'")
+    cur.execute(f"SELECT id, pw, login1st FROM member where id='{req_id}' and pw='{req_pw}'")
     col = [member[0] for member in cur.description]
     result = {} 
     fetch = cur.fetchone()
@@ -58,6 +58,8 @@ def _login(request, req_id='', req_pw=''):
         for i in range(len(row)):
             result[col[i]] = row[i] 
         request.session['user'] = req_id
+        print(result)
+        request.session['login1st'] = result['login1st']
     else:
         result["err"] = "not exists"
     cur.close()
@@ -71,6 +73,7 @@ def _bind_data(html_path, db=[]):
     with open('device.json', 'r') as j:
         data = JSON.loads(j.read())
         data['db'] = db
+        data['path'] = html_path
         data['now'] = str(datetime.datetime.now())
         soup = BeautifulSoup(html, 'html.parser')
         objs = soup.select('.\\$wf')
@@ -79,7 +82,12 @@ def _bind_data(html_path, db=[]):
         print(data)
         head = soup.select('head')
         comm_js = soup.new_tag("script", src="/wf/commJs")
+        env_js = soup.new_tag("script")
+        env_js.append(f"window.path='{html_path}';")
+        soup.append(env_js)
         soup.append(comm_js)
+        body = soup.select('body')
+
         return HttpResponse(soup.prettify())
     return HttpResponse("empty")
 
@@ -122,8 +130,11 @@ def logout(request):
 
 """ [ /wf/*.html ] static 폴더의 html 과 json을 bind 하여 새로운 html 출력 """
 def wf(request, path):
+    #del(request.session['user'])
     if not request.session.get('user', False):
         path =  "00_001"
+    elif request.session.get('login1st') == 0:
+        path =  "00_002"
     return _bind_data(path, _get_member(request))
 
 

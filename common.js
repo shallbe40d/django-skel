@@ -4,10 +4,10 @@ window.wf = {
 		login: function() {
 			var id = $('#username').val();
 			var pw = $('#userpassword').val();
-			$.post("/wf/login", { id: id, pw: pw },
+			$.post("/rest/login", { id: id, pw: pw },
 				   function(data, status) {
 					   if ( data.member['id'] ) {
-						   location.replace('/wf/index.html');
+						   location.reload(true);
 					   }
 				   }
 				  );
@@ -24,8 +24,8 @@ window.wf = {
 	}
 };
 (function() {
-	switch (location.pathname) {
-	case '/wf/00_001.html':
+	switch (window.path) {
+	case '00_001': /* login page */
 		$('form').off().on('submit', window.wf.fn.login); 
 		break;
 	default:
