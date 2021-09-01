@@ -2,3 +2,6 @@
 **/.DS_Store
 *.pyc
 **/*.pyc
+env/**/*.pyc
+rest/**/*.pyc
+wireframe/**/*.pyc
