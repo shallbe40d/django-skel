@@ -94,7 +94,7 @@ DEADLINE: <2021-09-12 Sun>
 ├── 00_000.html
 ├── 00_001.html : 로그인
 ├── 00_002.html : 비밀번호 재 설정
-├── 01_001.html : 
+├── 01_001.html : IoT 센서  
 ├── 01_002_0001.html
 ├── 01_002_0002.html
 ├── 01_003.html
@@ -117,8 +117,30 @@ DEADLINE: <2021-09-12 Sun>
 │       │   ├── index.html
 │       │   ├── demo.html
 └── index.html
-#+BEGIN_SRC  plantuml
-
-
-
+** plantuml
+*** wf page bind
+#+BEGIN_SRC  plantuml :file "./schedule.png" :cmdline -charset utf-8
+  @startuml
+  start
+  if (is login?) then (yes)
+	  if (has login1st?) then (yes)
+		  :wf path;
+			note left 
+				URL Page [ /wf/{path}.html ]
+			end note
+	  else (nothing)
+		  :00_002;
+			note right
+				디폴트 패스워드 수정 Page
+			end note
+		endif
+  else (nothing)
+	:00_001;
+			note right
+				로그인 Page
+			end note
+  endif
+  :Response html contents;
+  stop
+  @enduml
 #+END_SRC

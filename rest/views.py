@@ -21,6 +21,20 @@ def _change_ip():
     call(["route", "add", "default" "gw" "172.30.1.1"])
 
 
+""" 최초 로그인 사용자의 비번 변경 """
+def _change_pw(request, new_pw='', confirm_pw=''):
+    if request.session.get('user') and new_pw == confirm_pw:
+        con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
+        cur = con.cursor()
+        cur.execute(f"UPDATE member SET pw='{new_pw}', login1st=1 where id='{request.session.get('user')}'")
+        request.session['login1st'] = 1
+        cur.close()
+        con.close()
+        return {"result": True} 
+    else:
+        return {"result": False}
+
+
 """ 
 json 객체에서 문자열 패턴으로 값을 가져온다 
 문자열 패턴은 . 으로 split
@@ -58,7 +72,6 @@ def _login(request, req_id='', req_pw=''):
         for i in range(len(row)):
             result[col[i]] = row[i] 
         request.session['user'] = req_id
-        print(result)
         request.session['login1st'] = result['login1st']
     else:
         result["err"] = "not exists"
@@ -70,31 +83,55 @@ def _login(request, req_id='', req_pw=''):
 """ html 소스와 json data를 바인딩 """
 def _bind_data(html_path, db=[]):
     html = open('static/' + html_path +'.html', 'r')
+    page_soup = BeautifulSoup(html, 'html.parser')
+    inc_file = page_soup.select('.\\$inc')
+    #
+    for f in inc_file:
+        print(f)
+        #sub_html = open('static/' + f, 'r')
+        #f.string.replace_with(sub_html)
+    #
+    #html = page_soup.prettify()
+    #
     with open('device.json', 'r') as j:
         data = JSON.loads(j.read())
         data['db'] = db
         data['path'] = html_path
         data['now'] = str(datetime.datetime.now())
+        #
         soup = BeautifulSoup(html, 'html.parser')
         objs = soup.select('.\\$wf')
+        #
         for o in objs:
             o.string.replace_with(_get_obj(data, o['class'][1]))
         print(data)
-        head = soup.select('head')
+        #head = soup.select('head')
         comm_js = soup.new_tag("script", src="/wf/commJs")
         env_js = soup.new_tag("script")
         env_js.append(f"window.path='{html_path}';")
         soup.append(env_js)
         soup.append(comm_js)
-        body = soup.select('body')
-
+        #body = soup.select('body')
+        #
         return HttpResponse(soup.prettify())
+    #
     return HttpResponse("empty")
 
 
 #+---------------------+
 #|     url mapping     |
 #+---------------------+
+""" [ /rest/change_pw ] """
+def change_pw(request):
+    new_pw = request.POST.get('new_pw')
+    if new_pw == None:
+        new_pw = ""
+    #
+    confirm_pw = request.POST.get('confirm_pw')
+    if confirm_pw == None:
+        confirm_pw = ""
+    #
+    return JsonResponse(_change_pw(request, new_pw, confirm_pw))
 
 """ [ /wf/commonJs ] """
 def commJs(request):

@@ -1,0 +1,71 @@
+	<header id="page-topbar">
+		<div class="navbar-header">
+			<div class="d-flex"> 
+				<!-- LOGO -->
+				<div class="navbar-brand-box">
+					<a href="#" class="logo logo-dark"> 
+						<span class="logo-sm"><img src="assets/images/logo-sm-dark.png" alt="" height="20"></span> 
+						<span class="logo-lg"><img src="assets/images/logo-dark.png" alt="" height="30"></span>
+					</a> 
+					<a href="#" class="logo logo-light"> 
+						<span class="logo-sm"><img src="assets/images/logo-sm-light.png" alt="" height="20"></span>
+						<span class="logo-lg"> <img src="assets/images/logo-light.png" alt="" height="30"></span>
+					</a>
+				</div>
+				<button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn">
+					<i class="fa fa-fw fa-bars"></i>
+				</button>
+				
+				<div class="greeting">안녕하세요. 홍길동 님</div>
+			</div>
+			
+			<div class="d-flex">
+				<div class="dropdown d-none d-lg-inline-block me-2">
+					<button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btn-sm">
+						<i class="uil uil-exclamation-triangle me-1"></i>긴급진단
+					</button>
+				</div>
+				
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+						<img class="rounded-circle header-profile-user" src="assets/images/users/user.png" alt="Header Avatar">
+						<span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">production76</span> 
+						<i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
+					</button>
+					
+					<div class="dropdown-menu dropdown-menu-end">
+						<div class="mode-select border-bottom">
+							<h7 class="text-left mb-0">모드 선택</h7>
+							<div class="form-check form-switch mt-2">
+								<input type="checkbox" class="form-check-input theme-choice" id="light-mode-switch" checked />
+								<label class="form-check-label" for="light-mode-switch">라이트 모드</label>
+							</div>
+							<div class="form-check form-switch mt-2">
+								<input type="checkbox" class="form-check-input theme-choice" id="dark-mode-switch" />
+								<label class="form-check-label" for="dark-mode-switch">다크 모드</label>
+							</div>
+						</div>
+						<a class="dropdown-item" href="#"><i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span class="align-middle">로그아웃</span></a> 
+					</div>
+				</div>
+				
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="uil-cog"></i></button>
+					
+					<div class="dropdown-menu dropdown-menu-end"> 
+						<a class="dropdown-item" href="#"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">사용자 관리</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-circuit font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">시스템 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-shield-check font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">보안 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-suitcase-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">진단 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-sync-exclamation font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">시스템 초기화</span></a> 
+					</div>
+				</div>
+				
+				<div class="dropdown d-none d-lg-inline-block ms-1">
+					<button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
+						<i class="uil-minus-path"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</header>

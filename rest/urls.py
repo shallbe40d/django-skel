@@ -7,9 +7,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+
+    url(r'change_pw', views.change_pw, name='change_pw'),
     url(r'login', views.login, name='login'),
+
     url(r'logout', views.logout, name='logout'),
     url(r'json', views.json, name='json'),
+
     url(r'commJs', views.commJs, name='commJs'),
     path(r'<str:path>.html', views.wf, name='wf'),
 ] + static("assets", document_root="static/assets")

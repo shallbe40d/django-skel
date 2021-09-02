@@ -1,6 +1,26 @@
 window.wf = {
 	version: '0.9.0',
 	fn: {
+		changePasswd: function() {
+			var newPw = $('#userpassword').val();
+			var confirmPw = $('#userpassword_re').val();
+			if ( newPw == confirmPw ) {
+				$.post("/rest/change_pw", { new_pw: newPw, confirm_pw: confirmPw },
+					   function(data, status) {
+						   if ( data.result ) {
+							   location.reload(true);
+						   }
+						   else {
+							   alert('비밀변호 변경에 실패하였습니다.');
+						   }
+					   }
+					  );
+			}
+			else {
+				alert('변경 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
+			}
+			return false;
+		},
 		login: function() {
 			var id = $('#username').val();
 			var pw = $('#userpassword').val();
@@ -8,6 +28,9 @@ window.wf = {
 				   function(data, status) {
 					   if ( data.member['id'] ) {
 						   location.reload(true);
+					   }
+					   else {
+						   alert('로그인 정보가 유효하지 않습니다.');
 					   }
 				   }
 				  );
@@ -27,6 +50,9 @@ window.wf = {
 	switch (window.path) {
 	case '00_001': /* login page */
 		$('form').off().on('submit', window.wf.fn.login); 
+		break;
+	case '00_002': /* 1st password change page */
+		$('form').off().on('submit', window.wf.fn.changePasswd); 
 		break;
 	default:
 		break;
