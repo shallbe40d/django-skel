@@ -1,0 +1,595 @@
+<div id="layout-wrapper">
+	<header id="page-topbar">
+		<div class="navbar-header">
+			<div class="d-flex"> 
+				<!-- LOGO -->
+				<div class="navbar-brand-box">
+					<a href="#" class="logo logo-dark"> 
+						<span class="logo-sm"><img src="assets/images/logo-sm-dark.png" alt="" height="20"></span> 
+						<span class="logo-lg"><img src="assets/images/logo-dark.png" alt="" height="30"></span>
+					</a> 
+					<a href="#" class="logo logo-light"> 
+						<span class="logo-sm"><img src="assets/images/logo-sm-light.png" alt="" height="20"></span>
+						<span class="logo-lg"> <img src="assets/images/logo-light.png" alt="" height="30"></span>
+					</a>
+				</div>
+				<button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn">
+					<i class="fa fa-fw fa-bars"></i>
+				</button>
+				
+				<div class="greeting">안녕하세요. Helix 님</div>
+			</div>
+			
+			<div class="d-flex">
+				<div class="dropdown d-none d-lg-inline-block me-2">
+					<button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btn-sm">
+						<i class="uil uil-exclamation-triangle me-1"></i>긴급진단
+					</button>
+				</div>
+				
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+						<img class="rounded-circle header-profile-user" src="assets/images/users/user.png" alt="Header Avatar">
+						<span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">production76</span> 
+						<i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
+					</button>
+					
+					<div class="dropdown-menu dropdown-menu-end">
+						<div class="mode-select border-bottom">
+							<h7 class="text-left mb-0">모드 선택</h7>
+							<div class="form-check form-switch mt-2">
+								<input type="checkbox" class="form-check-input theme-choice" id="light-mode-switch" checked />
+								<label class="form-check-label" for="light-mode-switch">라이트 모드</label>
+							</div>
+							<div class="form-check form-switch mt-2">
+								<input type="checkbox" class="form-check-input theme-choice" id="dark-mode-switch" />
+								<label class="form-check-label" for="dark-mode-switch">다크 모드</label>
+							</div>
+						</div>
+						<a class="dropdown-item" href="#"><i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span class="align-middle">로그아웃</span></a> 
+					</div>
+				</div>
+				
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="uil-cog"></i></button>
+					
+					<div class="dropdown-menu dropdown-menu-end"> 
+						<a class="dropdown-item" href="#"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">사용자 관리</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-circuit font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">시스템 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-shield-check font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">보안 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-suitcase-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">진단 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-sync-exclamation font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">시스템 초기화</span></a> 
+					</div>
+				</div>
+				
+				<div class="dropdown d-none d-lg-inline-block ms-1">
+					<button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
+						<i class="uil-minus-path"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<!-- ========== Left Sidebar Start ========== -->
+	<div class="vertical-menu"> 
+		
+		<!-- LOGO -->
+		<div class="navbar-brand-box">
+			<a href="#" class="logo logo-dark">
+				<span class="logo-sm"><img src="assets/images/logo-sm-dark.png" alt="" height="20"></span>
+				<span class="logo-lg"> <img src="assets/images/logo-dark.png" alt="" height="30"></span>
+			</a> 
+			<a href="#" class="logo logo-light"> 
+				<span class="logo-sm"><img src="assets/images/logo-sm-light.png" alt="" height="20"></span>
+				<span class="logo-lg"> <img src="assets/images/logo-light.png" alt="" height="30"></span>
+			</a>
+		</div>
+		
+		<button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn"><i class="fa fa-fw fa-bars"></i></button>
+		
+		<div data-simplebar class="sidebar-menu-scroll"> 
+			<!--- Sidemenu -->
+			<div id="sidebar-menu"> 
+				<!-- Left Menu Start -->
+				<ul class="metismenu list-unstyled" id="side-menu">
+					<li class="menu-title">메뉴</li>
+					<li> 
+						<a href="#">
+							<i class="uil-home-alt"></i><span>대시보드</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript: void(0);" class="has-arrow waves-effect">
+							<i class="uil-shutter-alt"></i><span>디바이스</span>
+						</a>
+						<ul class="sub-menu" aria-expanded="true">
+							<li><a href="#">IoT 센서</a></li>
+							<li><a href="#">기계사양</a></li>
+							<li><a href="#">결함주파수</a></li>
+							<li><a href="#">진단 임계치</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript: void(0);" class="has-arrow waves-effect">
+							<i class="uil-monitor"></i><span>모니터</span>
+						</a>
+						<ul class="sub-menu" aria-expanded="true">
+							<li><a href="#">설비가동여부</a></li>
+							<li><a href="#">센서별 시간파형</a></li>
+							<li><a href="#">센서별 FFT</a></li>
+							<li><a href="#">센서별 진동등급</a></li>
+							<li><a href="#">결함진단</a></li>
+							<li><a href="#">신율/전달효율</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- Sidebar --> 
+		</div>
+	</div>
+	<!-- Left Sidebar End --> 
+	
+	<!-- ============================================================== --> 
+	<!-- Start right Content here --> 
+	<!-- ============================================================== -->
+	<div class="main-content">
+		<div class="page-content">
+			<div class="container-fluid"> 
+				
+				<!-- start page title -->
+				<div class="row">
+					<div class="col-12">
+						<div class="page-title-box d-flex align-items-center justify-content-between">
+							<h3 class="mb-0">
+								IoT 센서
+								<p class="text-muted f-size mt-2 mb-0">IoT 센서(진동, 소음) 관련 정보를 등록하고, 관리합니다.</p>
+							</h3>
+
+							<div class="page-title-right">
+								<ol class="breadcrumb m-0">
+									<li class="breadcrumb-item">디바이스</li>
+									<li class="breadcrumb-item active">IoT 센서</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end page title -->
+				
+				<div class="row">
+					<div class="col-lg-12">
+						<div>
+							<div>
+								<button type="button" class="btn btn-success waves-effect waves-light mb-3" data-bs-toggle="modal" data-bs-target="#sensorRegisterModal"><i class="mdi mdi-plus me-1"></i> 센서 등록</button> 
+							</div>
+						</div>				
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="text-center m-5">
+							<h4>등록된 IoT 센서가 없습니다.</h4>
+							<p class="text-muted">서비스를 이용하기 위해서, 기계설비에 장착할 IoT 센서의 정보를 등록해주세요.</p>
+						</div>
+				
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xl-3 col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="dropdown float-end">
+									<a class="text-body dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="uil uil-ellipsis-h"></i></a>
+									<div class="dropdown-menu dropdown-menu-end"> 
+										<a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target="#sensorEditModal">수정</a> 
+										<a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target="#sensorDelModal">제거</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="table-responsive">
+									<table class="table mb-0">
+										<colgroup>
+											<col width="42%"/>
+											<col width="58%"/>
+										</colgroup>
+										<tbody>
+											<tr>
+												<th>센서 종류</th>
+												<td><strong class="text-primary">진동</strong></td>
+											</tr>
+											<tr>
+												<th>센서 ID</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>Samplerate</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>설치 위치</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>진동 센서 3축 방향</th>
+												<td>
+													<dl>
+														<dt>X 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+													<dl>
+														<dt>Y 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+													<dl>	
+														<dt>Z 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xl-3 col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="dropdown float-end">
+									<a class="text-body dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="uil uil-ellipsis-h"></i></a>
+									<div class="dropdown-menu dropdown-menu-end"> 
+										<a class="dropdown-item" href="#">수정</a> 
+										<a class="dropdown-item" href="#">제거</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="table-responsive">
+									<table class="table mb-0">
+										<colgroup>
+											<col width="42%"/>
+											<col width="58%"/>
+										</colgroup>
+										<tbody>
+											<tr>
+												<th>센서 종류</th>
+												<td><strong class="text-success">소음</strong></td>
+											</tr>
+											<tr>
+												<th>센서 ID</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>Samplerate</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>설치 위치</th>
+												<td>%입력값%</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xl-3 col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="dropdown float-end">
+									<a class="text-body dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="uil uil-ellipsis-h"></i></a>
+									<div class="dropdown-menu dropdown-menu-end"> 
+										<a class="dropdown-item" href="#">수정</a> 
+										<a class="dropdown-item" href="#">제거</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="table-responsive">
+									<table class="table mb-0">
+										<colgroup>
+											<col width="42%"/>
+											<col width="58%"/>
+										</colgroup>
+										<tbody>
+											<tr>
+												<th>센서 종류</th>
+												<td><strong class="text-success">소음</strong></td>
+											</tr>
+											<tr>
+												<th>센서 ID</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>Samplerate</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>설치 위치</th>
+												<td>%입력값%</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xl-3 col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="dropdown float-end">
+									<a class="text-body dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="uil uil-ellipsis-h"></i></a>
+									<div class="dropdown-menu dropdown-menu-end"> 
+										<a class="dropdown-item" href="#">수정</a> 
+										<a class="dropdown-item" href="#">제거</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="table-responsive">
+									<table class="table mb-0">
+										<colgroup>
+											<col width="42%"/>
+											<col width="58%"/>
+										</colgroup>
+										<tbody>
+											<tr>
+												<th>센서 종류</th>
+												<td><strong class="text-primary">진동</strong></td>
+											</tr>
+											<tr>
+												<th>센서 ID</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>Samplerate</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>설치 위치</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>진동 센서 3축 방향</th>
+												<td>
+													<dl>
+														<dt>X 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+													<dl>
+														<dt>Y 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+													<dl>	
+														<dt>Z 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xl-3 col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="dropdown float-end">
+									<a class="text-body dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="uil uil-ellipsis-h"></i></a>
+									<div class="dropdown-menu dropdown-menu-end"> 
+										<a class="dropdown-item" href="#">수정</a> 
+										<a class="dropdown-item" href="#">제거</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="table-responsive">
+									<table class="table mb-0">
+										<colgroup>
+											<col width="42%"/>
+											<col width="58%"/>
+										</colgroup>
+										<tbody>
+											<tr>
+												<th>센서 종류</th>
+												<td><strong class="text-primary">진동</strong></td>
+											</tr>
+											<tr>
+												<th>센서 ID</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>Samplerate</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>설치 위치</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>진동 센서 3축 방향</th>
+												<td>
+													<dl>
+														<dt>X 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+													<dl>
+														<dt>Y 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+													<dl>	
+														<dt>Z 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xl-3 col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="dropdown float-end">
+									<a class="text-body dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="uil uil-ellipsis-h"></i></a>
+									<div class="dropdown-menu dropdown-menu-end"> 
+										<a class="dropdown-item" href="#">수정</a> 
+										<a class="dropdown-item" href="#">제거</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="table-responsive">
+									<table class="table mb-0">
+										<colgroup>
+											<col width="42%"/>
+											<col width="58%"/>
+										</colgroup>
+										<tbody>
+											<tr>
+												<th>센서 종류</th>
+												<td><strong class="text-primary">진동</strong></td>
+											</tr>
+											<tr>
+												<th>센서 ID</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>Samplerate</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>설치 위치</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>진동 센서 3축 방향</th>
+												<td>
+													<dl>
+														<dt>X 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+													<dl>
+														<dt>Y 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+													<dl>	
+														<dt>Z 축: </dt>
+														<dd>%입력값%</dd>
+													</dl>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xl-3 col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="dropdown float-end">
+									<a class="text-body dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="uil uil-ellipsis-h"></i></a>
+									<div class="dropdown-menu dropdown-menu-end"> 
+										<a class="dropdown-item" href="#">수정</a> 
+										<a class="dropdown-item" href="#">제거</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="table-responsive">
+									<table class="table mb-0">
+										<colgroup>
+											<col width="42%"/>
+											<col width="58%"/>
+										</colgroup>
+										<tbody>
+											<tr>
+												<th>센서 종류</th>
+												<td><strong class="text-success">소음</strong></td>
+											</tr>
+											<tr>
+												<th>센서 ID</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>Samplerate</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>설치 위치</th>
+												<td>%입력값%</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xl-3 col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="dropdown float-end">
+									<a class="text-body dropdown-toggle font-size-16" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="uil uil-ellipsis-h"></i></a>
+									<div class="dropdown-menu dropdown-menu-end"> 
+										<a class="dropdown-item" href="#">수정</a> 
+										<a class="dropdown-item" href="#">제거</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="table-responsive">
+									<table class="table mb-0">
+										<colgroup>
+											<col width="42%"/>
+											<col width="58%"/>
+										</colgroup>
+										<tbody>
+											<tr>
+												<th>센서 종류</th>
+												<td><strong class="text-success">소음</strong></td>
+											</tr>
+											<tr>
+												<th>센서 ID</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>Samplerate</th>
+												<td>%입력값%</td>
+											</tr>
+											<tr>
+												<th>설치 위치</th>
+												<td>%입력값%</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			<!-- container-fluid --> 
+			</div>
+			<!-- End Page-content -->
+		
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-6">카피라이터, 사명, 사업자번호, 대표자명, 주소, 이용약관, 고객센터 정보, 사이트 맵 등등</div>
+						<div class="col-sm-6">
+							<div class="text-sm-end d-none d-sm-block"></div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+	</div>
+</div>

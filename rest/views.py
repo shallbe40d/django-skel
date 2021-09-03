@@ -11,6 +11,8 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect
 
+import rest.feature as ft
+
 # +---------------------------+
 # |     private functions     |
 # +---------------------------+
@@ -33,25 +35,6 @@ def _change_pw(request, new_pw='', confirm_pw=''):
         return {"result": True} 
     else:
         return {"result": False}
-
-
-""" 
-json 객체에서 문자열 패턴으로 값을 가져온다 
-문자열 패턴은 . 으로 split
-eg) a.b.c
-"""
-def _get_obj(obj, que):
-    try: 
-        ques = que.split('.')
-        d_obj = obj
-        for o in ques:
-            if o.isdigit():
-                d_obj = d_obj[int(o)]
-            else:
-                d_obj = d_obj[o]
-        return d_obj
-    except:
-        return "" 
 
 
 """ login session 정보 반환 """
@@ -79,43 +62,6 @@ def _login(request, req_id='', req_pw=''):
     con.close()
     return {"member": result}
 
-
-""" html 소스와 json data를 바인딩 """
-def _bind_data(html_path, db=[]):
-    html = open('static/' + html_path +'.html', 'r')
-    page_soup = BeautifulSoup(html, 'html.parser')
-    inc_file = page_soup.select('.\\$inc')
-    #
-    for f in inc_file:
-        print(f)
-        #sub_html = open('static/' + f, 'r')
-        #f.string.replace_with(sub_html)
-    #
-    #html = page_soup.prettify()
-    #
-    with open('device.json', 'r') as j:
-        data = JSON.loads(j.read())
-        data['db'] = db
-        data['path'] = html_path
-        data['now'] = str(datetime.datetime.now())
-        #
-        soup = BeautifulSoup(html, 'html.parser')
-        objs = soup.select('.\\$wf')
-        #
-        for o in objs:
-            o.string.replace_with(_get_obj(data, o['class'][1]))
-        print(data)
-        #head = soup.select('head')
-        comm_js = soup.new_tag("script", src="/wf/commJs")
-        env_js = soup.new_tag("script")
-        env_js.append(f"window.path='{html_path}';")
-        soup.append(env_js)
-        soup.append(comm_js)
-        #body = soup.select('body')
-        #
-        return HttpResponse(soup.prettify())
-    #
-    return HttpResponse("empty")
 
 
 #+---------------------+
@@ -172,7 +118,7 @@ def wf(request, path):
         path =  "00_001"
     elif request.session.get('login1st') == 0:
         path =  "00_002"
-    return _bind_data(path, _get_member(request))
+    return HttpResponse(ft._bind_data(path, _get_member(request)))
 
 
 """ [ /rest/json ] json data 테스트 및 검증용 """
