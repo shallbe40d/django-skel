@@ -82,14 +82,13 @@ SELECT * FROM sqlite_master WHERE type='table';
 #+RESULTS:
 
 ** schedule
-*** prototype : json bind to html
-DEADLINE: <2021-08-22 Sun>
- - device.json bind to html by regex
-*** server configure
-DEADLINE: <2021-08-29 Sun>
- - members, ip-chain, port ( ssh )
-*** rendering UI 
-DEADLINE: <2021-09-12 Sun>
+*** feature
+**** change pw
+**** show ip info
+**** apply ip info
+**** show ssh status
+**** apply ssh status
+*** UI
 ** tree
 #+BEGIN_SRC shell
   tree ./static/ -I assets
