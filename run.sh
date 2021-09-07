@@ -1,5 +1,3 @@
 #!/bin/sh
-
-# clear django_session table
-DJANGO_SETTINGS_MODULE="wireframe.settings" python -c 'from django.contrib.sessions.models import Session; Session.objects.all().delete()' 
+source ./env/bin/activate
 ./env/bin/python manage.py runserver

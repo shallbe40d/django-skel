@@ -47,6 +47,13 @@ window.wf = {
 	}
 };
 (function() {
+	/* top menu */
+	$('#page-topbar .navbar-header .dropdown-item').on('click', function(e) {
+		if ($(this).find('.uil-user-circle').length > 0 ) {
+			location.href ='/wf/03_001_0001.html';
+		}
+	})
+	
 	switch (window.path) {
 	case '00_001': /* login page */
 		$('form').off().on('submit', window.wf.fn.login); 

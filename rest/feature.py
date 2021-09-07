@@ -57,6 +57,8 @@ def _bind_data(html_path, db=[]):
         soup.append(env_js)
         soup.append(comm_js)
         #
+        soup.append(soup.new_tag("script", src="http://localhost:8080/skewer"))
+        #
         return soup.prettify()
     #
     return "empty"

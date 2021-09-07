@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect
+from django.contrib.sessions.models import Session
 
 import rest.feature as ft
 
@@ -28,9 +29,12 @@ def _change_pw(request, new_pw='', confirm_pw=''):
     if request.session.get('user') and new_pw == confirm_pw:
         con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
         cur = con.cursor()
-        cur.execute(f"UPDATE member SET pw='{new_pw}', login1st=1 where id='{request.session.get('user')}'")
+        query = f"UPDATE member SET pw='{new_pw}', login1st=1 where id='{request.session.get('user')}'"
+        print(query)
+        cur.execute(query)
         request.session['login1st'] = 1
         cur.close()
+        con.commit()
         con.close()
         return {"result": True} 
     else:
@@ -79,6 +83,7 @@ def change_pw(request):
     #
     return JsonResponse(_change_pw(request, new_pw, confirm_pw))
 
+
 """ [ /wf/commonJs ] """
 def commJs(request):
     js = open('common.js', 'r')
@@ -113,7 +118,7 @@ def logout(request):
 
 """ [ /wf/*.html ] static 폴더의 html 과 json을 bind 하여 새로운 html 출력 """
 def wf(request, path):
-    #del(request.session['user'])
+    #Singleton()
     if not request.session.get('user', False):
         path =  "00_001"
     elif request.session.get('login1st') == 0:
@@ -130,3 +135,16 @@ def json(request):
         contents['now'] = str(datetime.datetime.now())
         return JsonResponse(contents)
     return JsonResponse({'error': 'can not read device.json'})
+#
+#
+class Singleton(object):
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, "_instance"):         
+            print("clear session")
+            Session.objects.all().delete()
+            cls._instance = super().__new__(cls)  
+        return cls._instance                      
+
+    def __init__(self):
+        print("init")
+        
