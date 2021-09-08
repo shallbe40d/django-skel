@@ -26,10 +26,10 @@ def _change_ip():
 
 """ 최초 로그인 사용자의 비번 변경 """
 def _change_pw(request, new_pw='', confirm_pw=''):
-    if request.session.get('user') and new_pw == confirm_pw:
+    if request.session.get('id') and new_pw == confirm_pw:
         con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
         cur = con.cursor()
-        query = f"UPDATE member SET pw='{new_pw}', login1st=1 where id='{request.session.get('user')}'"
+        query = f"UPDATE member SET pw='{new_pw}', login1st=1 where id='{request.session.get('id')}'"
         print(query)
         cur.execute(query)
         request.session['login1st'] = 1
@@ -43,14 +43,19 @@ def _change_pw(request, new_pw='', confirm_pw=''):
 
 """ login session 정보 반환 """
 def _get_member(request):
-    return {"member": request.session.get('user')}
+    return {
+        "member": {
+            "id": request.session.get("id"),
+            "name": request.session.get("name")
+        }
+    }
 
 
 """ login을 위한 member table select """
 def _login(request, req_id='', req_pw=''):
     con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
     cur = con.cursor()
-    cur.execute(f"SELECT id, pw, login1st FROM member where id='{req_id}' and pw='{req_pw}'")
+    cur.execute(f"SELECT id, pw, name, login1st FROM member where id='{req_id}' and pw='{req_pw}'")
     col = [member[0] for member in cur.description]
     result = {} 
     fetch = cur.fetchone()
@@ -58,7 +63,8 @@ def _login(request, req_id='', req_pw=''):
         row = list(fetch)
         for i in range(len(row)):
             result[col[i]] = row[i] 
-        request.session['user'] = req_id
+        request.session['id'] = req_id
+        request.session['name'] = result['name'] 
         request.session['login1st'] = result['login1st']
     else:
         result["err"] = "not exists"
@@ -66,6 +72,25 @@ def _login(request, req_id='', req_pw=''):
     con.close()
     return {"member": result}
 
+
+""" member table list """
+def _member_list(request):
+    con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
+    cur = con.cursor()
+    cur.execute(f"SELECT idx, id, pw, name, email, tel, login1st, role FROM member order by idx desc")
+    col = [member[0] for member in cur.description]
+    rows = cur.fetchall()
+    list_result = []
+    if rows != None: 
+        for row in rows:
+            result = {} 
+            row_data = list(row)
+            for i in range(len(row_data)):
+                result[col[i]] = row_data[i] 
+            list_result.append(result)
+    cur.close()
+    con.close()
+    return {"member": list_result}
 
 
 #+---------------------+
@@ -110,16 +135,21 @@ def login(request):
 
 """ [ /rest/logout ] """
 def logout(request):
-    if request.session.get('user'):
-       del(request.session['user'])
+    if request.session.get('id'):
+       del(request.session)
     #
     return redirect('/wf/00_001.html')
+
+
+""" [ /rest/member_list ] """
+def member_list(request):
+    return JsonResponse(_member_list(request))
 
 
 """ [ /wf/*.html ] static 폴더의 html 과 json을 bind 하여 새로운 html 출력 """
 def wf(request, path):
     #Singleton()
-    if not request.session.get('user', False):
+    if not request.session.get('id', False):
         path =  "00_001"
     elif request.session.get('login1st') == 0:
         path =  "00_002"
@@ -136,7 +166,9 @@ def json(request):
         return JsonResponse(contents)
     return JsonResponse({'error': 'can not read device.json'})
 #
-#
+# +-------------------------------+
+# |     Singleton for Session     |
+# +-------------------------------+
 class Singleton(object):
     def __new__(cls, *args, **kwargs):
         if not hasattr(cls, "_instance"):         

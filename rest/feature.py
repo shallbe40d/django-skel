@@ -46,6 +46,7 @@ def _bind_data(html_path, db=[]):
         data['db'] = db
         data['path'] = html_path
         data['now'] = str(datetime.datetime.now())
+        print(data)
         #
         objs = soup.select('.\\$wf')
         #
