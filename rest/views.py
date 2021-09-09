@@ -55,7 +55,7 @@ def _get_member(request):
 def _login(request, req_id='', req_pw=''):
     con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
     cur = con.cursor()
-    cur.execute(f"SELECT id, pw, name, login1st FROM member where id='{req_id}' and pw='{req_pw}'")
+    cur.execute(f"SELECT id, pw, name, login1st, role FROM member where id='{req_id}' and pw='{req_pw}'")
     col = [member[0] for member in cur.description]
     result = {} 
     fetch = cur.fetchone()
@@ -65,12 +65,48 @@ def _login(request, req_id='', req_pw=''):
             result[col[i]] = row[i] 
         request.session['id'] = req_id
         request.session['name'] = result['name'] 
+        request.session['role'] = result['role'] 
         request.session['login1st'] = result['login1st']
     else:
         result["err"] = "not exists"
     cur.close()
     con.close()
     return {"member": result}
+
+
+""" member table add """
+def _member_add(request):
+    id = request.POST.get('id')
+    if id == None: return {"result": False}
+    pw = request.POST.get('pw')
+    if pw == None: return {"result": False}
+    name = request.POST.get('name')
+    if name == None: return {"result": False}
+    #
+    email = request.POST.get('email')
+    tel = request.POST.get('tel')
+    role = request.POST.get('role')
+    #
+    if request.session.get('id') and request.session.get('role') == -1:
+        #
+        con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
+        cur = con.cursor()
+        #
+        cur.execute(f"SELECT idx FROM member where id='{id}'")
+        rows = cur.fetchall()
+        if len(rows) > 0:
+            cur.close()
+            con.close()
+            return { "result": False, "msg": "exists id" }
+        else:
+            query = f"INSERT into member (id, pid, pw, name, email, tel, role) values('{id}', '{request.session.get('id')}', '{pw}', '{name}', '{email}', '{tel}', {role});"
+            cur.execute(query)
+            cur.close()
+            con.commit()
+            con.close()
+            return {"result": True} 
+    else:
+        return {"result": False}
 
 
 """ member table list """
@@ -139,6 +175,11 @@ def logout(request):
        del(request.session)
     #
     return redirect('/wf/00_001.html')
+
+
+""" [ /rest/member_add] """
+def member_add(request):
+    return JsonResponse(_member_add(request))
 
 
 """ [ /rest/member_list ] """

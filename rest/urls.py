@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'login', views.login, name='login'),
     url(r'logout', views.logout, name='logout'),
 
+    url(r'member_add', views.member_add, name='member_add'),
     url(r'member_list', views.member_list, name='member_list'),
 
     url(r'commJs', views.commJs, name='commJs'),

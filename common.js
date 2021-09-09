@@ -22,12 +22,48 @@ window.wf = {
 			return false;
 		},
 		member: {
+			add: function() {
+				var id = $('#ID_form').val(); 
+				var name = $('#name_form').val(); 
+				var pw = $('#PW_form').val(); 
+				var pw2 = $('#PW2_form').val(); 
+				var email = $('#email_form').val(); 
+				var tel = $('#tel_form').val(); 
+				var role = ($('input[name=formRadio1]:checked').attr('id') == 'a_form1') ? -1 : 1;
+				
+				if (!id) {
+					$('#ID_form').addClass('is-invalid').siblings('.invalid-text').show();
+				}
+				if (!name) {
+					$('#name_form').addClass('is-invalid').siblings('.invalid-text').show();
+				}
+				if (!pw) {
+					$('#PW_form').addClass('is-invalid').siblings('.invalid-text').show();
+				}
+				if (!pw2) {
+					$('#PW2_form').addClass('is-invalid').siblings('.invalid-text').show();
+				}
+
+				if (pw != pw2) {
+					$('#PW2_form').addClass('is-invalid');
+					alert('비밀번호와 확인용 비밀번호가 일치하지 않습니다');
+					return;
+				}
+
+				if ( $('.invalid-text:visible').length == 0 ) {
+					$.post("/rest/member_add", {id: id, pw: pw, name: name, email: email, tel: tel, role: role},
+						   function(data, status) {
+							   window.wf['log'] = data;
+							   $('#saveModalF').removeClass('hide').addClass('show');
+						   }
+						  );
+				}
+				return false;
+			},
 			get: function() {
 				var searchType = '';
 				$.get("/rest/member_list", {},
 					  function(data, status) {
-						  window.wf['data'] = data;
-						  //data.member => list
 						  var tbody = $('#userList > tbody');
 						  var trs = tbody.find('tr');
 						  var row = $(trs.get(0)).clone();
@@ -85,9 +121,11 @@ window.wf = {
 	case '00_001': /* login page */
 		$('form').off().on('submit', window.wf.fn.login); 
 		break;
+
 	case '00_002': /* 1st password change page */
 		$('form').off().on('submit', window.wf.fn.changePasswd); 
 		break;
+
 	case '03_001_0001': /* member list */
 		/* 사용자 추가 */
 		$('div.row a.btn-success').on('click', function() {
@@ -95,6 +133,29 @@ window.wf = {
 		});
 		window.wf.fn.member.get();
 		break;
+
+	case '03_001_0002': /* 사용자 추가 */
+		$('.invalid-text').hide();
+		$('.is-invalid').removeClass('is-invalid');
+		$("input").on("propertychange change keyup paste input", function() {
+			$(this).removeClass('is-invalid').siblings('.invalid-text').hide();
+		});
+
+		$('div.text-end > button.btn-light').on('click', function() {
+			$('form').reset();
+		});
+		$('form').off().on('submit', function() {return false});
+		$('div.text-end > button.btn-primary').parent().off();
+		//$('#saveModal').attr('id', 'saveModalF');
+		$('div.text-end > button.btn-primary').off().on('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			e.stopImmediatePropagation()
+			window.wf.fn.member.add();
+			return false;
+		});
+		break;
+
 	default:
 		break;
 	}
