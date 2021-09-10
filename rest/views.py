@@ -109,11 +109,50 @@ def _member_add(request):
         return {"result": False}
 
 
+""" member delete """
+def _member_delete(request, req_id):
+    result = False
+    if request.session.get('id') and request.session.get('role') == -1:
+        #
+        con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
+        cur = con.cursor()
+        cur.execute(f"delete FROM member where idx='{req_id}'")
+        cur.close()
+        con.commit()
+        con.close()
+        result = True
+    #
+    return {"result": result}
+
+
+""" member description """
+def _member_get(request, req_id):
+    if request.session.get('id') and request.session.get('role') == -1:
+        #
+        con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
+        cur = con.cursor()
+        cur.execute(f"SELECT * FROM member where idx='{req_id}'")
+        col = [member[0] for member in cur.description]
+        result = {} 
+        fetch = cur.fetchone()
+        if fetch != None: 
+            row = list(fetch)
+            for i in range(len(row)):
+                result[col[i]] = row[i] 
+            result['pw'] = '' 
+        else:
+            result["err"] = "not exists"
+        cur.close()
+        con.close()
+    #
+    return {"member": result}
+
+
 """ member table list """
 def _member_list(request):
     con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
     cur = con.cursor()
-    cur.execute(f"SELECT idx, id, pw, name, email, tel, login1st, role FROM member order by idx desc")
+    cur.execute(f"SELECT * FROM member order by idx desc")
     col = [member[0] for member in cur.description]
     rows = cur.fetchall()
     list_result = []
@@ -123,10 +162,45 @@ def _member_list(request):
             row_data = list(row)
             for i in range(len(row_data)):
                 result[col[i]] = row_data[i] 
+            result['pw'] = ''
             list_result.append(result)
     cur.close()
     con.close()
     return {"member": list_result}
+
+
+""" member update """
+def _member_update(request, req_id):
+    result = False
+    pw = request.POST.get('pw')
+    up_data = ""
+
+    if pw != None:
+        up_data = f"pw='{pw}',"
+    else:
+        id = request.POST.get('id')
+        name = request.POST.get('name'),
+        tel = request.POST.get('tel'),
+        email = request.POST.get('email'),
+        role = request.POST.get('role')
+        #
+        up_data += f"id='{id}'," if id != None else ""
+        up_data += f"name='{name}'," if name != None else ""
+        up_data += f"tel='{tel}'," if tel != None else ""
+        up_data += f"email='{email}'," if email != None else ""
+    #
+    if request.session.get('id') and request.session.get('role') == -1:
+        #
+        con = sqlite3.connect('db.sqlite3', detect_types=sqlite3.PARSE_COLNAMES)
+        cur = con.cursor()
+        print(f"UPDATE member set {up_data}  mid='{request.session.get('id')}' where idx='{req_id}'")
+        cur.execute(f"UPDATE member set {up_data} modifyDt=current_timestamp,  mid='{request.session.get('id')}' where idx='{req_id}'")
+        cur.close()
+        con.commit()
+        con.close()
+        result = True
+    #
+    return {"result": result}
 
 
 #+---------------------+
@@ -182,9 +256,24 @@ def member_add(request):
     return JsonResponse(_member_add(request))
 
 
+""" [ /rest/member/delte/1 ] """
+def member_delete(request, req_id):
+    return JsonResponse(_member_delete(request, req_id))
+
+
+""" [ /rest/member/1 ] """
+def member_get(request, req_id):
+    return JsonResponse(_member_get(request, req_id))
+
+
 """ [ /rest/member_list ] """
 def member_list(request):
     return JsonResponse(_member_list(request))
+
+
+""" [ /rest/member/update/1 ] """
+def member_update(request, req_id):
+    return JsonResponse(_member_update(request, req_id))
 
 
 """ [ /wf/*.html ] static 폴더의 html 과 json을 bind 하여 새로운 html 출력 """

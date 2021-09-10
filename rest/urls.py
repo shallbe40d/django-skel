@@ -16,6 +16,9 @@ urlpatterns = [
     url(r'logout', views.logout, name='logout'),
 
     url(r'member_add', views.member_add, name='member_add'),
+    url(r'member/(?P<req_id>[0-9]+)$', views.member_get, name='member_get'),
+    url(r'member/delete/(?P<req_id>[0-9]+)$', views.member_delete, name='member_delete'),
+    url(r'member/update/(?P<req_id>[0-9]+)$', views.member_update, name='member_update'),
     url(r'member_list', views.member_list, name='member_list'),
 
     url(r'commJs', views.commJs, name='commJs'),
