@@ -17,7 +17,9 @@ import rest.feature as ft
 # +---------------------------+
 # |     private functions     |
 # +---------------------------+
-""" now test phase """
+""" 
+now test phase 
+"""
 def _change_ip():
     # dns 2개도 수정해야함
     call(["ifconfig", "en1", "172.30.1.42", "netmask", "255.255.255.0", "broadcast", "172.30.1.255"])
@@ -185,9 +187,9 @@ def _member_update(request, req_id):
         role = request.POST.get('role')
         #
         up_data += f"id='{id}'," if id != None else ""
-        up_data += f"name='{name}'," if name != None else ""
-        up_data += f"tel='{tel}'," if tel != None else ""
-        up_data += f"email='{email}'," if email != None else ""
+        up_data = f"{up_data} name='{name}'," if name != None else ""
+        up_data = f"{up_data} tel='{tel}'," if tel != None else ""
+        up_data = f"{up_data} email='{email}'," if email != None else ""
     #
     if request.session.get('id') and request.session.get('role') == -1:
         #

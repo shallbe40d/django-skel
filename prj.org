@@ -99,7 +99,7 @@ select * from member;
 #+end_src
 
 #+RESULTS:
-| 1 | admin   | admin | 1234  | 관리자 | likebof@hanmail.net | 1056702878          |          0 | -1 | 2021-09-10 |   04:53:07 | 2021-09-10 |   04:53:07 |          |
+| 1 | admin   | admin | asdf  | 관리자 | likebof@hanmail.net | 1056702878          |          1 | -1 | 2021-09-10 |   04:53:07 | 2021-09-10 |   04:53:07 |          |
 | 2 | manager | admin | admin |   1234 | test1               | likebof@hanmail.net | 1056702878 |  0 |         -1 | 2021-09-10 |   04:54:39 | 2021-09-10 | 04:54:39 |
 | 3 | test1   | admin | admin |   1234 | test1               | likebof@hanmail.net | 1056702878 |  0 |          1 | 2021-09-10 |   04:54:39 | 2021-09-10 | 04:54:39 |
 | 4 | test2   | admin | admin |   1234 | test2               | likebof@hanmail.net | 1056702878 |  0 |          1 | 2021-09-10 |   04:54:39 | 2021-09-10 | 04:54:39 |
