@@ -88,7 +88,7 @@ window.wf = {
 			chagePw: function(id, pw) {
 				$.post("/rest/member/update/" + id, { pw: pw },
 				   function(data, status) {
-					   if ( data.member['id'] ) {
+					   if ( data.result ) {
 						   $('#pwModal').modal('hide');
 						   alert('비밀번호가 변경되었습니다.');
 					   }
@@ -146,7 +146,7 @@ window.wf = {
 			update: function(id, obj) {
 				$.post("/rest/member/update/" + id, obj,
 				   function(data, status) {
-					   if ( data.member['id'] ) {
+					   if ( data.result ) {
 						   alert('회원정보가 변경되었습니다.');
 					   }
 					   else {
@@ -206,6 +206,18 @@ window.wf = {
 		break;
 	}
 
+	case '01_001': { /* IoT 센서 */
+		var notExistSensor = $('div.main-content div.container-fluid div.row:nth-child(3)');
+		var listSensor = $('div.main-content div.container-fluid div.row:nth-child(4)');
+		if ( window['device']['iot']['iot_info'].length > 0) {
+			notExistSensor.hide();
+		}
+		else {
+			listSensor.hide();
+		}
+		break;
+	}
+		
 	case '03_001_0001': { /* 사용자 리스트 */
 		/* 사용자 추가 */
 		$('div.row a.btn-success').on('click', function() {
@@ -333,6 +345,7 @@ window.wf = {
 			$(this).siblings('.invalid-text').hide();
 		});
 		
+		/// 사용자 정보 수정 버튼
 		$('div.text-end > button.btn-primary').off().on('click', function() {
 			if ( !oId.val() ) {
 				oId.siblings('.invalid-text').show();
@@ -348,7 +361,7 @@ window.wf = {
 							tel: oTel.val(),
 							role: (($('input[name=formRadio1]:nth-child(0):checked').length == 1) ? -1 : 1)
 						   };
-				
+				window['tmp'] = data;
 				window.wf.fn.member.update(memberId, data);
 			}
 		});

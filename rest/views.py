@@ -43,6 +43,16 @@ def _change_pw(request, new_pw='', confirm_pw=''):
         return {"result": False}
 
 
+""" device.json data """
+def _device_data(request):
+    print(request.GET.get('id'))
+    with open('device.json', 'r') as j:
+        data = j.read()
+        contents = JSON.loads(data)
+        contents['now'] = str(datetime.datetime.now())
+    return contents
+        
+
 """ login session 정보 반환 """
 def _get_member(request):
     return {
@@ -180,16 +190,29 @@ def _member_update(request, req_id):
     if pw != None:
         up_data = f"pw='{pw}',"
     else:
-        id = request.POST.get('id')
+        member_id = request.POST.get('id')
+        if type(member_id) is tuple:
+            member_id = member_id[0]
         name = request.POST.get('name'),
+        if type(name) is tuple:
+            name = name[0]
         tel = request.POST.get('tel'),
+        if type(tel) is tuple:
+            tel = tel[0]
         email = request.POST.get('email'),
+        if type(email) is tuple:
+            email = email[0]
         role = request.POST.get('role')
+        if type(role) is tuple:
+            role = role[0]
         #
-        up_data += f"id='{id}'," if id != None else ""
-        up_data = f"{up_data} name='{name}'," if name != None else ""
-        up_data = f"{up_data} tel='{tel}'," if tel != None else ""
-        up_data = f"{up_data} email='{email}'," if email != None else ""
+        member_id = f"id='{member_id}'," if member_id != None else ""
+        name = f"name='{name}'," if name != None else ""
+        tel = f"tel='{tel}'," if tel != None else ""
+        email = f"email='{email}'," if email != None else ""
+        role = f"role='{role}'," if role != None else ""
+        #
+        up_data = member_id + name + tel + email + role
     #
     if request.session.get('id') and request.session.get('role') == -1:
         #
@@ -223,8 +246,10 @@ def change_pw(request):
 
 """ [ /wf/commonJs ] """
 def commJs(request):
-    js = open('common.js', 'r')
-    return HttpResponse(js, content_type="application/x-javascript")
+    device_info = f"window['device'] = {JSON.dumps(_device_data(request), sort_keys=True, indent=4)};"
+    js = open('common.js', 'r').read()
+    #
+    return HttpResponse(f"{device_info}\n\n\n{js}", content_type="application/x-javascript")
 
 
 """ [ /rest/index ] """
@@ -290,13 +315,7 @@ def wf(request, path):
 
 """ [ /rest/json ] json data 테스트 및 검증용 """
 def json(request):
-    print(request.GET.get('id'))
-    with open('device.json', 'r') as j:
-        data = j.read()
-        contents = JSON.loads(data)
-        contents['now'] = str(datetime.datetime.now())
-        return JsonResponse(contents)
-    return JsonResponse({'error': 'can not read device.json'})
+    return JsonResponse(_device_data(request))
 #
 # +-------------------------------+
 # |     Singleton for Session     |
