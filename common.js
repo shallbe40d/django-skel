@@ -241,7 +241,6 @@ window.wf = {
 					tbody.find('> tr:nth-child(5) > td > dl > dd:nth-child(1)').text(sX);
 					tbody.find('> tr:nth-child(5) > td > dl > dd:nth-child(2)').text(sY);
 					tbody.find('> tr:nth-child(5) > td > dl > dd:nth-child(3)').text(sZ);
-
 				}
 
 				listSensor.append(newSensor);
@@ -250,6 +249,15 @@ window.wf = {
 		else {
 			listSensor.hide();
 		}
+
+		/// 등록
+		var regForm = $('#sensorRegisterModal');
+		var rType = regForm.find('input[name=formRadios]:checked').attr('id');
+		//vibration_form1
+		var rId = regForm.find('#sensor_ID_form1').val();
+		var rSamplerate = regForm.find('#samplerate_form1').val();
+		var rPos = regForm.find('select.form-select:nth-child(1):selected');
+
 		break;
 	}
 		
