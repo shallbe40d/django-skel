@@ -27,7 +27,7 @@
 			 "sensor_type" : "iot_n",
 			 "sensor_id" : "A434F1AB7EB7",
 			 "samplerate" : 50000,
-			 "sensor_position" : 5
+			 "sensor_pos" : 5
 		 }
 	 ]
  }

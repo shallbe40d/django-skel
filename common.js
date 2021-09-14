@@ -209,8 +209,43 @@ window.wf = {
 	case '01_001': { /* IoT 센서 */
 		var notExistSensor = $('div.main-content div.container-fluid div.row:nth-child(3)');
 		var listSensor = $('div.main-content div.container-fluid div.row:nth-child(4)');
-		if ( window['device']['iot']['iot_info'].length > 0) {
+		var sensorClone = listSensor.find('> div:first-child').clone();
+		var objList = window['device']['iot']['iot_info'];
+
+		if ( objList.length > 0) {
 			notExistSensor.hide();
+			listSensor.empty();
+
+			for ( var i=0; i < objList.length; i++ ) {
+				var newSensor = sensorClone.clone();
+
+				var sType = objList[i]['sensor_type'];
+				var sId = objList[i]['sensor_id'];
+				var sSamplerate = objList[i]['samplerate'];
+				var sPos = objList[i]['sensor_pos'] | objList[i]['sensor_position'];
+				var sX = objList[i]['x_axis'] || '';
+				var sY = objList[i]['y_axis'] || '';
+				var sZ = objList[i]['z_axis'] || '';
+
+				var tbody = newSensor.find('table.table.mb-0 > tbody');
+				/// 센서 종류
+				tbody.find('> tr:first-child > td:nth-child(2) > strong').text(( sType && sType == "iot_v" ) ? "진동": "소음");
+				tbody.find('> tr:nth-child(2) > td:nth-child(2)').text(sId);
+				tbody.find('> tr:nth-child(3) > td:nth-child(2)').text(sSamplerate);
+				tbody.find('> tr:nth-child(4) > td:nth-child(2)').text(sPos);
+				if ( !sX && !sY && !sZ ) {
+					tbody.find('> tr:nth-child(5)').hide();
+				}
+				else {
+					tbody.find('> tr:nth-child(5)').show();
+					tbody.find('> tr:nth-child(5) > td > dl > dd:nth-child(1)').text(sX);
+					tbody.find('> tr:nth-child(5) > td > dl > dd:nth-child(2)').text(sY);
+					tbody.find('> tr:nth-child(5) > td > dl > dd:nth-child(3)').text(sZ);
+
+				}
+
+				listSensor.append(newSensor);
+			}
 		}
 		else {
 			listSensor.hide();
