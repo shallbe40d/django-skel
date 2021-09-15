@@ -42,6 +42,32 @@ window.wf = {
 			}
 			return false;
 		},
+		device: {
+			post: function() {
+				$.post("/rest/device", {data: JSON.stringify(window['device'])},
+					   function(data, status) {
+						   if ( data.result ) {
+							   location.reload(true);
+						   }
+						   else {
+							   alert('통신에 실패하였습니다.');
+						   }
+					   }
+					  );
+			},
+			xyzAxis: function(idx) {
+				switch (idx) {
+				case 0:
+					return '';
+				case 1:
+					return 'axial_dirctn';
+				case 2:
+					return 'vertical_dirctn';
+				case 3:
+					return 'horizontal_dirctn';
+				}
+			}
+		},
 		member: {
 			add: function() {
 				var id = $('#ID_form').val(); 
@@ -228,6 +254,7 @@ window.wf = {
 				var sZ = objList[i]['z_axis'] || '';
 
 				var tbody = newSensor.find('table.table.mb-0 > tbody');
+				newSensor.find('div.dropdown-menu > a').attr('_id', sId);
 				/// 센서 종류
 				tbody.find('> tr:first-child > td:nth-child(2) > strong').text(( sType && sType == "iot_v" ) ? "진동": "소음");
 				tbody.find('> tr:nth-child(2) > td:nth-child(2)').text(sId);
@@ -252,11 +279,73 @@ window.wf = {
 
 		/// 등록
 		var regForm = $('#sensorRegisterModal');
-		var rType = regForm.find('input[name=formRadios]:checked').attr('id');
-		//vibration_form1
-		var rId = regForm.find('#sensor_ID_form1').val();
-		var rSamplerate = regForm.find('#samplerate_form1').val();
-		var rPos = regForm.find('select.form-select:nth-child(1):selected');
+		regForm.find('input[name=formRadios]').off().on('click', function() {
+			var oV = $($('#sensorRegisterModal').find('select.form-select').get(1).parentElement.parentElement.parentElement);
+			var oN = $($('#sensorRegisterModal').find('select.form-select').get(4).parentElement.parentElement.parentElement);
+
+			if ( $(this).attr('id') == 'noise_form1' ) {
+				oV.hide();
+				oN.show();
+			}
+			else {
+				oV.show();
+				oN.hide();
+			}
+		});
+
+		regForm.find('div.text-end > button.btn-primary').off().on('click', function() {
+			var rType = regForm.find('input[name=formRadios]:checked').attr('id');
+			var rId = regForm.find('#sensor_ID_form1').val();
+			var rSamplerate = regForm.find('#samplerate_form1').val();
+			var rPos = $('#sensorRegisterModal').find('select.form-select').get(0).selectedIndex;
+			var rX = $('#sensorRegisterModal').find('select.form-select').get(1).selectedIndex;
+			var rY = $('#sensorRegisterModal').find('select.form-select').get(2).selectedIndex;
+			var rZ = $('#sensorRegisterModal').find('select.form-select').get(3).selectedIndex;
+			var rNoise = $('#sensorRegisterModal').find('select.form-select').get(4).selectedIndex;
+
+
+			objList.push({
+				"sensor_num" : ''+(objList.length + 1),
+				"sensor_type" : ((rType == 'vibration_form1')  ? "iot_v" : "iot_n"),
+				"sensor_id" : rId,
+				"samplerate" : parseInt(rSamplerate),
+				"sensor_pos" : ((rPos > 0) ? rPos : ((rNoise > 0) ? (rNoise + 4) : 0)),
+				"x_axis": window.wf.fn.device.xyzAxis(rX),
+				"y_axis": window.wf.fn.device.xyzAxis(rY),
+				"z_axis": window.wf.fn.device.xyzAxis(rZ)
+			});
+
+			window.wf.fn.device.post();
+			
+		});
+
+		/// 수정
+		var modForm = $('#sensorEditModal');
+		modForm.find('div.text-end > button.btn-primary').off().on('click', function() {
+			alert(modForm.attr('_id'));
+			//window.wf.fn.device.post();
+		});
+
+		/// 삭제
+		var delForm = $('#sensorDelModal');
+		delForm.find('div.text-end > button.btn-danger').off().on('click', function() {
+			var sensorId = delForm.attr('_id');
+			for ( var i = 0; i < objList.length; i++ ) {
+				if ( objList[i]['sensor_id'] == sensorId ) {
+					objList.splice(i,1);
+					break;
+				}
+			}
+			var dType = regForm.find('input[name=formRadios]:checked').attr('id');
+			window.wf.fn.device.post();
+		});
+		
+		$('div.main-content div.container-fluid div.row:nth-child(4) > div div.dropdown-menu > a').off().on('click', function() {
+			var _id = $(this).attr('_id');
+
+			modForm.attr('_id', _id);
+			delForm.attr('_id', _id);
+		});
 
 		break;
 	}

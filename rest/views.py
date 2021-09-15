@@ -51,7 +51,20 @@ def _device_data(request):
         contents = JSON.loads(data)
         contents['now'] = str(datetime.datetime.now())
     return contents
-        
+
+
+""" update device.json """
+def _device_set(request):
+    result = False
+    data_str = request.POST.get('data')
+    try:
+        with open("device.json", "w") as f:
+            f.write(data_str)
+        result = True
+    except:
+        print("device save error")
+    return {"result": result}
+
 
 """ login session 정보 반환 """
 def _get_member(request):
@@ -301,6 +314,11 @@ def member_list(request):
 """ [ /rest/member/update/1 ] """
 def member_update(request, req_id):
     return JsonResponse(_member_update(request, req_id))
+
+
+""" [ /rest/device ] """
+def device(request):
+    return JsonResponse(_device_set(request))
 
 
 """ [ /wf/*.html ] static 폴더의 html 과 json을 bind 하여 새로운 html 출력 """

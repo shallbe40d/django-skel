@@ -147,6 +147,8 @@ CLOSED: [2021-09-07 Tue 18:33]
 **** apply ip info
 **** show ssh status
 **** apply ssh status
+**** Doing sensor iot 1
+ - 삭제 체크
 *** UI
 ** tree
 .
