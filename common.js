@@ -66,6 +66,18 @@ window.wf = {
 				case 3:
 					return 'horizontal_dirctn';
 				}
+			},
+			xyzAxisIdx: function(str) {
+				switch (str) {
+				case 'axial_dirctn':
+					return 1;
+				case 'vertical_dirctn':
+					return 1;
+				case 'horizontal_dirctn':
+					return 1;
+				default:
+					return 0;
+				}
 			}
 		},
 		member: {
@@ -260,14 +272,14 @@ window.wf = {
 				tbody.find('> tr:nth-child(2) > td:nth-child(2)').text(sId);
 				tbody.find('> tr:nth-child(3) > td:nth-child(2)').text(sSamplerate);
 				tbody.find('> tr:nth-child(4) > td:nth-child(2)').text(sPos);
-				if ( !sX && !sY && !sZ ) {
+				if ( sPos > 4 ) {
 					tbody.find('> tr:nth-child(5)').hide();
 				}
 				else {
 					tbody.find('> tr:nth-child(5)').show();
-					tbody.find('> tr:nth-child(5) > td > dl > dd:nth-child(1)').text(sX);
-					tbody.find('> tr:nth-child(5) > td > dl > dd:nth-child(2)').text(sY);
-					tbody.find('> tr:nth-child(5) > td > dl > dd:nth-child(3)').text(sZ);
+					$(tbody.find('> tr:nth-child(5) > td > dl > dd').get(0)).text(sX);
+					$(tbody.find('> tr:nth-child(5) > td > dl > dd').get(1)).text(sY);
+					$(tbody.find('> tr:nth-child(5) > td > dl > dd').get(2)).text(sZ);
 				}
 
 				listSensor.append(newSensor);
@@ -322,8 +334,14 @@ window.wf = {
 		/// 수정
 		var modForm = $('#sensorEditModal');
 		modForm.find('div.text-end > button.btn-primary').off().on('click', function() {
-			alert(modForm.attr('_id'));
-			//window.wf.fn.device.post();
+			var sensorId = modForm.attr('_id');
+			var obj = null;
+			for ( var i = 0; i < objList.length; i++ ) {
+				if ( objList[i]['sensor_id'] == sensorId ) {
+					obj = objList[i];
+					break;
+				}
+			}
 		});
 
 		/// 삭제
@@ -340,11 +358,51 @@ window.wf = {
 			window.wf.fn.device.post();
 		});
 		
+		/// 수정, 삭제 팝업이 뜰때 id을 할당
 		$('div.main-content div.container-fluid div.row:nth-child(4) > div div.dropdown-menu > a').off().on('click', function() {
-			var _id = $(this).attr('_id');
+			var sensorId = $(this).attr('_id');
 
-			modForm.attr('_id', _id);
-			delForm.attr('_id', _id);
+			modForm.attr('_id', sensorId);
+			delForm.attr('_id', sensorId);
+
+			var obj = null;
+			for ( var i = 0; i < objList.length; i++ ) {
+				if ( objList[i]['sensor_id'] == sensorId ) {
+					obj = objList[i];
+					break;
+				}
+			}
+
+			if ( !!obj ) {
+				if ( obj['sensor_type'] == 'iot_v' ) {
+					modForm.find('input[name=formRadios]:nth-child(1)').prop('checked', true);
+				}
+				else {
+					modForm.find('input[name=formRadios]:nth-child(2)').prop('checked', true);
+				}
+
+				modForm.find('#sensor_ID_form2').val(obj['sensor_id']);
+				modForm.find('#samplerate_form2').val(obj['samplerate']);
+				if ( obj['sensor_pos'] > 0 ) {
+					if ( obj['sensor_pos'] > 4 ) {
+						$(modForm.find('select.form-select').get(0)).hide();
+						$(modForm.find('select.form-select').get(1)).hide();
+						$(modForm.find('select.form-select').get(2)).hide();
+						$(modForm.find('select.form-select').get(3)).hide();
+						$(modForm.find('select.form-select').get(4)).show().find('option:eq('+ (obj['sensor_pos'] - 4) +')').prop('selected', true);
+					}
+					else {
+						var axisX = obj['sensor_pos']
+						$(modForm.find('select.form-select').get(0)).show().find('option:eq('+ (obj['sensor_pos']) +')').prop('selected', true);
+						
+						$(modForm.find('select.form-select').get(1)).show().find('option:eq('+ window.wf.fn.device.xyzAxisIdx(obj['x_axis']) +')').prop('selected', true);
+						$(modForm.find('select.form-select').get(2)).show().find('option:eq('+ window.wf.fn.device.xyzAxisIdx(obj['y_axis']) +')').prop('selected', true);
+						$(modForm.find('select.form-select').get(3)).show().find('option:eq('+ window.wf.fn.device.xyzAxisIdx(obj['z_axis']) +')').prop('selected', true);
+						$(modForm.find('select.form-select').get(4)).hide();
+
+					}
+				}
+			}
 		});
 
 		break;
