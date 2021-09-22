@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8" />
+	<title>공조설비 예지보전 시스템</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+
+	<!-- link rel="shortcut icon" href="assets/images/favicon.ico" -->
+
+	<link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+	
+	<link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/libs/spectrum-colorpicker2/spectrum.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+	<link href="assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="assets/libs/@chenfengyuan/datepicker/datepicker.min.css">
+	
+	<link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+	<link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body data-sidebar="dark">
+
+<!-- Begin page -->
+<div id="layout-wrapper">
+	<header id="page-topbar">
+		<div class="navbar-header">
+			<div class="d-flex"> 
+				<!-- LOGO -->
+				<div class="navbar-brand-box">
+					<a href="#" class="logo logo-dark"> 
+						<span class="logo-sm"><img src="assets/images/logo-sm-dark.png" alt="" height="20"></span> 
+						<span class="logo-lg"><img src="assets/images/logo-dark.png" alt="" height="30"></span>
+					</a> 
+					<a href="#" class="logo logo-light"> 
+						<span class="logo-sm"><img src="assets/images/logo-sm-light.png" alt="" height="20"></span>
+						<span class="logo-lg"> <img src="assets/images/logo-light.png" alt="" height="30"></span>
+					</a>
+				</div>
+				<button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn">
+					<i class="fa fa-fw fa-bars"></i>
+				</button>
+				
+				<div class="greeting">안녕하세요. 홍길동 님</div>
+			</div>
+			
+			<div class="d-flex">
+				<div class="dropdown d-none d-lg-inline-block me-2">
+					<button type="button" class="btn btn-danger btn-rounded waves-effect waves-light btn-sm">
+						<i class="uil uil-exclamation-triangle me-1"></i>긴급진단
+					</button>
+				</div>
+				
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+						<img class="rounded-circle header-profile-user" src="assets/images/users/user.png" alt="Header Avatar">
+						<span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">production76</span> 
+						<i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
+					</button>
+					
+					<div class="dropdown-menu dropdown-menu-end">
+						<div class="mode-select border-bottom">
+							<h7 class="text-left mb-0">모드 선택</h7>
+							<div class="form-check form-switch mt-2">
+								<input type="checkbox" class="form-check-input theme-choice" id="light-mode-switch" checked />
+								<label class="form-check-label" for="light-mode-switch">라이트 모드</label>
+							</div>
+							<div class="form-check form-switch mt-2">
+								<input type="checkbox" class="form-check-input theme-choice" id="dark-mode-switch" />
+								<label class="form-check-label" for="dark-mode-switch">다크 모드</label>
+							</div>
+						</div>
+						<a class="dropdown-item" href="#"><i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span class="align-middle">로그아웃</span></a> 
+					</div>
+				</div>
+				
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="uil-cog"></i></button>
+					
+					<div class="dropdown-menu dropdown-menu-end"> 
+						<a class="dropdown-item" href="#"><i class="uil uil-user-circle font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">사용자 관리</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-circuit font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">시스템 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-shield-check font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">보안 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-suitcase-alt font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">진단 설정</span></a> 
+						<a class="dropdown-item" href="#"><i class="uil uil-sync-exclamation font-size-18 align-middle text-muted me-1"></i> <span class="align-middle">시스템 초기화</span></a> 
+					</div>
+				</div>
+				
+				<div class="dropdown d-none d-lg-inline-block ms-1">
+					<button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
+						<i class="uil-minus-path"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<!-- ========== Left Sidebar Start ========== -->
+	<div class="vertical-menu"> 
+		
+		<!-- LOGO -->
+		<div class="navbar-brand-box">
+			<a href="#" class="logo logo-dark">
+				<span class="logo-sm"><img src="assets/images/logo-sm-dark.png" alt="" height="20"></span>
+				<span class="logo-lg"> <img src="assets/images/logo-dark.png" alt="" height="30"></span>
+			</a> 
+			<a href="#" class="logo logo-light"> 
+				<span class="logo-sm"><img src="assets/images/logo-sm-light.png" alt="" height="20"></span>
+				<span class="logo-lg"> <img src="assets/images/logo-light.png" alt="" height="30"></span>
+			</a>
+		</div>
+		
+		<button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn"><i class="fa fa-fw fa-bars"></i></button>
+		
+		<div data-simplebar class="sidebar-menu-scroll"> 
+			<!--- Sidemenu -->
+			<div id="sidebar-menu"> 
+				<!-- Left Menu Start -->
+				<ul class="metismenu list-unstyled" id="side-menu">
+					<li class="menu-title">메뉴</li>
+					<li> 
+						<a href="#">
+							<i class="uil-home-alt"></i><span>대시보드</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript: void(0);" class="has-arrow waves-effect">
+							<i class="uil-shutter-alt"></i><span>디바이스</span>
+						</a>
+						<ul class="sub-menu" aria-expanded="true">
+							<li><a href="#">IoT 센서</a></li>
+							<li><a href="#">기계사양</a></li>
+							<li><a href="#">결함주파수</a></li>
+							<li><a href="#">진단 임계치</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript: void(0);" class="has-arrow waves-effect">
+							<i class="uil-monitor"></i><span>모니터</span>
+						</a>
+						<ul class="sub-menu" aria-expanded="true">
+							<li><a href="#">설비가동여부</a></li>
+							<li><a href="#">센서별 시간파형</a></li>
+							<li><a href="#">센서별 FFT</a></li>
+							<li><a href="#">센서별 진동등급</a></li>
+							<li><a href="#">결함진단</a></li>
+							<li><a href="#">신율/전달효율</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- Sidebar --> 
+		</div>
+	</div>
+	<!-- Left Sidebar End --> 
+	
+	<!-- ============================================================== --> 
+	<!-- Start right Content here --> 
+	<!-- ============================================================== -->
+	<div class="main-content">
+		<div class="page-content">
+			<div class="container-fluid"> 
+				
+				<!-- start page title -->
+				<div class="row">
+					<div class="col-12">
+						<div class="page-title-box d-flex align-items-center justify-content-between">
+							<h3 class="mb-0">
+								신율/전달 효율
+								<p class="text-muted f-size mt-2 mb-0">V-벨트/체인 전체 길이 신율 및 전달효율을 조회합니다.</p>
+							</h3>
+							<div class="page-title-right">
+								<ol class="breadcrumb m-0">
+									<li class="breadcrumb-item">모니터</li>
+									<li class="breadcrumb-item active">신융/전달 효율</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end page title -->
+				
+				<div class="row">
+					<div class="col-lg-12">
+
+						<h4>신율/전달효율 변화 그래프</h4>
+						<div class="row m-5-auto col-5">
+							<label for="sensor-ID1" class="col-sm-3 col-form-label text-end">Sensor ID</label>
+							<div class="col-sm-9">
+								<select class="form-select" id="sensor-ID1">
+									<option>%Sensor ID% (%설치위치%)</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-sm-12 col-md-6">
+								<div class="btn-group btn-group-sm">
+									<button type="button" class="btn btn-primary">당일</button>
+									<button type="button" class="btn btn-primary">최근 1주일</button>
+									<button type="button" class="btn btn-primary">최근 1달</button>
+								</div>	
+							</div>
+							<div class="col-sm-12 col-md-6">
+								<div class="text-end">
+									<label>
+										<div class="input-daterange input-group" id="datepicker1" data-date-format="yyyy.m.dd" data-date-autoclose="true" data-provide="datepicker" data-date-container="#datepicker1">
+											<input type="text" class="form-control form-control-sm" name="start" placeholder="기간 검색(시작일)" />
+											<input type="text" class="form-control form-control-sm" name="end" placeholder="기간 검색(종료일)" />
+											<button type="button" class="btn btn-secondary btn-sm"><i class="uil uil-search"></i></button>
+										</div>
+									</label>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-body">
+										<div id="rateChart1" style="height: 400px;"></div>
+									</div>
+								</div>
+								
+								<div class="card">
+									<div class="card-body">
+										<div id="rateChart2" style="height: 400px;"></div>
+									</div>
+								</div>
+							</div>	
+						</div>
+	
+					</div>
+				</div>
+			<!-- container-fluid --> 
+			</div>
+			<!-- End Page-content -->
+		
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-6">카피라이터, 사명, 사업자번호, 대표자명, 주소, 이용약관, 고객센터 정보, 사이트 맵 등등</div>
+						<div class="col-sm-6">
+							<div class="text-sm-end d-none d-sm-block"></div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+	</div>
+</div>
+<!-- END layout-wrapper --> 
+	
+<div class="modal fade" id="notSetModal" tabindex="-1" role="dialog" aria-labelledby="notSetModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">진단임계치 미설정 안내</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+			</div>
+
+			<div class="modal-body">
+				<p>현재 진단임계치 값이 설정되어 있지 않습니다. 서비스 최초 이용시, 반드시 알고리즘에 의한 자동 재설정을 진행해야 합니다.</p>
+				<p>아래 버튼을 통해 임계치 자동 재설정 화면으로 이동후, 진행 부탁드립니다.</p>
+			</div>
+			
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
+				<a href="#" class="btn btn-primary">임계치 자동 재설정으로 이동</a>
+			</div>	
+		</div>
+	</div>
+</div>
+	
+<!-- JAVASCRIPT --> 
+<script src="assets/libs/jquery/jquery.min.js"></script> 
+<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script> 
+<script src="assets/libs/metismenu/metisMenu.min.js"></script> 
+<script src="assets/libs/simplebar/simplebar.min.js"></script> 
+<script src="assets/libs/node-waves/waves.min.js"></script> 
+<script src="assets/libs/waypoints/lib/jquery.waypoints.min.js"></script> 
+<script src="assets/libs/jquery.counterup/jquery.counterup.min.js"></script> 
+
+<!-- Required datatable js --> 
+<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script> 
+<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script> 
+<!-- Buttons examples --> 
+<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script> 
+<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script> 
+<script src="assets/libs/jszip/jszip.min.js"></script> 
+<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script> 
+<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script> 
+<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script> 
+<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script> 
+<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script> 
+
+<!-- Responsive examples --> 
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script> 
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script> 
+
+<script src="assets/libs/select2/js/select2.min.js"></script> 
+<script src="assets/libs/spectrum-colorpicker2/spectrum.min.js"></script> 
+<script src="assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script> 
+<script src="assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script> 
+<script src="assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script> 
+<script src="assets/libs/@chenfengyuan/datepicker/datepicker.min.js"></script> 
+	
+<script src="assets/js/pages/datatables.init.js"></script>
+<script src="assets/js/pages/form-advanced.init.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/boost.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	
+<!-- App js --> 
+<script src="assets/js/app.js"></script>
+	
+<script>
+	Highcharts.getJSON(
+		'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',
+		function (data) {
+
+			Highcharts.chart('rateChart1', {
+				chart: {
+					zoomType: 'x'
+				},
+				title: {
+					text: '신율 변화 그래프'
+				},
+				subtitle: {
+					text: ''
+				},
+				navigation: {
+					buttonOptions: {
+						enabled: false
+					}
+				},
+				legend: {
+					enabled: false
+				},
+				xAxis: {
+					type: 'datetime'
+				},
+				yAxis: {
+					title: {
+						text: ''
+					}
+				},
+				legend: {
+					enabled: false
+				},
+				plotOptions: {
+					series: {
+						fillOpacity: 0.15
+        	},
+					area: {
+						marker: {
+							radius: 2
+						},
+						lineWidth: 1,
+						states: {
+							hover: {
+								lineWidth: 1
+							}
+						},
+						threshold: null
+					}
+				},
+
+				series: [{
+					type: 'area',
+					name: '',
+					data: data,
+					color: 'rgba(80,165,241,1)'
+				}]
+			});
+		}
+	);
+</script>
+<script>
+	Highcharts.getJSON(
+		'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',
+		function (data) {
+
+			Highcharts.chart('rateChart2', {
+				chart: {
+					zoomType: 'x'
+				},
+				title: {
+					text: '동력전달율 변화 그래프'
+				},
+				subtitle: {
+					text: ''
+				},
+				navigation: {
+					buttonOptions: {
+						enabled: false
+					}
+				},
+				legend: {
+					enabled: false
+				},
+				xAxis: {
+					type: 'datetime'
+				},
+				yAxis: {
+					title: {
+						text: ''
+					}
+				},
+				legend: {
+					enabled: false
+				},
+				plotOptions: {
+					series: {
+						fillOpacity: 0.15
+        	},
+					area: {
+						marker: {
+							radius: 2
+						},
+						lineWidth: 1,
+						states: {
+							hover: {
+								lineWidth: 1
+							}
+						},
+						threshold: null
+					}
+				},
+
+				series: [{
+					type: 'area',
+					name: '',
+					data: data,
+					color: 'rgba(80,165,241,1)'
+				}]
+			});
+		}
+	);
+</script>
+</body>
+</html>

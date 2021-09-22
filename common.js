@@ -14,6 +14,20 @@ function getUrlVars() {
     }
     return vars;
 }
+function queryJson(que) {
+	var obj = window;
+	var info = que.split('.');
+	for (var q in info) {
+		if ( obj[info[q]] ) {
+			obj = obj[info[q]];
+		}
+		else {
+			return null;
+		}
+	}
+
+	return obj;
+}
 /**
 +--------------------------+
 |     WireFrame Objecs     |
@@ -72,9 +86,9 @@ window.wf = {
 				case 'axial_dirctn':
 					return 1;
 				case 'vertical_dirctn':
-					return 1;
+					return 2;
 				case 'horizontal_dirctn':
-					return 1;
+					return 3;
 				default:
 					return 0;
 				}
@@ -232,6 +246,26 @@ window.wf = {
 			location.href = '/wf/03_001_0001.html';
 		}
 	})
+	/// 죄측 메뉴
+	$('#side-menu ul.sub-menu:eq(0) > li > a').on('click', function(e) {
+		/// 사용자 관리
+		var locationUrl = '';
+		switch ($(this).text().trim()) {
+		case 'IoT 센서':
+			locationUrl = '/wf/01_001.html';
+			break;
+		case '기계사양':
+			locationUrl = '/wf/01_002_0002.html';
+			break;
+		case '결함주파수':
+			locationUrl = '/wf/01_003.html';
+			break;
+		case '진단 임계치':
+			locationUrl = '/wf/01_004.html';
+			break;
+		}
+		location.href = locationUrl;
+	});
 	
 	switch (window.path) {
 	case '00_001': { /* 로그인 페이지login page */
@@ -291,6 +325,10 @@ window.wf = {
 
 		/// 등록
 		var regForm = $('#sensorRegisterModal');
+		regForm.find('#sensor_ID_form1').on("propertychange change keyup paste input", function() {
+			$(this).removeClass('is-invalid').siblings('.invalid-text').hide();
+		});
+
 		regForm.find('input[name=formRadios]').off().on('click', function() {
 			var oV = $($('#sensorRegisterModal').find('select.form-select').get(1).parentElement.parentElement.parentElement);
 			var oN = $($('#sensorRegisterModal').find('select.form-select').get(4).parentElement.parentElement.parentElement);
@@ -333,6 +371,20 @@ window.wf = {
 
 		/// 수정
 		var modForm = $('#sensorEditModal');
+		modForm.find('input[name=formRadios]').off().on('click', function() {
+			var oV = $($('#sensorEditModal').find('select.form-select').get(1).parentElement.parentElement.parentElement);
+			var oN = $($('#sensorEditModal').find('select.form-select').get(4).parentElement.parentElement.parentElement);
+
+			if ( $(this).attr('id') == 'noise_form2' ) {
+				$($('#sensorEditModal').find('select.form-select').get(4)).show()
+				oV.hide();
+				oN.show();
+			}
+			else {
+				oV.show();
+				oN.hide();
+			}
+		});
 		modForm.find('div.text-end > button.btn-primary').off().on('click', function() {
 			var sensorId = modForm.attr('_id');
 			var obj = null;
@@ -342,6 +394,25 @@ window.wf = {
 					break;
 				}
 			}
+
+			var rType = modForm.find('input[name=formRadios]:checked').attr('id');
+			var rId = modForm.find('#sensor_ID_form2').val();
+			var rSamplerate = modForm.find('#samplerate_form2').val();
+			var rPos = modForm.find('select.form-select').get(0).selectedIndex;
+			var rX = modForm.find('select.form-select').get(1).selectedIndex;
+			var rY = modForm.find('select.form-select').get(2).selectedIndex;
+			var rZ = modForm.find('select.form-select').get(3).selectedIndex;
+			var rNoise = modForm.find('select.form-select').get(4).selectedIndex;
+
+			obj["sensor_type"] = ((rType == 'vibration_form1')  ? "iot_v" : "iot_n");
+			obj["sensor_id"] = rId;
+			obj["samplerate"] = parseInt(rSamplerate);
+			obj["sensor_pos"] = (rType == 'vibration_form1') ? rPos : (rNoise + 4);
+			obj["x_axis"] = window.wf.fn.device.xyzAxis(rX);
+			obj["y_axis"] = window.wf.fn.device.xyzAxis(rY);
+			obj["z_axis"] = window.wf.fn.device.xyzAxis(rZ);
+			
+			window.wf.fn.device.post();
 		});
 
 		/// 삭제
@@ -354,7 +425,7 @@ window.wf = {
 					break;
 				}
 			}
-			var dType = regForm.find('input[name=formRadios]:checked').attr('id');
+			//var dType = regForm.find('input[name=formRadios]:checked').attr('id');
 			window.wf.fn.device.post();
 		});
 		
@@ -375,31 +446,36 @@ window.wf = {
 
 			if ( !!obj ) {
 				if ( obj['sensor_type'] == 'iot_v' ) {
-					modForm.find('input[name=formRadios]:nth-child(1)').prop('checked', true);
+					modForm.find('input[name=formRadios]:eq(0)').prop('checked', true);
 				}
 				else {
-					modForm.find('input[name=formRadios]:nth-child(2)').prop('checked', true);
+					modForm.find('input[name=formRadios]:eq(1)').prop('checked', true);
 				}
 
 				modForm.find('#sensor_ID_form2').val(obj['sensor_id']);
 				modForm.find('#samplerate_form2').val(obj['samplerate']);
 				if ( obj['sensor_pos'] > 0 ) {
+					var oV = $(modForm.find('select.form-select').get(1).parentElement.parentElement.parentElement);
+					var oN = $(modForm.find('select.form-select').get(4).parentElement.parentElement.parentElement);
+
 					if ( obj['sensor_pos'] > 4 ) {
-						$(modForm.find('select.form-select').get(0)).hide();
-						$(modForm.find('select.form-select').get(1)).hide();
-						$(modForm.find('select.form-select').get(2)).hide();
-						$(modForm.find('select.form-select').get(3)).hide();
-						$(modForm.find('select.form-select').get(4)).show().find('option:eq('+ (obj['sensor_pos'] - 4) +')').prop('selected', true);
+						oV.hide();
+						oN.show();
+
+						$(modForm.find('select.form-select').get(0).parentElement.parentElement.parentElement).hide();
+						$(modForm.find('select.form-select').get(4).parentElement.parentElement.parentElement).show().find('option:eq('+ (obj['sensor_pos'] - 4) +')').prop('selected', true);
 					}
 					else {
+						oV.show();
+						oN.hide();
 						var axisX = obj['sensor_pos']
+						$(modForm.find('select.form-select').get(0).parentElement.parentElement.parentElement).show();
+						$(modForm.find('select.form-select').get(4).parentElement.parentElement.parentElement).hide()
 						$(modForm.find('select.form-select').get(0)).show().find('option:eq('+ (obj['sensor_pos']) +')').prop('selected', true);
 						
 						$(modForm.find('select.form-select').get(1)).show().find('option:eq('+ window.wf.fn.device.xyzAxisIdx(obj['x_axis']) +')').prop('selected', true);
 						$(modForm.find('select.form-select').get(2)).show().find('option:eq('+ window.wf.fn.device.xyzAxisIdx(obj['y_axis']) +')').prop('selected', true);
 						$(modForm.find('select.form-select').get(3)).show().find('option:eq('+ window.wf.fn.device.xyzAxisIdx(obj['z_axis']) +')').prop('selected', true);
-						$(modForm.find('select.form-select').get(4)).hide();
-
 					}
 				}
 			}
@@ -407,7 +483,74 @@ window.wf = {
 
 		break;
 	}
-		
+
+	case '01_002_0001': {
+		break;
+	}
+
+	case '01_002_0002': {
+		var dic = queryJson('device.machine_spec.spec_enable');
+		for ( var k in dic ) {
+			if ( dic[k] == 'enable' ) {
+				switch ( k ) {
+				case 'mtr_info':
+					$($('a.nav-link > span').get(0)).hide();
+					break;
+				case 'rdc_info':
+					$($('a.nav-link > span').get(1)).hide();
+					break;
+				case 'br_info':
+					$($('a.nav-link > span').get(2)).hide();
+					break;
+				case 'pully_belt_info':
+					$($('a.nav-link > span').get(3)).hide();
+					break;
+				case 'sprket_drv_chain_info':
+					$($('a.nav-link > span').get(4)).hide();
+					break;
+				case 'st_sprket_st_chain_info':
+					$($('a.nav-link > span').get(5)).hide();
+					break;
+				case 'blower_info':
+					$($('a.nav-link > span').get(6)).hide();
+					break;
+				}
+			}
+		}
+
+		$('table.table td').each(function( index ) {
+			var span = $(this).find(' > span');
+			if ( span.length > 0 ) {
+				span.text('')
+			}
+			else {
+				$(this).text('');
+			}
+		});
+			
+		$('table.table:eq(0) td:eq(0)').text(queryJson('device.facility_name'));
+
+		/*
+		"facility_name" : "동막역 에스컬레이터",
+	"mtr_info" : {
+		"mtr_model" : "효성-30038",
+		"power" : 30.0,
+		"fl" : 60.0,
+		"efficiency" : 85.0,
+		"mtr_volt" : 380.0,
+		"drv_speed" : 1780.0,
+		"rated_speed" : null,
+		"drv_actual_speed" : null,
+		"pole" : 4,
+		"rotor_bars" : null,
+		"blades" : null,
+		"cn" : null
+	},
+		*/
+
+		break;
+	}
+
 	case '03_001_0001': { /* 사용자 리스트 */
 		/* 사용자 추가 */
 		$('div.row a.btn-success').on('click', function() {

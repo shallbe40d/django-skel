@@ -324,6 +324,8 @@ def device(request):
 """ [ /wf/*.html ] static 폴더의 html 과 json을 bind 하여 새로운 html 출력 """
 def wf(request, path):
     #Singleton()
+    #print(request.session.get('id', False))
+    #print(path)
     if not request.session.get('id', False):
         path =  "00_001"
     elif request.session.get('login1st') == 0:
