@@ -576,23 +576,23 @@ window.wf = {
 
 		/// 전동기 정보 값 바인딩
 		var mtrInfo = queryJson('device.mtr_info');
-		$('table.table:eq(0) td:eq(0)').text(queryJson('device.facility_name'));
+		$('div#inFo1 table.table:eq(0) td:eq(0)').text(queryJson('device.facility_name'));
 		if ( mtrInfo ) {
-			$('table.table:eq(0) td:eq(1)').text(mtrInfo['mtr_model']);
-			$('table.table:eq(0) td:eq(2) > span').text(mtrInfo['power']);
-			$('table.table:eq(0) td:eq(3) > span').text(mtrInfo['fl']);
-			$('table.table:eq(0) td:eq(4)').text(mtrInfo['efficiency']);
-			$('table.table:eq(0) td:eq(5) > span').text(mtrInfo['mtr_volt']);
-			$('table.table:eq(0) td:eq(6) > span').text(mtrInfo['rated_speed']);
-			$('table.table:eq(0) td:eq(7) > span').text(mtrInfo['drv_speed']);
-			$('table.table:eq(0) td:eq(8) > span').text(mtrInfo['drv_actual_speed']);
-			$('table.table:eq(0) td:eq(9) > span').text(mtrInfo['pole']);
-			$('table.table:eq(0) td:eq(10) > span').text(mtrInfo['rotor_bars']);
-			$('table.table:eq(0) td:eq(11) > span').text(mtrInfo['blades']);
-			$('table.table:eq(0) td:eq(12) > span').text(mtrInfo['cn']);
+			$('div#inFo1 table.table:eq(0) td:eq(1)').text(mtrInfo['mtr_model']);
+			$('div#inFo1 table.table:eq(0) td:eq(2) > span').text(mtrInfo['power']);
+			$('div#inFo1 table.table:eq(0) td:eq(3) > span').text(mtrInfo['fl']);
+			$('div#inFo1 table.table:eq(0) td:eq(4)').text(mtrInfo['efficiency']);
+			$('div#inFo1 table.table:eq(0) td:eq(5) > span').text(mtrInfo['mtr_volt']);
+			$('div#inFo1 table.table:eq(0) td:eq(6) > span').text(mtrInfo['rated_speed']);
+			$('div#inFo1 table.table:eq(0) td:eq(7) > span').text(mtrInfo['drv_speed']);
+			$('div#inFo1 table.table:eq(0) td:eq(8) > span').text(mtrInfo['drv_actual_speed']);
+			$('div#inFo1 table.table:eq(0) td:eq(9) > span').text(mtrInfo['pole']);
+			$('div#inFo1 table.table:eq(0) td:eq(10) > span').text(mtrInfo['rotor_bars']);
+			$('div#inFo1 table.table:eq(0) td:eq(11) > span').text(mtrInfo['blades']);
+			$('div#inFo1 table.table:eq(0) td:eq(12) > span').text(mtrInfo['cn']);
 		}
 		/// 전동기 정보 수정 버튼
-		$('table.table:eq(0)').prev().find('a').on('click', function() {
+		$('div#inFo1 table.table:eq(0)').prev().find('a').on('click', function() {
 			if ( $(this).find('i.fa-save').length > 0 ) {
 				mtrInfo['mtr_model'] = $('table.table:eq(0) td:eq(1) > input').val();
 				mtrInfo['power'] = $('table.table:eq(0) td:eq(2) > span > input').val();
@@ -613,6 +613,44 @@ window.wf = {
 				});
 			}
 		});
+
+		/// 감속기 값 바인딩
+		var rdcInfo = queryJson('device.rdc_info');
+		if ( rdcInfo ) {
+			$('div#inFo2 table.table:eq(0) td:eq(0)').text(rdcInfo['rdc_model']);
+			$('div#inFo2 table.table:eq(0) td:eq(1) > span:eq(0)').text(rdcInfo['rdc_ratio_l']);
+			$('div#inFo2 table.table:eq(0) td:eq(1) > span:eq(1)').text(rdcInfo['rdc_ratio_r']);
+			$('div#inFo2 table.table:eq(0) td:eq(2)').text(rdcInfo['rdc_stg_num'] + '단');
+			var stgClone = $('div#inFo2 table.table:eq(1)').parent().parent().clone();
+			var stgParent = $('div#inFo2 table.table:eq(1)').parent().parent().parent();
+			$('div#inFo2 table.table:eq(2)').parent().parent().remove();
+			$('div#inFo2 table.table:eq(1)').parent().parent().remove();
+
+			$.each(rdcInfo['rdc_stg_info'], function(k,o) {
+				///Todo : 기본 2개를 가지고 추가하거나 빼자 조건은 rdc_stg_num
+				var stgObj = stgClone.clone();
+				stgObj.find('table.table td:eq(0)').text(o["rdc_stg"]);
+				stgObj.find('table.table td:eq(1) > span:eq(0)').text(o["rdc_pinion_t"]);
+				stgObj.find('table.table td:eq(1) > span:eq(1)').text(o["rdc_pinion_fn"]);
+				stgObj.find('table.table td:eq(2) > span:eq(0)').text(o["rdc_gear_t"]);
+				stgObj.find('table.table td:eq(2) > span:eq(1)').text(o["rdc_gear_fn"]);
+				stgParent.append(stgObj);
+			});
+		}
+		$('div#inFo2 table.table:eq(0)').prev().find('a').on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+				
+			}
+			else {
+				setTimeout(function() {
+					$('div#inFo2 table.table:eq(0) td:eq(2) > select').off().on('change', function() {
+						alert($(this).find('option:eq(' + this.selectedIndex + ')').text());
+					});
+				}, 500);
+				
+			}
+		});
+
 
 		break;
 	}
