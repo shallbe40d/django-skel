@@ -50,6 +50,8 @@ def _bind_data(html_path, db=[]):
         #
         objs = soup.select('.\\$wf')
         #
+        soup.append(BeautifulSoup('<link rel="stylesheet" href="/static/assets/js/toastr.css" type="text/css">'))
+        soup.append(soup.new_tag("script", src="/static/assets/js/toastr.js"))
         for o in objs:
             o.string.replace_with(_get_obj(data, o['class'][1]))
         comm_js = soup.new_tag("script", src="/wf/commJs")

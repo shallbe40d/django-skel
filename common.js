@@ -28,6 +28,44 @@ function queryJson(que) {
 
 	return obj;
 }
+
+function setJson(que, val) {
+	var obj = window;
+	var info = que.split('.');
+	for (var q in info) {
+		if ( obj[info[q]] ) {
+			obj = obj[info[q]];
+		}
+		else {
+			if ( q == (info.length - 1) ) {
+				obj[info[q]] = val;
+			}
+			else {
+				obj[info[q]] = {};
+			}
+			obj = obj[info[q]];
+		}
+	}
+	obj = val;
+}
+
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-center",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
 /**
 +--------------------------+
 |     WireFrame Objecs     |
@@ -58,13 +96,19 @@ window.wf = {
 		},
 		device: {
 			post: function() {
+				var cfn = (arguments.length > 0) ? arguments[0] : null;
 				$.post("/rest/device", {data: JSON.stringify(window['device'])},
 					   function(data, status) {
-						   if ( data.result ) {
-							   location.reload(true);
+						   if ( cfn ) {
+							   cfn(data);
 						   }
 						   else {
-							   alert('통신에 실패하였습니다.');
+							   if ( data.result ) {
+								   location.reload(true);
+							   }
+							   else {
+								   alert('통신에 실패하였습니다.');
+							   }
 						   }
 					   }
 					  );
@@ -488,7 +532,8 @@ window.wf = {
 		break;
 	}
 
-	case '01_002_0002': {
+	case '01_002_0002': { /* 기계 사양 */
+		/// 미설정 아이콘 숨김
 		var dic = queryJson('device.machine_spec.spec_enable');
 		for ( var k in dic ) {
 			if ( dic[k] == 'enable' ) {
@@ -518,6 +563,7 @@ window.wf = {
 			}
 		}
 
+		/// 미설정값 제거
 		$('table.table td').each(function( index ) {
 			var span = $(this).find(' > span');
 			if ( span.length > 0 ) {
@@ -527,26 +573,46 @@ window.wf = {
 				$(this).text('');
 			}
 		});
-			
-		$('table.table:eq(0) td:eq(0)').text(queryJson('device.facility_name'));
 
-		/*
-		"facility_name" : "동막역 에스컬레이터",
-	"mtr_info" : {
-		"mtr_model" : "효성-30038",
-		"power" : 30.0,
-		"fl" : 60.0,
-		"efficiency" : 85.0,
-		"mtr_volt" : 380.0,
-		"drv_speed" : 1780.0,
-		"rated_speed" : null,
-		"drv_actual_speed" : null,
-		"pole" : 4,
-		"rotor_bars" : null,
-		"blades" : null,
-		"cn" : null
-	},
-		*/
+		/// 전동기 정보 값 바인딩
+		var mtrInfo = queryJson('device.mtr_info');
+		$('table.table:eq(0) td:eq(0)').text(queryJson('device.facility_name'));
+		if ( mtrInfo ) {
+			$('table.table:eq(0) td:eq(1)').text(mtrInfo['mtr_model']);
+			$('table.table:eq(0) td:eq(2) > span').text(mtrInfo['power']);
+			$('table.table:eq(0) td:eq(3) > span').text(mtrInfo['fl']);
+			$('table.table:eq(0) td:eq(4)').text(mtrInfo['efficiency']);
+			$('table.table:eq(0) td:eq(5) > span').text(mtrInfo['mtr_volt']);
+			$('table.table:eq(0) td:eq(6) > span').text(mtrInfo['rated_speed']);
+			$('table.table:eq(0) td:eq(7) > span').text(mtrInfo['drv_speed']);
+			$('table.table:eq(0) td:eq(8) > span').text(mtrInfo['drv_actual_speed']);
+			$('table.table:eq(0) td:eq(9) > span').text(mtrInfo['pole']);
+			$('table.table:eq(0) td:eq(10) > span').text(mtrInfo['rotor_bars']);
+			$('table.table:eq(0) td:eq(11) > span').text(mtrInfo['blades']);
+			$('table.table:eq(0) td:eq(12) > span').text(mtrInfo['cn']);
+		}
+		/// 전동기 정보 수정 버튼
+		$('table.table:eq(0)').prev().find('a').on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+				mtrInfo['mtr_model'] = $('table.table:eq(0) td:eq(1) > input').val();
+				mtrInfo['power'] = $('table.table:eq(0) td:eq(2) > span > input').val();
+				mtrInfo['fl'] = $('table.table:eq(0) td:eq(3) > span > input').val();
+				mtrInfo['efficiency'] = $('table.table:eq(0) td:eq(4) > input').val();
+				mtrInfo['mtr_volt'] = $('table.table:eq(0) td:eq(5) > span > input').val();
+				mtrInfo['rated_speed'] = $('table.table:eq(0) td:eq(6) > span > input').val();
+				mtrInfo['drv_speed'] = $('table.table:eq(0) td:eq(7) > span > input').val();
+				mtrInfo['drv_actual_speed'] = $('table.table:eq(0) td:eq(8) > span > input').val();
+				mtrInfo['pole'] = $('table.table:eq(0) td:eq(9) > span > input').val();
+				mtrInfo['rotor_bars'] = $('table.table:eq(0) td:eq(10) > span > input').val();
+				mtrInfo['blades'] = $('table.table:eq(0) td:eq(11) > span > input').val();
+				mtrInfo['cn'] = $('table.table:eq(0) td:eq(12) > span > input').val();
+
+				setJson('device.machine_spec.spec_enable.mtr_info', 'enable')
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				});
+			}
+		});
 
 		break;
 	}
@@ -704,3 +770,9 @@ window.wf = {
 		break;
 	}
 })();
+
+/*
+
+test code region
+
+*/

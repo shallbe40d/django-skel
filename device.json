@@ -1,71 +1,72 @@
 {
-	"iot": {
-		"iot_info": [
-			{
-				"samplerate": 2000,
-				"sensor_id": "A434F1CC9C91",
-				"sensor_num": "1",
-				"sensor_pos": 1,
-				"sensor_type": "iot_v",
-				"x_axis": "axial_dirctn",
-				"y_axis": "vertical_dirctn",
-				"z_axis": "horizontal_dirctn"
-			},
-			{
-				"samplerate": 2000,
-				"sensor_id": "A434F1CC9C8A",
-				"sensor_num": "2",
-				"sensor_pos": 2,
-				"sensor_type": "iot_v",
-				"x_axis": "axial_dirctn",
-				"y_axis": "horizontal_dirctn",
-				"z_axis": "vertical_dirctn"
-			},
-			{
-				"samplerate": 50000,
-				"sensor_id": "A434F1AB7EB7",
-				"sensor_num": "3",
-				"sensor_pos": 5,
-				"sensor_type": "iot_n"
-			},
-			{
-				"samplerate": 32100,
-				"sensor_id": "new-id-re",
-				"sensor_num": "4",
-				"sensor_pos": 6,
-				"sensor_type": "iot_n",
-				"x_axis": "vertical_dirctn",
-				"y_axis": "axial_dirctn",
-				"z_axis": "horizontal_dirctn"
-			}
-		],
-		"num_of_iot": 3
-	},
-	"machine_spec" : {
-		"spec_enable" : {
-			"rdc_info" : "enable",
-			"br_info" : "enable",
-			"pully_belt_info" : "enable",
-			"sprket_drv_chain_info" : "enable",
-			"st_sprket_st_chain_info" : "enable",
-			"blower_info" : "enable"
-		}
-	},
-	"facility_name" : "동막역 에스컬레이터",
-	"mtr_info" : {
-		"mtr_model" : "효성-30038",
-		"power" : 30.0,
-		"fl" : 60.0,
-		"efficiency" : 85.0,
-		"mtr_volt" : 380.0,
-		"drv_speed" : 1780.0,
-		"rated_speed" : null,
-		"drv_actual_speed" : null,
-		"pole" : 4,
-		"rotor_bars" : null,
-		"blades" : null,
-		"cn" : null
-	},
-	"now": "2021-09-22 15:49:05.309856",
-	"version": "1.0.0"
+  "facility_name": "동막역 에스컬레이터",
+  "iot": {
+    "iot_info": [
+      {
+        "samplerate": 2000,
+        "sensor_id": "A434F1CC9C91",
+        "sensor_num": "1",
+        "sensor_pos": 1,
+        "sensor_type": "iot_v",
+        "x_axis": "axial_dirctn",
+        "y_axis": "vertical_dirctn",
+        "z_axis": "horizontal_dirctn"
+      },
+      {
+        "samplerate": 2000,
+        "sensor_id": "A434F1CC9C8A",
+        "sensor_num": "2",
+        "sensor_pos": 2,
+        "sensor_type": "iot_v",
+        "x_axis": "axial_dirctn",
+        "y_axis": "horizontal_dirctn",
+        "z_axis": "vertical_dirctn"
+      },
+      {
+        "samplerate": 50000,
+        "sensor_id": "A434F1AB7EB7",
+        "sensor_num": "3",
+        "sensor_pos": 5,
+        "sensor_type": "iot_n"
+      },
+      {
+        "samplerate": 32100,
+        "sensor_id": "new-id-re",
+        "sensor_num": "4",
+        "sensor_pos": 6,
+        "sensor_type": "iot_n",
+        "x_axis": "vertical_dirctn",
+        "y_axis": "axial_dirctn",
+        "z_axis": "horizontal_dirctn"
+      }
+    ],
+    "num_of_iot": 3
+  },
+  "machine_spec": {
+    "spec_enable": {
+      "blower_info": "enable",
+      "br_info": "enable",
+      "pully_belt_info": "enable",
+      "rdc_info": "enable",
+      "sprket_drv_chain_info": "enable",
+      "st_sprket_st_chain_info": "enable",
+      "mtr_info": "enable"
+    }
+  },
+  "mtr_info": {
+    "blades": "3",
+    "cn": "5",
+    "drv_actual_speed": "2",
+    "drv_speed": "1780",
+    "efficiency": "85",
+    "fl": "60",
+    "mtr_model": "효성-30038",
+    "mtr_volt": "380",
+    "pole": "4",
+    "power": "30",
+    "rated_speed": "1",
+    "rotor_bars": "9"
+  },
+  "now": "2021-09-23 19:31:11.986751",
+  "version": "1.0.0"
 }
