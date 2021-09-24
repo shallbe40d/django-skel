@@ -47,6 +47,8 @@ function setJson(que, val) {
 		}
 	}
 	obj = val;
+	
+	return obj;
 }
 
 toastr.options = {
@@ -616,15 +618,16 @@ window.wf = {
 
 		/// 감속기 값 바인딩
 		var rdcInfo = queryJson('device.rdc_info');
+		var stgClone = $('div#inFo2 table.table:eq(1)').parent().parent().clone();
+		var stgParent = $('div#inFo2 table.table:eq(1)').parent().parent().parent();
+		$('div#inFo2 table.table:eq(2)').parent().parent().remove();
+		$('div#inFo2 table.table:eq(1)').parent().parent().remove();
+
 		if ( rdcInfo ) {
 			$('div#inFo2 table.table:eq(0) td:eq(0)').text(rdcInfo['rdc_model']);
 			$('div#inFo2 table.table:eq(0) td:eq(1) > span:eq(0)').text(rdcInfo['rdc_ratio_l']);
 			$('div#inFo2 table.table:eq(0) td:eq(1) > span:eq(1)').text(rdcInfo['rdc_ratio_r']);
 			$('div#inFo2 table.table:eq(0) td:eq(2)').text(rdcInfo['rdc_stg_num'] + '단');
-			var stgClone = $('div#inFo2 table.table:eq(1)').parent().parent().clone();
-			var stgParent = $('div#inFo2 table.table:eq(1)').parent().parent().parent();
-			$('div#inFo2 table.table:eq(2)').parent().parent().remove();
-			$('div#inFo2 table.table:eq(1)').parent().parent().remove();
 
 			$.each(rdcInfo['rdc_stg_info'], function(k,o) {
 				///Todo : 기본 2개를 가지고 추가하거나 빼자 조건은 rdc_stg_num
@@ -637,20 +640,91 @@ window.wf = {
 				stgParent.append(stgObj);
 			});
 		}
+		
 		$('div#inFo2 table.table:eq(0)').prev().find('a').on('click', function() {
 			if ( $(this).find('i.fa-save').length > 0 ) {
-				
+				$('div#inFo2 table.table').each(function(index, elm) {
+					var item = $(elm);
+					if ( index == 0 ) {
+						if ( !rdcInfo ) {
+							rdcInfo = setJson('device.rdc_info', {})
+							rdcInfo['rdc_stg_info'] = [];
+						}
+						rdcInfo['rdc_model'] = item.find('td:eq(0) > input').val();
+						rdcInfo['rdc_ratio_l'] = item.find('td:eq(1) > span:eq(0) > input').val();
+						rdcInfo['rdc_ratio_r'] = item.find('td:eq(1) > span:eq(1) > input').val();
+						rdcInfo['rdc_stg_num'] = parseInt(item.find('td:eq(2) > select').val());
+					}
+					else {
+						var rdcStgInfo = rdcInfo['rdc_stg_info'][index - 1];
+						if ( !rdcStgInfo ) {
+							rdcStgInfo = {};
+							rdcInfo['rdc_stg_info'][index - 1] = rdcStgInfo;
+						}
+
+						rdcStgInfo["rdc_stg"] = item.find('td:eq(0) > input').val();
+						rdcStgInfo["rdc_pinion_t"] = item.find('td:eq(1) > span:eq(0) > input').val();
+						rdcStgInfo["rdc_pinion_fn"] = item.find('td:eq(1) > span:eq(1) > input').val();
+						rdcStgInfo["rdc_gear_t"] = item.find('td:eq(2) > span:eq(0) > input').val();
+						rdcStgInfo["rdc_gear_fn"] = item.find('td:eq(2) > span:eq(1) > input').val();
+					}
+				});
+
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				});
 			}
 			else {
 				setTimeout(function() {
 					$('div#inFo2 table.table:eq(0) td:eq(2) > select').off().on('change', function() {
-						alert($(this).find('option:eq(' + this.selectedIndex + ')').text());
+						var stgNum = parseInt($(this).find('option:eq(' + this.selectedIndex + ')').text());
+						for ( var i = 0; i < stgNum; i++ ) {
+							var j = i + 1;
+							var obj = $('div#inFo2 table.table:eq(' + j + ')');
+							if ( obj.length == 0 ) {
+								var stgObj = stgClone.clone();
+								stgObj.find('table.table td:eq(0) > input').val('');
+								stgObj.find('table.table td:eq(1) > span:eq(0) > input').val('');
+								stgObj.find('table.table td:eq(1) > span:eq(1) > input').val('');
+								stgObj.find('table.table td:eq(2) > span:eq(0) > input').val('');
+								stgObj.find('table.table td:eq(2) > span:eq(1) > input').val('');
+								stgParent.append(stgObj);
+							}
+						}
+
+						while ( stgNum < ($('div#inFo2 table.table').length - 1) ) {
+							$('div#inFo2 table.table:eq(' + (stgNum + 1) + ')').parent().parent().remove();
+						}
 					});
 				}, 500);
-				
 			}
 		});
 
+		/// 베어링 값 바인딩
+		var brInfo = queryJson('device.br_info');
+		var brClone = $('div#inFo3 table.table:eq(1)').parent().parent().clone();
+		var brParent = $('div#inFo3 table.table:eq(1)').parent().parent().parent();
+		$('div#inFo3 table.table:eq(3)').parent().parent().remove();
+		$('div#inFo3 table.table:eq(2)').parent().parent().remove();
+		$('div#inFo3 table.table:eq(1)').parent().parent().remove();
+
+		if ( brInfo ) {
+			$('div#inFo3 table.table:eq(0) td:eq(0)').text(brInfo['name_of_br']);
+			$('div#inFo3 table.table:eq(0) td:eq(1)').text(brInfo['num_of_br']);
+
+			$.each(brInfo['br_detail_info'], function(k,v) {
+				var brObj = brClone.clone();
+				var idx = (k + 1);
+				brClone.find('td:eq(0)').text(v['br_pos']);
+				brClone.find('td:eq(1) > span').text(v['br_nn']);
+				brClone.find('td:eq(2) > span').text(v['br_bd']);
+				brClone.find('td:eq(3) > span').text(v['br_pd']);
+				brClone.find('td:eq(4) > span').text(v['br_contact_angl']);
+				brClone.find('td:eq(5) > span').text(v['br_fn']);
+
+				brParent.append(brObj);
+			});
+		}
 
 		break;
 	}
