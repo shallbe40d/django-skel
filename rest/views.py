@@ -2,6 +2,7 @@
 import json as JSON
 import sqlite3
 import datetime
+import platform
 
 from subprocess import call
 from bs4 import BeautifulSoup
@@ -57,6 +58,21 @@ def _device_data(request):
 def _device_set(request):
     result = False
     data_str = request.POST.get('data')
+    subp = request.POST.get('subp')
+    if subp != None and platform.system() == 'Linux':
+        sub_cmd = json.loads(subp)
+        if sub_cmd['type'] == 'locale':
+            call(f"sudo timedatectl set-timezone {sub_cmd['val']}", shell=True)
+        elif sub_cmd['type'] == 'ntp':
+            call(f"sudo timedatectl set-ntp {sub_cmd['val']}", shell=True)
+        elif sub_cmd['type'] == 'ssh':
+            if sub_cmd['val'] == 'true':
+                call("sudo systemctl start ssh", shell=True)
+            else:
+                call("sudo systemctl stop ssh", shell=True)
+        #
+    #
+    print(subp)
     try:
         with open("device.json", "w") as f:
             f.write(data_str)

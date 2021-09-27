@@ -334,63 +334,11 @@
 							<div class="tab-pane fade" id="seT3" role="tabpanel">
 								<div class="card">
 									<div class="card-body">
-										<div class="d-flex align-items-center justify-content-between p-2 mb-2">
-											<h5 class="mb-0">
-												NTP 서버 설정
-												<p class="text-muted f-size mt-2">NTP 서버를 설정합니다.</p>
-											</h5>
-										</div>
-										<div class="text-center m-5">
-											<h4>NTP 서버 값이 설정되지 않았습니다.</h4>
-											<p class="text-muted">서비스를 원활히 이용하기 위하여, NTP 서버를 설정해주세요.</p>
-										</div>
-										<div class="text-end p-2">
-											<button type="button" class="btn btn-primary waves-effect waves-light">편집</button>
-										</div>
-									</div>
-								</div>
-									
-								<div class="card">
-									<div class="card-body">
-										<div class="d-flex align-items-center justify-content-between p-2 mb-2">
-											<h5 class="mb-0">
-												NTP 서버 설정
-												<p class="text-muted f-size mt-2">NTP 서버를 설정합니다.</p>
-											</h5>
-										</div>
-										<form class="p-2">
-											<div class="row mb-3">
-												<label for="set_form" class="col-sm-3 col-form-label">설정 방식</label>
-												<div class="col-sm-9">
-													<select class="form-select" style="width: 200px;" id="set_form">
-														<option>선택</option>
-														<option>IP</option>
-														<option>도메인</option>
-													</select>
-												</div>
-											</div>
-											<div class="row mb-3">
-												<label for="setData_form" class="col-sm-3 col-form-label">설정 값</label>
-												<div class="col-sm-9">
-													<input type="text" class="form-control" id="setData_form">
-												</div>
-											</div>
-
-											<div class="mt-4 text-end">
-												<button type="button" class="btn btn-light waves-effect waves-light">취소</button>
-												<button type="button" class="btn btn-primary waves-effect waves-light">저장</button>
-											</div>
-										</form>
-									</div>
-								</div>
-									
-								<div class="card">
-									<div class="card-body">
 										<div class="table-responsive">
 											<div class="d-flex align-items-center justify-content-between p-2 mb-0">
 												<h5 class="mb-0">
-													NTP 서버 설정
-													<p class="text-muted f-size mt-2">NTP 서버를 설정합니다.</p>
+													NTP 설정
+													<p class="text-muted f-size mt-2">NTP 동기화를 설정 합니다.</p>
 												</h5>
 												<div class="text-right">	
 													<a class="btn btn-outline-secondary btn-sm edit" title="Edit"><i class="fas fa-pencil-alt"></i></a>
@@ -403,12 +351,8 @@
 												</colgroup>
 												<tbody>
 													<tr data-id="1">
-														<th>설정 방식</th>
-														<td data-field="set">IP</td>
-													</tr>
-													<tr data-id="2">	
-														<th>설정 값</th>
-														<td data-field="b1">%입력값%</td>
+														<th>NTP 동기화</th>
+														<td data-field="ssh">허용하지 않습니다.</td>
 													</tr>
 												</tbody>
 											</table>

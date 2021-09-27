@@ -190,14 +190,16 @@
 					<div class="col-lg-12">
 
 						<h4>전동기 진동량 변화 그래프</h4>
-						<div class="row m-5-auto col-5">
-							<label for="sensor-ID1" class="col-sm-3 col-form-label text-end">Sensor ID</label>
-							<div class="col-sm-9">
+						<!-- 2021-9-24 수정 -->
+						<div class="row m-5-auto col-6">
+							<label for="sensor-ID1" class="col-sm-4 col-form-label text-end">Sensor ID</label>
+							<div class="col-sm-8">
 								<select class="form-select" id="sensor-ID1">
 									<option>%Sensor ID% (%설치위치%)</option>
 								</select>
 							</div>
 						</div>
+						<!-- // 2021-9-24 수정 -->
 
 						<div class="row">
 							<div class="col-12 mb-2">
@@ -372,11 +374,12 @@
 	
 <!-- App js --> 
 <script src="assets/js/app.js"></script>
-	
+<!-- 2021-9-24 수정 -->		
 <script>
 	Highcharts.chart('gradeChart', {
 	chart: {
 		type: 'spline',
+		backgroundColor: 'transparent',
 		scrollablePlotArea: {
 			minWidth: 600,
 			scrollPositionX: 1
@@ -524,7 +527,7 @@
 		color: 'rgba(244,106,106,1)'
 	}]
 });
-
 </script>
+<!-- //2021-9-24 수정 -->		
 </body>
 </html>

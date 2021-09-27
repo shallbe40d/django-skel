@@ -34,7 +34,13 @@ function setJson(que, val) {
 	var info = que.split('.');
 	for (var q in info) {
 		if ( obj[info[q]] ) {
-			obj = obj[info[q]];
+			if ( q == (info.length - 1) ) {
+				obj[info[q]] = val;
+				obj = obj[info[q]];
+			}
+			else {
+				obj = obj[info[q]];
+			}
 		}
 		else {
 			if ( q == (info.length - 1) ) {
@@ -46,7 +52,6 @@ function setJson(que, val) {
 			obj = obj[info[q]];
 		}
 	}
-	obj = val;
 	
 	return obj;
 }
@@ -99,7 +104,13 @@ window.wf = {
 		device: {
 			post: function() {
 				var cfn = (arguments.length > 0) ? arguments[0] : null;
-				$.post("/rest/device", {data: JSON.stringify(window['device'])},
+				var subp = (arguments.length > 1) ? arguments[1] : null;
+				var postData = {data: JSON.stringify(window['device'])};
+				if ( subp ) {
+					postData['subp'] = JSON.stringify(subp);
+				}
+
+				$.post("/rest/device", postData,
 					   function(data, status) {
 						   if ( cfn ) {
 							   cfn(data);
@@ -286,14 +297,45 @@ window.wf = {
 */
 (function() {
 	/// 상단 메뉴
-	$('#page-topbar .navbar-header .dropdown-item').on('click', function(e) {
+	$('#page-topbar .navbar-header a.dropdown-item').on('click', function(e) {
 		/// 사용자 관리
-		if ($(this).find('.uil-user-circle').length > 0 ) {
+		switch ($(this).text().trim() ) {
+		case '사용자 관리':
 			location.href = '/wf/03_001_0001.html';
+			break;
+		case '시스템 설정':
+			location.href = '/wf/03_002.html';
+			break;
+		case '보안 설정':
+			location.href = '/wf/03_003.html';
+			break;
+		case '진단 설정':
+			location.href = '/wf/03_004.html';
+			break;
+		case '시스템 초기화':
+			location.href = '/wf/03_005.html';
+			break;
+		default:
+			break;
 		}
-	})
+	});
+
+	/// 좌측 메뉴 열림 상태 유지
+	setTimeout(function() {
+		switch (window.path.substr(0,2)) {
+		case '01':
+			//$('#side-menu ul.sub-menu:eq(0)').prev().tab('show');
+			break;
+		case '02':
+			//$('#side-menu ul.sub-menu:eq(1)').prev().tab('show');
+			break;
+		default:
+			break;
+		}
+	}, 1000);
+
 	/// 죄측 메뉴
-	$('#side-menu ul.sub-menu:eq(0) > li > a').on('click', function(e) {
+	$('#side-menu ul.sub-menu > li > a').on('click', function(e) {
 		/// 사용자 관리
 		var locationUrl = '';
 		switch ($(this).text().trim()) {
@@ -308,6 +350,25 @@ window.wf = {
 			break;
 		case '진단 임계치':
 			locationUrl = '/wf/01_004.html';
+			break;
+
+		case '설비가동여부':
+			locationUrl = '/wf/02_001.html';
+			break;
+		case '센서별 시간파형':
+			locationUrl = '/wf/02_002.html';
+			break;
+		case '센서별 FFT':
+			locationUrl = '/wf/02_003.html';
+			break;
+		case '센서별 진동등급':
+			locationUrl = '/wf/02_004.html';
+			break;
+		case '결함진단':
+			locationUrl = '/wf/02_005.html';
+			break;
+		case '신율/전달효율':
+			locationUrl = '/wf/02_006.html';
 			break;
 		}
 		location.href = locationUrl;
@@ -411,7 +472,9 @@ window.wf = {
 				"z_axis": window.wf.fn.device.xyzAxis(rZ)
 			});
 
-			window.wf.fn.device.post();
+			window.wf.fn.device.post(function(result) {
+				toastr["success"]("저장되었습니다.")
+			});
 			
 		});
 
@@ -458,7 +521,9 @@ window.wf = {
 			obj["y_axis"] = window.wf.fn.device.xyzAxis(rY);
 			obj["z_axis"] = window.wf.fn.device.xyzAxis(rZ);
 			
-			window.wf.fn.device.post();
+			window.wf.fn.device.post(function(result) {
+				toastr["success"]("저장되었습니다.")
+			});
 		});
 
 		/// 삭제
@@ -472,7 +537,9 @@ window.wf = {
 				}
 			}
 			//var dType = regForm.find('input[name=formRadios]:checked').attr('id');
-			window.wf.fn.device.post();
+			window.wf.fn.device.post(function(result) {
+				toastr["success"]("저장되었습니다.")
+			});
 		});
 		
 		/// 수정, 삭제 팝업이 뜰때 id을 할당
@@ -530,11 +597,66 @@ window.wf = {
 		break;
 	}
 
-	case '01_002_0001': {
+	case '01_002_0001': { /* 기계설비 정보 수정 */
+		var dic = queryJson('device.machine_spec.spec_enable');
+		$($('input[name=formRadio1]').get(0)).prop('checked', true);
+		$($('input[name=formRadio2]').get(0)).prop('checked', true);
+		$($('input[name=formRadio3]').get(0)).prop('checked', true);
+		$($('input[name=formRadio4]').get(0)).prop('checked', true);
+		$($('input[name=formRadio5]').get(0)).prop('checked', true);
+		$($('input[name=formRadio6]').get(0)).prop('checked', true);
+		$($('input[name=formRadio7]').get(0)).prop('checked', true);
+	
+		for ( var k in dic ) {
+			if ( dic[k] == 'enable' ) {
+				switch ( k ) {
+				case 'mtr_info':
+					$($('input[name=formRadio1]').get(1)).prop('checked', true);
+					break;
+				case 'rdc_info':
+					$($('input[name=formRadio2]').get(1)).prop('checked', true);
+					break;
+				case 'br_info':
+					$($('input[name=formRadio3]').get(1)).prop('checked', true);
+					break;
+				case 'pully_belt_info':
+					$($('input[name=formRadio4]').get(1)).prop('checked', true);
+					break;
+				case 'sprket_drv_chain_info':
+					$($('input[name=formRadio5]').get(1)).prop('checked', true);
+					break;
+				case 'st_sprket_st_chain_info':
+					$($('input[name=formRadio6]').get(1)).prop('checked', true);
+					break;
+				case 'blower_info':
+					$($('input[name=formRadio7]').get(1)).prop('checked', true);
+					break;
+				}
+			}
+		}
+
+		$('#saveModal .modal-footer > button.btn-success').off().on('click', function() {
+			dic['mtr_info'] = $($('input[name=formRadio1]').get(0)).prop('checked') ? 'disable': 'enable';
+			dic['rdc_info'] = $($('input[name=formRadio2]').get(0)).prop('checked') ? 'disable': 'enable';
+			dic['br_info'] = $($('input[name=formRadio3]').get(0)).prop('checked') ? 'disable': 'enable';
+			dic['pully_belt_info'] = $($('input[name=formRadio4]').get(0)).prop('checked') ? 'disable': 'enable';
+			dic['sprket_drv_chain_info'] = $($('input[name=formRadio5]').get(0)).prop('checked') ? 'disable': 'enable';
+			dic['st_sprket_st_chain_info'] = $($('input[name=formRadio6]').get(0)).prop('checked') ? 'disable': 'enable';
+			dic['blower_info'] = $($('input[name=formRadio7]').get(0)).prop('checked') ? 'disable': 'enable';
+
+			window.wf.fn.device.post(function(result) {
+				toastr["success"]("저장되었습니다.")
+				$('#saveModal').modal('hide');
+			});
+		});
 		break;
 	}
 
 	case '01_002_0002': { /* 기계 사양 */
+		$('button.btn.btn-secondary').off().on('click', function() {
+			location.href = '/wf/01_002_0001.html';
+		});
+		
 		/// 미설정 아이콘 숨김
 		var dic = queryJson('device.machine_spec.spec_enable');
 		for ( var k in dic ) {
@@ -708,27 +830,305 @@ window.wf = {
 		$('div#inFo3 table.table:eq(2)').parent().parent().remove();
 		$('div#inFo3 table.table:eq(1)').parent().parent().remove();
 
+		/// 베어링 값 저장
+		$('div#inFo3 table.table:eq(0)').prev().find('a').on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+				var modelName = '';
+				$('div#inFo3 table.table').each(function(index, elm) {
+					var item = $(elm);
+					if ( index == 0 ) {
+						if ( !brInfo ) {
+							brInfo = setJson('device.br_info', {})
+							brInfo['br_detail_info'] = [];
+							brInfo['num_of_br'] = 0;
+						}
+						modelName = $('div#inFo3 table.table:eq(0) td:eq(0) > input').val();
+
+					}
+					else {
+						var brDetailInfo = brInfo['br_detail_info'][index - 1];
+						if ( !brDetailInfo ) {
+							brDetailInfo = {};
+							brInfo['br_detail_info'][index - 1] = brDetailInfo;
+						}
+
+						brDetailInfo["br_model"] = modelName;
+						brDetailInfo["br_pos"] = item.find('td:eq(0) > select').val().match(/\([^)]*\)/)[0].substr(1).replace(/\)/, '');
+						brDetailInfo["br_pos_name"] = item.find('td:eq(0) > select').val();
+						brDetailInfo["br_nn"] = item.find('td:eq(1) > span > input').val();
+						brDetailInfo["br_bd"] = item.find('td:eq(2) > span > input').val();
+						brDetailInfo["br_pd"] = item.find('td:eq(3) > span > input').val();
+						brDetailInfo["br_contact_angl"] = item.find('td:eq(4) > span > input').val();
+						brDetailInfo["br_fn"] = item.find('td:eq(5) > span > input').val();
+					}
+				});
+
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				});
+			}
+		});
+		/// 베아링 추가 버튼
+		$('div#inFo3 button.btn-success').off().on('click', function() {
+			if ( $('div#inFo3 table.table:eq(0)').prev().find('a > i.fa-save').length > 0 ) {
+				$('div#inFo3 table.table:eq(0)').prev().find('a').click();
+			}
+			
+			var brObj = brClone.clone();
+			brObj.find('td:eq(0)').text('');
+			brObj.find('td:eq(1) > span').text('');
+			brObj.find('td:eq(2) > span').text('');
+			brObj.find('td:eq(3) > span').text('');
+			brObj.find('td:eq(4) > span').text('');
+			brObj.find('td:eq(5) > span').text('');
+
+			brObj.find('div.text-end > button').off().on('click', function() {
+				brObj.remove();
+			});
+			brParent.append(brObj);
+
+			$('div#inFo3 table.table:eq(0)').prev().find('a').click();
+		});
+
 		if ( brInfo ) {
-			$('div#inFo3 table.table:eq(0) td:eq(0)').text(brInfo['name_of_br']);
 			$('div#inFo3 table.table:eq(0) td:eq(1)').text(brInfo['num_of_br']);
 
 			$.each(brInfo['br_detail_info'], function(k,v) {
+				$('div#inFo3 table.table:eq(0) td:eq(0)').text(v['br_model']);
 				var brObj = brClone.clone();
-				var idx = (k + 1);
-				brClone.find('td:eq(0)').text(v['br_pos']);
-				brClone.find('td:eq(1) > span').text(v['br_nn']);
-				brClone.find('td:eq(2) > span').text(v['br_bd']);
-				brClone.find('td:eq(3) > span').text(v['br_pd']);
-				brClone.find('td:eq(4) > span').text(v['br_contact_angl']);
-				brClone.find('td:eq(5) > span').text(v['br_fn']);
+				brObj.attr('idx', k);
+				brObj.find('td:eq(0)').text(v['br_pos_name']);
+				brObj.find('td:eq(1) > span').text(v['br_nn']);
+				brObj.find('td:eq(2) > span').text(v['br_bd']);
+				brObj.find('td:eq(3) > span').text(v['br_pd']);
+				brObj.find('td:eq(4) > span').text(v['br_contact_angl']);
+				brObj.find('td:eq(5) > span').text(v['br_fn']);
 
+				/// 베아링 제거 버튼
+				brObj.find('div.text-end > button').off().on('click', function() {
+					brInfo['br_detail_info'].splice(brObj.attr('idx'),1);
+					brObj.remove();
+
+					window.wf.fn.device.post(function(result) {
+						toastr["success"]("삭제되었습니다.")
+					});
+				});
 				brParent.append(brObj);
 			});
 		}
 
+		/// 풀리 및 V-벨트 정보 값 바인딩
+		var beltInfo = queryJson('device.pully_belt_info');
+		
+		if ( beltInfo ) {
+			$('div#inFo4 table.table:eq(0) td:eq(0)').text(beltInfo['drv_pulley_model']);
+			$('div#inFo4 table.table:eq(0) td:eq(1)').text(beltInfo['belt_model']);
+			$('div#inFo4 table.table:eq(0) td:eq(2) > span').text(beltInfo['drv_pully_pcd']);
+			$('div#inFo4 table.table:eq(0) td:eq(3) > span').text(beltInfo['drvn_pully_pcd']);
+			$('div#inFo4 table.table:eq(0) td:eq(4) > span').text(beltInfo['belt_length']);
+			$('div#inFo4 table.table:eq(0) td:eq(5) > span').text(beltInfo['belt_fn']);
+			$('div#inFo4 table.table:eq(0) td:eq(6) > span').text(beltInfo['dist_pullys']);
+		}
+		/// 풀리 및 V-벨트 정보 수정 
+		$('div#inFo4 table.table:eq(0)').prev().find('a').on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+
+				beltInfo['drv_pulley_model'] = $('div#inFo4 table.table:eq(0) td:eq(0) > input').val();
+				beltInfo['belt_model'] = $('div#inFo4 table.table:eq(0) td:eq(1) > input').val();
+				beltInfo['drv_pully_pcd'] = $('div#inFo4 table.table:eq(0) td:eq(2) > span > input').val();
+				beltInfo['drvn_pully_pcd'] = $('div#inFo4 table.table:eq(0) td:eq(3) > span > input').val();
+				beltInfo['belt_length'] = $('div#inFo4 table.table:eq(0) td:eq(4) > span > input').val();
+				beltInfo['belt_fn'] = $('div#inFo4 table.table:eq(0) td:eq(5) > span > input').val();
+				beltInfo['dist_pullys'] = $('div#inFo4 table.table:eq(0) td:eq(6) > span > input').val();
+
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				});
+			}
+		});
+
+		/// 구동/피구동 스프라켓 및 구동체인 정보 값 바인딩
+		var sprketInfo = queryJson('device.sprket_drv_chain_info');
+		
+		if ( sprketInfo ) {
+			$('div#inFo5 table.table:eq(0) td:eq(0)').text(sprketInfo['drv_sprket_model']);
+			$('div#inFo5 table.table:eq(0) td:eq(1)').text(sprketInfo['drv_chain_model']);
+			$('div#inFo5 table.table:eq(0) td:eq(2) > span').text(sprketInfo['drv_sprket_t']);
+			$('div#inFo5 table.table:eq(0) td:eq(3) > span').text(sprketInfo['drv_sprket_pcd']);
+			$('div#inFo5 table.table:eq(0) td:eq(4) > span').text(sprketInfo['drvn_sprket_t']);
+			$('div#inFo5 table.table:eq(0) td:eq(5) > span').text(sprketInfo['drvn_sprket_pcd']);
+			$('div#inFo5 table.table:eq(0) td:eq(6) > span').text(sprketInfo['drv_chain_link_n']);
+			$('div#inFo5 table.table:eq(0) td:eq(7) > span').text(sprketInfo['drv_chain_pitch']);
+		}
+		
+		$('div#inFo5 table.table:eq(0)').prev().find('a').on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+				sprketInfo['drv_sprket_model'] = $('div#inFo5 table.table:eq(0) td:eq(0) > input').val();
+				sprketInfo['drv_chain_model'] = $('div#inFo5 table.table:eq(0) td:eq(1) > input').val();
+				sprketInfo['drv_sprket_t'] = $('div#inFo5 table.table:eq(0) td:eq(2) > span > input').val();
+				sprketInfo['drv_sprket_pcd'] = $('div#inFo5 table.table:eq(0) td:eq(3) > span > input').val();
+				sprketInfo['drvn_sprket_t'] = $('div#inFo5 table.table:eq(0) td:eq(4) > span > input').val();
+				sprketInfo['drvn_sprket_pcd'] = $('div#inFo5 table.table:eq(0) td:eq(5) > span > input').val();
+				sprketInfo['drv_chain_link_n'] = $('div#inFo5 table.table:eq(0) td:eq(6) > span > input').val();
+				sprketInfo['drv_chain_pitch'] = $('div#inFo5 table.table:eq(0) td:eq(7) > span > input').val();
+
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				});
+			}
+		});
+
+		/// 스텝체인 스프라켓 및 스텝체인 정보 값 바인딩
+		var stSprketInfo = queryJson('device.st_sprket_st_chain_info');
+		
+		if ( stSprketInfo ) {
+			$('div#inFo6 table.table:eq(0) td:eq(0) > span').text(stSprketInfo['stc_sprket_t']);
+			$('div#inFo6 table.table:eq(0) td:eq(1) > span').text(stSprketInfo['stc_sprket_pcd']);
+			$('div#inFo6 table.table:eq(0) td:eq(2) > span').text(stSprketInfo['st_chain_link_n']);
+			$('div#inFo6 table.table:eq(0) td:eq(3) > span').text(stSprketInfo['st_chain_pitch']);
+			$('div#inFo6 table.table:eq(0) td:eq(4) > span').text(stSprketInfo['st_chain_step_n']);
+			$('div#inFo6 table.table:eq(0) td:eq(5)').text(stSprketInfo['st_chain_r_material_name']);
+		}
+		
+		$('div#inFo6 table.table:eq(0)').prev().find('a').on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+
+				stSprketInfo['stc_sprket_t'] = $('div#inFo6 table.table:eq(0) td:eq(0) > span > input').val();
+				stSprketInfo['stc_sprket_pcd'] = $('div#inFo6 table.table:eq(0) td:eq(1) > span > input').val();
+				stSprketInfo['st_chain_link_n'] = $('div#inFo6 table.table:eq(0) td:eq(2) > span > input').val();
+				stSprketInfo['st_chain_pitch'] = $('div#inFo6 table.table:eq(0) td:eq(3) > span > input').val();
+				stSprketInfo['st_chain_step_n'] = $('div#inFo6 table.table:eq(0) td:eq(4) > span > input').val();
+				stSprketInfo['st_chain_r_material_name'] = $('div#inFo6 table.table:eq(0) td:eq(5) > select').val();
+
+				stSprketInfo['st_chain_r_material'] = (stSprketInfo['st_chain_r_material_name'] == '우레탄') ? 'U' : 'ST';
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				});
+			}
+		});
+
+		/// 송풍기 정보 값 바인딩
+		var blowerInfo = queryJson('device.blower_info');
+		
+		if ( blowerInfo ) {
+			$('div#inFo7 table.table:eq(0) td:eq(0)').text(blowerInfo['blw_model']);
+			$('div#inFo7 table.table:eq(0) td:eq(1) > span').text(blowerInfo['blw_fan_n']);
+		}
+		
+		$('div#inFo7 table.table:eq(0)').prev().find('a').on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+
+				blowerInfo['blw_model'] = $('div#inFo7 table.table:eq(0) td:eq(0) > input').val();
+				blowerInfo['blw_fan_n'] = $('div#inFo7 table.table:eq(0) td:eq(1) > span > input').val();
+
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				});
+			}
+		});
+
 		break;
 	}
 
+	case '01_003': { /* 결함 주파수 */
+		var faultFreq = queryJson('device.fault_freq_enable');
+		if ( faultFreq['mtr_fault_freq'] != 'enable') {
+			$('div.row a.nav-link:eq(0)').hide();
+		}
+		if ( faultFreq['rdc_fault_freq'] != 'enable') {
+			$('div.row a.nav-link:eq(1)').hide();
+		}
+		if ( faultFreq['br_fault_freq'] != 'enable') {
+			$('div.row a.nav-link:eq(2)').hide();
+		}
+		if ( faultFreq['plly_belt_fault_freq'] != 'enable') {
+			$('div.row a.nav-link:eq(3)').hide();
+		}
+		if ( faultFreq['drv_sprket_fault_freq'] != 'enable') {
+			$('div.row a.nav-link:eq(4)').hide();
+		}
+		if ( faultFreq['blower_fault_freq'] != 'enable') {
+			$('div.row a.nav-link:eq(5)').hide();
+		}
+
+		/// 전동기 결함
+		var mtrFault = queryJson('device.mtr_fault_freq');
+		if (mtrFault) {
+			$('#freQuency1 table.table td:eq(0)').text(mtrFault['ns_rpm'] + ' rpm');
+			$('#freQuency1 table.table td:eq(1)').text(mtrFault['ns'] + ' Hz');
+			$('#freQuency1 table.table td:eq(2)').text(mtrFault['fr'] + ' Hz');
+			$('#freQuency1 table.table td:eq(3)').text(mtrFault['fs'] + ' Hz');
+			$('#freQuency1 table.table td:eq(4)').text(mtrFault['fp'] + ' Hz');
+			$('#freQuency1 table.table td:eq(5)').text(mtrFault['rbpf'] + ' Hz');
+			$('#freQuency1 table.table td:eq(6)').text(mtrFault['bpf'] + ' Hz');
+			$('#freQuency1 table.table td:eq(7)').text(mtrFault['cpf'] + ' Hz');
+			$('#freQuency1 table.table td:eq(8)').text('');
+			$('#freQuency1 table.table td:eq(9)').text('');
+		}
+
+		/// 감속기 결함
+		var rdcFault = queryJson('device.rdc_fault_freq');
+		var rdcRow = $('#freQuency2 tbody tr:eq(0)').clone();
+		var rdcBody = $('#freQuency2 tbody').empty();
+
+		if (rdcFault) {
+			$.each(rdcFault, function(k,v) {
+				var rdcObj = rdcRow.clone();
+				rdcObj.find('td:eq(0)').text(v['rdc_stg']);
+				rdcObj.find('td:eq(1)').text(v['rdc_stg_gmf']);
+				rdcObj.find('td:eq(2)').text(v['rdc_fr']);
+				rdcObj.find('td:eq(3)').text(v['rdc_fht']);
+				rdcBody.append(rdcObj);
+			});
+		}
+
+		/// 베어링 결함
+		var brFault = queryJson('device.br_fault_freq');
+		var brRow = $('#freQuency3 tbody tr:eq(0)').clone();
+		var brBody = $('#freQuency3 tbody').empty();
+
+		if (brFault) {
+			$.each(brFault, function(k,v) {
+				var obj = brRow.clone();
+				obj.find('td:eq(0)').text(v['br_pos']);
+				obj.find('td:eq(1)').text(v['br_fn']);
+				obj.find('td:eq(2)').text(v['bpfi']);
+				obj.find('td:eq(3)').text(v['bpfo']);
+				obj.find('td:eq(4)').text(v['bsf']);
+				obj.find('td:eq(5)').text(v['ftf']);
+				brBody.append(obj);
+			});
+		}
+
+		/// 폴리 및 V-벨트 결함
+		var veltFault = queryJson('device.plly_belt_fault_freq');
+
+		if (veltFault) {
+			$('#freQuency4 tbody td:eq(0)').text(veltFault['drvn_fr'] + ' Hz');
+			$('#freQuency4 tbody td:eq(1)').text(veltFault['vbelt_f'] + ' Hz');
+		}
+
+		/// 구동/피구동 스프라켓 및 구동체 결함
+		var sprketFault = queryJson('device.drv_sprket_fault_freq');
+
+		if (sprketFault) {
+			$('#freQuency5 tbody td:eq(0)').text(sprketFault['drvn_fr'] + ' Hz');
+			$('#freQuency5 tbody td:eq(1)').text(sprketFault['drv_sprket_gmf'] + ' Hz');
+		}
+		
+		/// 송풍기 결함
+		var blowerFault = queryJson('device.blower_fault_freq');
+
+		if (blowerFault) {
+			$('#freQuency6 tbody td:eq(0)').text(blowerFault['blw_fan_f'] + ' Hz');
+		}
+		
+		setTimeout(function() {
+			$('div.row a.nav-link:visible:eq(0)').tab('show');
+		}, 500);
+		break;
+	}
+		
 	case '03_001_0001': { /* 사용자 리스트 */
 		/* 사용자 추가 */
 		$('div.row a.btn-success').on('click', function() {
@@ -876,6 +1276,63 @@ window.wf = {
 				window.wf.fn.member.update(memberId, data);
 			}
 		});
+		break;
+	}
+
+	case '03_002': { /* 시스템 설정 */
+		/// ssh 설정
+		var ssh = queryJson('device.system.ssh') || '허용하지 않습니다.';
+		setJson('device.system.ssh', ssh);
+
+		$('#seT2 td:eq(0)').text(ssh);
+		$('#seT2 div > a.edit').off().on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+				setJson('device.system.ssh', $('#seT2 td:eq(0) > select').val());
+				var subp = {'type': 'sshTemp', 'val': false};
+				if ( $('#seT2 td:eq(0) > select').val() == '허용합니다.' ) {
+					subp['val'] = 'true';
+				}
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				}, subp);
+			}
+		});
+		
+		/// network time 설정
+		var ntp = queryJson('device.system.ntp') || '허용하지 않습니다.';
+		setJson('device.system.ntp', ntp);
+
+		$('#seT3 td:eq(0)').text(ntp);
+		$('#seT3 div > a.edit').off().on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+				setJson('device.system.ntp', $('#seT3 td:eq(0) > select').val());
+				var subp = {'type': 'ntp', 'val': false};
+				if ( $('#seT3 td:eq(0) > select').val() == '허용합니다.' ) {
+					subp['val'] = 'true';
+				}
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				}, subp);
+			}
+		});
+		
+		/// locale 설정
+		var locale = queryJson('device.system.locale') || '(UTC+09:00) Seoul';
+		setJson('device.system.locale', locale);
+
+		$('#seT4 td:eq(0)').text(locale);
+		$('#seT4 div > a.edit').off().on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+				var localeVar = $('#seT4 td:eq(0) > select').val();
+				setJson('device.system.locale', localeVar);
+				//var subp = {'type': 'locale', 'val': localeVar};
+				var subp = {'type': 'locale', 'val': 'Asia/Seoul'};
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				}, subp);
+			}
+		});
+
 		break;
 	}
 	default:

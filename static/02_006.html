@@ -190,14 +190,16 @@
 					<div class="col-lg-12">
 
 						<h4>신율/전달효율 변화 그래프</h4>
-						<div class="row m-5-auto col-5">
-							<label for="sensor-ID1" class="col-sm-3 col-form-label text-end">Sensor ID</label>
-							<div class="col-sm-9">
+						<!-- 2021-9-24 수정 -->
+						<div class="row m-5-auto col-6">
+							<label for="sensor-ID1" class="col-sm-4 col-form-label text-end">Sensor ID</label>
+							<div class="col-sm-8">
 								<select class="form-select" id="sensor-ID1">
 									<option>%Sensor ID% (%설치위치%)</option>
 								</select>
 							</div>
 						</div>
+						<!-- // 2021-9-24 수정 -->
 						
 						<div class="row">
 							<div class="col-sm-12 col-md-6">
@@ -321,7 +323,7 @@
 	
 <!-- App js --> 
 <script src="assets/js/app.js"></script>
-	
+<!-- 2021-9-24 수정 -->		
 <script>
 	Highcharts.getJSON(
 		'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',
@@ -329,10 +331,14 @@
 
 			Highcharts.chart('rateChart1', {
 				chart: {
-					zoomType: 'x'
+					zoomType: 'x',
+					backgroundColor: 'transparent'
 				},
 				title: {
-					text: '신율 변화 그래프'
+					text: '신율 변화 그래프',
+					style: {
+						color: '#9295a4'
+					}
 				},
 				subtitle: {
 					text: ''
@@ -391,10 +397,14 @@
 
 			Highcharts.chart('rateChart2', {
 				chart: {
-					zoomType: 'x'
+					zoomType: 'x',
+					backgroundColor: 'transparent'
 				},
 				title: {
-					text: '동력전달율 변화 그래프'
+					text: '동력전달율 변화 그래프',
+					style: {
+						color: '#9295a4'
+					}
 				},
 				subtitle: {
 					text: ''
@@ -446,5 +456,6 @@
 		}
 	);
 </script>
+<!-- // 2021-9-24 수정 -->		
 </body>
 </html>

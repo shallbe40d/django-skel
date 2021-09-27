@@ -31,6 +31,15 @@
 	export PYENV_ROOT="$HOME/.pyenv
 	export PATH="$PYENV_ROOT/bin:$PATH"
 	eval "$(pyenv init -)"
+	#
+	git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
+	$ echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bash_profile
+	$ source ~/.bash_profile
+
+	sudo apt-get install language-pack-ko
+	sudo locale-gen ko_KR.UTF-8
+	sudo update-locale LANG=ko_KR.UTF-8 LC_MESSAGES=POSIX
+
 ** pip list
 pip list
 #+BEGIN_SRC shell
@@ -191,12 +200,12 @@ CLOSED: [2021-09-07 Tue 18:33]
 #+RESULTS:
 | ./static/ |                   |                    |       |
 |           | --                | 00_000.html        |       |
-|           | --                | 00_001.html        |       |
-|           | --                | 00_002.html        |       |
-|           | --                | 01_001.html        |       |
-|           | --                | 01_002_0001.html   |       |
-|           | --                | 01_002_0002.html   |       |
-|           | --                | 01_003.html        |       |
+|           | --                | 00_001.html        |       |*
+|           | --                | 00_002.html        |       |*
+|           | --                | 01_001.html        |       |*
+|           | --                | 01_002_0001.html   |       |*
+|           | --                | 01_002_0002.html   |       |*
+|           | --                | 01_003.html        |       |*
 |           | --                | 01_004.html        |       |
 |           | --                | 02_001.html        |       |
 |           | --                | 02_002.html        |       |
@@ -204,10 +213,10 @@ CLOSED: [2021-09-07 Tue 18:33]
 |           | --                | 02_004.html        |       |
 |           | --                | 02_005.html        |       |
 |           | --                | 02_006.html        |       |
-|           | --                | 03_001_0001.html   |       |
-|           | --                | 03_001_0002.html   |       |
-|           | --                | 03_001_0003.html   |       |
-|           | --                | 03_001_0004.html   |       |
+|           | --                | 03_001_0001.html   |       |*
+|           | --                | 03_001_0002.html   |       |*
+|           | --                | 03_001_0003.html   |       |*
+|           | --                | 03_001_0004.html   |       |*
 |           | --                | 03_002.html        |       |
 |           | --                | 03_003.html        |       |
 |           | --                | 03_004.html        |       |
@@ -217,12 +226,13 @@ CLOSED: [2021-09-07 Tue 18:33]
 |           | --                | layout-wrapper.htm |       |
 |           | --                | notSetModal.htm    |       |
 |           | --                | page-topbar.htm    |       |
+|           | --                | schedule.png       |       |
 |           | --                | tdd.htm            |       |
 |           | --                | tdd.html           |       |
 |           | --                | tdd1.htm           |       |
 | `--       | vertical-menu.htm |                    |       |
 |           |                   |                    |       |
-| 0         | directories,      | 31                 | files |
+| 0         | directories,      | 32                 | files |
 
 ** plantuml
 *** wf page bind
@@ -300,3 +310,11 @@ CLOSED: [2021-09-07 Tue 18:33]
 #+END_SRC
 #+RESULTS:
 [[file:./static/schedule.png]]
+
+
+** QnA
+*** 디바이스 > 결함주파수
+ - 어디에서 등록이 되는가?
+*** 디바이스 > 임계치 자동 재설정
+ - 어떻게 실행하고 어떤 상태를 읽어야 하는가?
+*** 모니터링에 관련된 파일들은 어디에 있는가?
