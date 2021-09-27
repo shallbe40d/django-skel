@@ -25,7 +25,7 @@ SECRET_KEY = '892*pm5*@+11s5a82@o^v^lw-sii2xs(brs750e5%lt71*7#b@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['kcfuturetech.asuscomm.com']
 
 
 # Application definition
