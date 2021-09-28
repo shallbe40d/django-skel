@@ -265,47 +265,46 @@ CLOSED: [2021-09-07 Tue 18:33]
 *** 일정
 #+BEGIN_SRC  plantuml :file "./static/schedule.png" :cmdline -charset utf-8
   @startuml
+  ' Variable
+  !$today  = %date("yyyy-MM-dd")
+  !$start = "2021-09-27" 
+  ' Title
+  title WireFrame Schedule : $today
+  
   ' 휴일 Close
   saturday are closed
   sunday are closed
-  ' Start 1/9/2021
-  Project starts the 24 of September 2021
-  ' KBPay 
+  
+  ' Start 
+  Project starts $start
+  ' 
   [WireFrame] as [T1] lasts 16 days
   [T1] is colored in Lavender/LightBlue
-  ' 기능 
-  [센서 데이타 바인딩] lasts 1 days
-  ' and is 10% complete
-  [센서 데이타 바인딩] is colored in GreenYellow/Green
-  note bottom
-  + 서버 셋팅
-  end note
-  ' html ui
-  [모니터링 데이타 바인딩] lasts 5 days
-  note bottom
-  모니터링 차트 데이타 파일 필요
-  end note
   
   [시스템 설정] lasts 5 days
   note bottom
-  sudo 권한 연결
-  메인 페이지
+		  sudo 권한 연결
+		  메인 페이지
+  end note
+
+  [모니터링 데이타 바인딩] lasts 5 days
+  note bottom
+		  모니터링 차트 데이타 파일 필요
   end note
   
   [Test] lasts 5 days
   note bottom
-  Test 및 css 클래스 설정
+		  Test 및 css 클래스 설정
   end note
   
-  [센서 데이타 바인딩]->[모니터링 데이타 바인딩]
-  [모니터링 데이타 바인딩]->[시스템 설정]
-  [시스템 설정]->[Test]
+  [시스템 설정]->[모니터링 데이타 바인딩]
+  [모니터링 데이타 바인딩]->[Test]
   
   2021-10-19 to 2021-10-19 is closed
   2021-10-19 to 2021-10-19 are named [완료]
   2021-10-19 to 2021-10-19 are colored in blue 
   ' Today  : 변수로 안되나?
-  2021-09-24 to 2021-09-24 are colored in gold
+  $today to $today are colored in gold
   @enduml
 #+END_SRC
 #+RESULTS:
