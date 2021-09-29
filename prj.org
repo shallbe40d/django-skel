@@ -98,7 +98,6 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 
 #+RESULTS:
 
-
 *** update member
 #+begin_src sqlite :db ./db.sqlite3
 update member set name='관리자' where id='admin';
@@ -154,17 +153,6 @@ SELECT * FROM sqlite_master WHERE type='table';
 | modifyDt | timestamp                  | default                    | current_timestamp | not            | null  |                            |                |             |     |      |         |      |                |                 |              |       |             |            |                     |        |              |              |           |               |                |              |       |            |                 |           |              |            |                     |        |              |           |           |          |         |     |       |            |           |        |            |             |           |             |          |            |              |      |       |                |    |     |
 | )        |                            |                            |                   |                |       |                            |                |             |     |      |         |      |                |                 |              |       |             |            |                     |        |              |              |           |               |                |              |       |            |                 |           |              |            |                     |        |              |           |           |          |         |     |       |            |           |        |            |             |           |             |          |            |              |      |       |                |    |     |
 
-** schedule
-*** feature
-**** Done change pw
-CLOSED: [2021-09-07 Tue 18:33]
-**** show ip info
-**** apply ip info
-**** show ssh status
-**** apply ssh status
-**** Doing sensor iot 1
- - 삭제 체크
-*** UI
 ** tree
 .
 ├── 00_000.html
@@ -317,3 +305,6 @@ CLOSED: [2021-09-07 Tue 18:33]
 *** 디바이스 > 임계치 자동 재설정
  - 어떻게 실행하고 어떤 상태를 읽어야 하는가?
 *** 모니터링에 관련된 파일들은 어디에 있는가?
+
+** Task 
+*** Doing ip 정보 수정하기
