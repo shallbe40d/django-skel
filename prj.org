@@ -187,28 +187,28 @@ SELECT * FROM sqlite_master WHERE type='table';
 
 #+RESULTS:
 | ./static/ |                   |                    |       |
-|           | --                | 00_000.html        |       |
+|           | --                | 00_000.html        |       | /main/
 |           | --                | 00_001.html        |       |*
 |           | --                | 00_002.html        |       |*
 |           | --                | 01_001.html        |       |*
 |           | --                | 01_002_0001.html   |       |*
 |           | --                | 01_002_0002.html   |       |*
 |           | --                | 01_003.html        |       |*
-|           | --                | 01_004.html        |       |
-|           | --                | 02_001.html        |       |
-|           | --                | 02_002.html        |       |
-|           | --                | 02_003.html        |       |
-|           | --                | 02_004.html        |       |
-|           | --                | 02_005.html        |       |
-|           | --                | 02_006.html        |       |
+|           | --                | 01_004.html        |       | /임계치 설정/
+|           | --                | 02_001.html        |       | /차트/
+|           | --                | 02_002.html        |       | //
+|           | --                | 02_003.html        |       | //
+|           | --                | 02_004.html        |       | //
+|           | --                | 02_005.html        |       | //
+|           | --                | 02_006.html        |       | //
 |           | --                | 03_001_0001.html   |       |*
 |           | --                | 03_001_0002.html   |       |*
 |           | --                | 03_001_0003.html   |       |*
 |           | --                | 03_001_0004.html   |       |*
-|           | --                | 03_002.html        |       |
-|           | --                | 03_003.html        |       |
-|           | --                | 03_004.html        |       |
-|           | --                | 03_005.html        |       |
+|           | --                | 03_002.html        |       | /ip and port/
+|           | --                | 03_003.html        |       | /ip tables/
+|           | --                | 03_004.html        |       | /진단 설정 크론 작업/
+|           | --                | 03_005.html        |       | /시스템 초기화 정보 필요/
 |           | --                | footer.htm         |       |
 |           | --                | index.html         |       |
 |           | --                | layout-wrapper.htm |       |
@@ -307,4 +307,5 @@ SELECT * FROM sqlite_master WHERE type='table';
 *** 모니터링에 관련된 파일들은 어디에 있는가?
 
 ** Task 
-*** Doing ip 정보 수정하기
+*** todo list 점검
+*** num file read N parse 

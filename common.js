@@ -101,6 +101,52 @@ window.wf = {
 			}
 			return false;
 		},
+		chart: function(chart_id, chart_data, startTime, timeInterval) {
+			startTime = 16094232; 
+			timeInterval = 100000;
+			var data = [];
+			for ( var i = 0; i < chart_data.length; i++ ) {
+				data[i] = [((startTime + i) * timeInterval), parseInt(chart_data[i])];
+			}
+			Highcharts.chart('sensorChart1', {
+				chart: {
+					zoomType: 'x',
+					backgroundColor: 'transparent'
+				},
+				title: {
+					text: ''
+				},
+				subtitle: {
+					text: ''
+				},
+				navigation: {
+					buttonOptions: {
+						enabled: false
+					}
+				},
+				legend: {
+					enabled: false
+				},
+				tooltip: {
+					valueDecimals: 2
+				},
+				xAxis: {
+					type: 'datetime'
+				},
+				yAxis: {
+					title: {
+						text: ''
+					}
+				},
+				series: [{
+					data: data,
+					lineWidth: 1.0,
+					name: '',
+					color: 'rgba(80,165,241,0.5)'
+				}]
+
+			});
+		},
 		device: {
 			post: function() {
 				var cfn = (arguments.length > 0) ? arguments[0] : null;
@@ -283,7 +329,7 @@ window.wf = {
 		logout: function() {
 			$.post("/wf/logout", 
 				   function(data, status) {
-		//			   location.replace('/wf/00_001.html');
+					   location.reload(true);
 				   }
 				  );
 			return false;
@@ -334,7 +380,16 @@ window.wf = {
 		}
 	}, 1000);
 
+	/// 로그아웃
+	$('header div.d-flex div.dropdown-menu > a.dropdown-item').off().on('click', function() {
+		alert('logout');
+		window.wf.fn.logout();
+	});
+
 	/// 죄측 메뉴
+	$('#side-menu li > a:eq(0)').on('click', function(e) {
+		location.href = '/wf/00_000.html';
+	});
 	$('#side-menu ul.sub-menu > li > a').on('click', function(e) {
 		/// 사용자 관리
 		var locationUrl = '';
@@ -1129,6 +1184,15 @@ window.wf = {
 		break;
 	}
 		
+	case '02_002': {
+		$.get("/rest/chart/1", {},
+			  function(data, status) {
+				  window.wf.fn.chart('sensorChart1', data['x'], 0, 0);
+			  }
+			 );
+		break;
+	}
+		
 	case '03_001_0001': { /* 사용자 리스트 */
 		/* 사용자 추가 */
 		$('div.row a.btn-success').on('click', function() {
@@ -1345,3 +1409,4 @@ window.wf = {
 test code region
 
 */
+

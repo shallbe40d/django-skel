@@ -3,6 +3,7 @@ import json as JSON
 import sqlite3
 import datetime
 import platform
+import re
 
 from subprocess import call
 from bs4 import BeautifulSoup
@@ -14,6 +15,7 @@ from django.shortcuts import redirect
 from django.contrib.sessions.models import Session
 
 import rest.feature as ft
+import netifaces
 
 # +---------------------------+
 # |     private functions     |
@@ -81,6 +83,29 @@ def _device_set(request):
         print("device save error")
     return {"result": result}
 
+
+
+""" get chart datat """
+def _get_chart(request, chart):
+    x, y, z = [], [], []
+    with open('chart.num', 'r') as j:
+        lines = j.readlines()
+        for line in lines:
+            data = re.split("\s+", line)
+            x.append(data[0])
+            y.append(data[1])
+            z.append(data[2])
+    #
+    return {"x": x, "y": y, "z": z}
+
+
+""" 네트워크 정보 가져오기 """
+def  _netifaces():
+    #netifaces.gateways()['default'][netifaces.AF_INET][0]
+    return netifaces.ifaddresses('en8')[netifaces.AF_INET][0]
+#{'addr': '10.230.210.199', 'netmask': '255.255.254.0', 'broadcast': '10.230.211.255'}
+
+    
 
 """ login session 정보 반환 """
 def _get_member(request):
@@ -273,6 +298,12 @@ def change_pw(request):
     return JsonResponse(_change_pw(request, new_pw, confirm_pw))
 
 
+
+""" /rest/chart """
+def chart(request, chart):
+    return JsonResponse(_get_chart(request, chart))
+
+    
 """ [ /wf/commonJs ] """
 def commJs(request):
     device_info = f"window['device'] = {JSON.dumps(_device_data(request), sort_keys=True, indent=4)};"
@@ -299,12 +330,26 @@ def login(request):
     return JsonResponse(_login(request, req_id, req_pw))
 
 
+""" [ /rest/login ] """
+def login(request):
+    req_id = request.POST.get('id')
+    if req_id == None:
+        req_id = ""
+    #
+    req_pw = request.POST.get('pw')
+    if req_pw == None:
+        req_pw = ""
+    #
+    return JsonResponse(_login(request, req_id, req_pw))
+
+
 """ [ /rest/logout ] """
 def logout(request):
-    if request.session.get('id'):
-       del(request.session)
+    session_key = request.session.keys()
+    for key in list(session_key):
+        del request.session[key] 
     #
-    return redirect('/wf/00_001.html')
+    return redirect('/wf/00_000.html')
 
 
 """ [ /rest/member_add] """
@@ -346,6 +391,8 @@ def wf(request, path):
         path =  "00_001"
     elif request.session.get('login1st') == 0:
         path =  "00_002"
+    elif path == '00_001':
+        path = '00_000'
     return HttpResponse(ft._bind_data(path, _get_member(request)))
 
 
