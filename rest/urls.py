@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'member/update/(?P<req_id>[0-9]+)$', views.member_update, name='member_update'),
     url(r'member_list', views.member_list, name='member_list'),
 
+    path(r'net_info', views.net_info, name='net_info'),
+
     url(r'device', views.device, name='device'),
 
     url(r'commJs', views.commJs, name='commJs'),

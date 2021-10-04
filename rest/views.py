@@ -100,11 +100,19 @@ def _get_chart(request, chart):
 
 
 """ 네트워크 정보 가져오기 """
-def  _netifaces():
-    #netifaces.gateways()['default'][netifaces.AF_INET][0]
-    return netifaces.ifaddresses('en8')[netifaces.AF_INET][0]
-#{'addr': '10.230.210.199', 'netmask': '255.255.254.0', 'broadcast': '10.230.211.255'}
-
+def  _netifaces(request):
+    dns = []
+    with open('/etc/resolv.conf', 'r') as j:
+        lines = j.readlines()
+        for line in lines:
+            data = re.split("^nameserver\s+", line)
+            if len(data) > 1:
+                dns.append(data[1])
+    return {
+        "gateway": netifaces.gateways()[2][0][0],
+        "ip": netifaces.ifaddresses(netifaces.gateways()[2][0][1])[netifaces.AF_INET][0],
+        "dns": dns
+    }
     
 
 """ login session 정보 반환 """
@@ -330,19 +338,6 @@ def login(request):
     return JsonResponse(_login(request, req_id, req_pw))
 
 
-""" [ /rest/login ] """
-def login(request):
-    req_id = request.POST.get('id')
-    if req_id == None:
-        req_id = ""
-    #
-    req_pw = request.POST.get('pw')
-    if req_pw == None:
-        req_pw = ""
-    #
-    return JsonResponse(_login(request, req_id, req_pw))
-
-
 """ [ /rest/logout ] """
 def logout(request):
     session_key = request.session.keys()
@@ -375,6 +370,11 @@ def member_list(request):
 """ [ /rest/member/update/1 ] """
 def member_update(request, req_id):
     return JsonResponse(_member_update(request, req_id))
+
+
+""" /rest/chart """
+def net_info(request):
+    return JsonResponse(_netifaces(request))
 
 
 """ [ /rest/device ] """
