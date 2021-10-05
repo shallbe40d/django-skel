@@ -4,6 +4,7 @@ import sqlite3
 import datetime
 import platform
 import re
+import glob
 
 from subprocess import call
 from bs4 import BeautifulSoup
@@ -88,15 +89,16 @@ def _device_set(request):
 """ get chart datat """
 def _get_chart(request, chart):
     x, y, z = [], [], []
-    with open('chart.num', 'r') as j:
+    listFiles =  [f for f in glob.glob("./data/workspace/ictr/gateway/main/data/manual/*/*.num")]
+    with open(listFiles[0], 'r') as j:
         lines = j.readlines()
         for line in lines:
             data = re.split("\s+", line)
             x.append(data[0])
             y.append(data[1])
             z.append(data[2])
-    #
-    return {"x": x, "y": y, "z": z}
+            #
+    return {"list": listFiles, "file": listFiles[0], "x": x, "y": y, "z": z}
 
 
 """ 네트워크 정보 가져오기 """

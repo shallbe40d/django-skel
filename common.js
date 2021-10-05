@@ -1182,11 +1182,69 @@ window.wf = {
 	}
 		
 	case '02_002': {
-		$.get("/rest/chart/1", {},
+		var sensorChar = 'v';
+		var chartData = null;
+		var vFiles = [];
+		var nFiles = [];
+		$.get("/rest/chart/list", {},
 			  function(data, status) {
-				  window.wf.fn.chart('sensorChart1', data['x'], 0, 0);
+				  chartData = data;
+				  window.wf.fn.chart('sensorChart1', chartData['x'], 0, 0);
+
+				  var fileList = chartData['list'];
+				  /// ICTR01_3_V_210618152300.num
+				  $('#sensor-ID1 option:eq(0)').text(chartData['file']);
+				  var fileInfo = chartData['file'].match(/_(\d{12})\.num/);
+				  if ( fileInfo.length > 1) {
+					  var m = fileInfo[1];
+					  $('#senSor1 div.float-end').text('측정 시점 : ' + m.substr(0,4) + '/' + m.substr(4,2) + '/' + m.substr(6,2) + ' ' + m.substr(8,2) + ':' + m.substr(10,2)  );
+				  }
+				  /// list
+				  var cloneNode = $('#sensorList1 tbody > tr:eq(0)').clone();
+				  $('#sensorList1 tbody > tr').remove();
+				  for ( var i = 0; i < fileList.length; i++ ) {
+					  var fileNode = cloneNode.clone();
+					  fileNode.hide();
+					  var fileName = fileList[i].substr(fileList[i].lastIndexOf('/') + 1);
+					  var fileInfo = fileName.match(/_(\d{12})\.num/);
+					  if ( fileInfo.length > 1) {
+						  var m = fileInfo[1];
+						  fileNode.find('> td:eq(1)').text(m.substr(0,4) + '/' + m.substr(4,2) + '/' + m.substr(6,2) + ' ' + m.substr(8,2) + ':' + m.substr(10,2));
+					  }
+					  fileNode.find('> td:eq(2)').text(fileName);
+					  
+					  if ( fileList[i].indexOf('_V_') == -1 ) {
+						  nFiles.push(fileList[i]);
+						  fileNode.addClass('n');
+					  }
+					  else {
+						  vFiles.push(fileList[i]);
+						  fileNode.addClass('v');
+					  }
+					  $('#sensorList1 tbody').append(fileNode);
+				  }
+
+				  $('li.nav-item:eq(0) > a > span').text('진동 센서 ( ' + vFiles.length + ')');
+				  $('li.nav-item:eq(1) > a > span').text('소음 센서 ( ' + nFiles.length + ')');
+				  $('#sensorList1 tbody > tr.v').show();
 			  }
 			 );
+		$('input[name=formRadio1]').off().on('click', function() {
+			var typeChar = 'x';
+			switch ( $('input[name=formRadio1]').index(this) ) {
+			case 0:
+				typeChar = 'x';
+				break;
+			case 1:
+				typeChar = 'y';
+				break;
+			case 2:
+				typeChar = 'z';
+				break;
+			}
+
+			window.wf.fn.chart('sensorChart1', chartData[typeChar], 0, 0);
+		});
 		break;
 	}
 		

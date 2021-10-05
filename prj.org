@@ -291,7 +291,7 @@ SELECT * FROM sqlite_master WHERE type='table';
   2021-10-19 to 2021-10-19 is closed
   2021-10-19 to 2021-10-19 are named [완료]
   2021-10-19 to 2021-10-19 are colored in blue 
-  ' Today  : 변수로 안되나?
+  ' Today  
   $today to $today are colored in gold
   @enduml
 #+END_SRC
@@ -304,8 +304,15 @@ SELECT * FROM sqlite_master WHERE type='table';
  - 어디에서 등록이 되는가?
 *** 디바이스 > 임계치 자동 재설정
  - 어떻게 실행하고 어떤 상태를 읽어야 하는가?
-*** 모니터링에 관련된 파일들은 어디에 있는가?
+*** 모니터링 > 설비 가동 여부
+ - 어떤 데이타를 어떻게 적용하여야 하는가?
+
 
 ** Task 
-*** todo list 점검
-*** num file read N parse 
+*** Doing chart dir list N read file
+ - read dir list 
+ - select N read chart
+*** netutils
+ - https://www.shallowsky.com/software/netscheme/netutils-1.4.py
+*** python-ipchains   
+ - https://github.com/ldx/python-iptables
