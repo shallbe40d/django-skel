@@ -1,1 +1,330 @@
-{"blower_fault_freq":{"blw_fan_f":186.25},"blower_info":{"blw_fan_n":"11","blw_model":"blw_testw"},"br_fault_freq":[{"bpfi":122.987,"bpfo":75.6795,"br_fn":null,"br_pos":"mhlsb","bsf":98.3735,"ftf":9.4599},{"bpfi":122.5721,"bpfo":76.0945,"br_fn":null,"br_pos":"mlsb","bsf":100.3395,"ftf":9.5118}],"br_info":{"br_detail_info":[{"br_bd":"2","br_contact_angl":"4","br_fn":"5","br_model":"6310ZZC4","br_nn":"1","br_pd":"3","br_pos":"drvnrsb","br_pos_name":"우측 축베어링 (drvnrsb)"},{"br_bd":"12","br_contact_angl":"14","br_fn":"15","br_model":"6310ZZC4","br_nn":"11","br_pd":"13","br_pos":"d3glb","br_pos_name":"감속기 3단 기어 좌측 베어링 (d3glb)"}],"num_of_br":2},"drv_sprket_fault_freq":{"drv_sprket_gmf":19,"drvn_fr":15.5208},"facility_name":"동막역 에스컬레이터","fault_freq_enable":{"blower_fault_freq":"enable","br_fault_freq":"enable","drv_sprket_fault_freq":"enable","mtr_fault_freq":"enable","plly_belt_fault_freq":"enable","rdc_fault_freq":"enable"},"iot":{"iot_info":[{"samplerate":2000,"sensor_id":"A434F1CC9C91","sensor_num":"1","sensor_pos":1,"sensor_type":"iot_v","x_axis":"axial_dirctn","y_axis":"vertical_dirctn","z_axis":"horizontal_dirctn"},{"samplerate":2000,"sensor_id":"A434F1CC9C8A","sensor_num":"2","sensor_pos":2,"sensor_type":"iot_v","x_axis":"axial_dirctn","y_axis":"horizontal_dirctn","z_axis":"vertical_dirctn"},{"samplerate":50000,"sensor_id":"A434F1AB7EB7","sensor_num":"3","sensor_pos":5,"sensor_type":"iot_n"},{"samplerate":5000,"sensor_id":"newer","sensor_num":"5","sensor_pos":6,"sensor_type":"iot_n","x_axis":"axial_dirctn","y_axis":"vertical_dirctn","z_axis":"vertical_dirctn"}],"num_of_iot":3},"locale":"(UTC+09:00) Seoul","machine_spec":{"spec_enable":{"blower_info":"enable","br_info":"enable","mtr_info":"enable","pully_belt_info":"disable","rdc_info":"enable","sprket_drv_chain_info":"enable","st_sprket_st_chain_info":"disable"}},"mtr_fault_freq":{"bpf":210,"cpf":null,"fp":3.3333,"fr":29.1666,"fs":0.8333,"ns":30,"ns_rpm":1800,"rbpf":233.3333},"mtr_info":{"blades":"3","cn":"5","drv_actual_speed":"2","drv_speed":"1780","efficiency":"85","fl":"60","mtr_model":"효성-30038","mtr_volt":"380","pole":"4","power":"30","rated_speed":"1","rotor_bars":"9"},"now":"2021-09-28 01:18:28.887879","plly_belt_fault_freq":{"drvn_fr":15.5208,"vbelt_f":4.9308},"pully_belt_info":{"belt_fn":"3","belt_length":"4830","belt_model":"5V-1900A","belt_num":2,"dist_pullys":"20","drv_pulley_model":"drv_plly_test2","drv_pully_pcd":"220","drvn_pulley_model":"drvn_plly_test","drvn_pully_pcd":"555"},"rdc_fault_freq":[{"rdc_fht":0.3658,"rdc_fr":5.4878,"rdc_stg":1,"rdc_stg_gmf":450},{"rdc_fht":0.3658,"rdc_fr":5.4878,"rdc_stg":2,"rdc_stg_gmf":450}],"rdc_info":{"rdc_model":"asdfadf","rdc_ratio_l":"1","rdc_ratio_r":"23","rdc_stg_info":[{"rdc_gear_fn":"56","rdc_gear_t":"12","rdc_pinion_fn":"55","rdc_pinion_t":"11","rdc_stg":"1"},{"rdc_gear_fn":"75","rdc_gear_t":"23","rdc_pinion_fn":"65","rdc_pinion_t":"22","rdc_stg":"2"}],"rdc_stg_num":2},"sprket_drv_chain_info":{"drv_chain_link_n":"54","drv_chain_model":"rs-1000","drv_chain_pitch":"42.30","drv_sprket_model":"drv_sprk_test1","drv_sprket_pcd":"200","drv_sprket_t":"20","drvn_sprket_model":"drvn_sprk_test","drvn_sprket_pcd":"180.04","drvn_sprket_t":"28"},"st_sprket_st_chain_info":{"st_chain_link_n":"283","st_chain_pitch":"145.05","st_chain_r_material":"ST","st_chain_r_material_name":"스틸","st_chain_step_n":"84","stc_sprket_pcd":"193.9","stc_sprket_t":"17"},"system":{"locale":"(UTC+09:00) Seoul","ntp":"허용합니다.","ssh":"허용하지 않습니다."},"version":"1.0.0"}
+{
+	"fault_freq": {
+
+		"fault_freq_enable": {
+			"blower_fault_freq": "enable",
+			"br_fault_freq": "enable",
+			"drv_sprket_fault_freq": "enable",
+			"mtr_fault_freq": "enable",
+			"plly_belt_fault_freq": "enable",
+			"rdc_fault_freq": "enable"
+		},
+		"mtr_fault_freq": {
+			"bpf": 210,
+			"cpf": null,
+			"fp": 3.3333,
+			"fr": 29.1666,
+			"fs": 0.8333,
+			"ns": 30,
+			"ns_rpm": 1800,
+			"rbpf": 233.3333
+		},
+
+		"plly_belt_fault_freq": {
+			"drvn_fr": 15.5208,
+			"vbelt_f": 4.9308
+		},
+		
+		"rdc_fault_freq": [
+			{
+				"rdc_fht": 0.3658,
+				"rdc_fr": 5.4878,
+				"rdc_stg": 1,
+				"rdc_stg_gmf": 450
+			},
+			{
+				"rdc_fht": 0.3658,
+				"rdc_fr": 5.4878,
+				"rdc_stg": 2,
+				"rdc_stg_gmf": 450
+			}
+		],
+		"drv_sprket_fault_freq": {
+			"drv_sprket_gmf": 19,
+			"drvn_fr": 15.5208
+		},
+		"blower_fault_freq": {
+			"blw_fan_f": 186.25
+		},
+		
+		"br_fault_freq": [
+			{
+				"bpfi": 122.987,
+				"bpfo": 75.6795,
+				"br_fn": null,
+				"br_pos": "mhlsb",
+				"bsf": 98.3735,
+				"ftf": 9.4599
+			},
+			{
+				"bpfi": 122.5721,
+				"bpfo": 76.0945,
+				"br_fn": null,
+				"br_pos": "mlsb",
+				"bsf": 100.3395,
+				"ftf": 9.5118
+			}
+		]
+	},
+	"iot": {
+		"iot_info": [
+			{
+				"samplerate": 2000,
+				"sensor_id": "A434F1CC9C91",
+				"sensor_num": "1",
+				"sensor_pos": 1,
+				"sensor_type": "iot_v",
+				"x_axis": "axial_dirctn",
+				"y_axis": "vertical_dirctn",
+				"z_axis": "horizontal_dirctn"
+			},
+			{
+				"samplerate": 2000,
+				"sensor_id": "A434F1CC9C8A",
+				"sensor_num": "2",
+				"sensor_pos": 2,
+				"sensor_type": "iot_v",
+				"x_axis": "axial_dirctn",
+				"y_axis": "horizontal_dirctn",
+				"z_axis": "vertical_dirctn"
+			},
+			{
+				"samplerate": 50000,
+				"sensor_id": "A434F1AB7EB7",
+				"sensor_num": "3",
+				"sensor_pos": 5,
+				"sensor_type": "iot_n"
+			},
+			{
+				"samplerate": 5000,
+				"sensor_id": "newer",
+				"sensor_num": "5",
+				"sensor_pos": 6,
+				"sensor_type": "iot_n",
+				"x_axis": "axial_dirctn",
+				"y_axis": "vertical_dirctn",
+				"z_axis": "vertical_dirctn"
+			}
+		],
+		"num_of_iot": 3
+	},
+	"locale": "(UTC+09:00) Seoul",
+	"machine_spec": {
+		"spec_enable": {
+			"blower_info": "enable",
+			"br_info": "enable",
+			"mtr_info": "enable",
+			"pully_belt_info": "disable",
+			"rdc_info": "enable",
+			"sprket_drv_chain_info": "enable",
+			"st_sprket_st_chain_info": "disable"
+		},
+		"facility_name": "동막역 에스컬레이터",
+
+		"blower_info": {
+			"blw_fan_n": "11",
+			"blw_model": "blw_testw"
+		},
+		"br_info": {
+			"br_detail_info": [
+				{
+					"br_bd": "2",
+					"br_contact_angl": "4",
+					"br_fn": "5",
+					"br_model": "6310ZZC4",
+					"br_nn": "1",
+					"br_pd": "3",
+					"br_pos": "drvnrsb",
+					"br_pos_name": "우측 축베어링 (drvnrsb)"
+				},
+				{
+					"br_bd": "12",
+					"br_contact_angl": "14",
+					"br_fn": "15",
+					"br_model": "6310ZZC4",
+					"br_nn": "11",
+					"br_pd": "13",
+					"br_pos": "d3glb",
+					"br_pos_name": "감속기 3단 기어 좌측 베어링 (d3glb)"
+				}
+			],
+			"num_of_br": 2
+		},
+		"rdc_info": {
+			"rdc_model": "asdfadf",
+			"rdc_ratio_l": "1",
+			"rdc_ratio_r": "23",
+			"rdc_stg_info": [
+				{
+					"rdc_gear_fn": "56",
+					"rdc_gear_t": "12",
+					"rdc_pinion_fn": "55",
+					"rdc_pinion_t": "11",
+					"rdc_stg": "1"
+				},
+				{
+					"rdc_gear_fn": "75",
+					"rdc_gear_t": "23",
+					"rdc_pinion_fn": "65",
+					"rdc_pinion_t": "22",
+					"rdc_stg": "2"
+				}
+			],
+			"rdc_stg_num": 2
+		},
+		"sprket_drv_chain_info": {
+			"drv_chain_link_n": "54",
+			"drv_chain_model": "rs-1000",
+			"drv_chain_pitch": "42.30",
+			"drv_sprket_model": "drv_sprk_test1",
+			"drv_sprket_pcd": "200",
+			"drv_sprket_t": "20",
+			"drvn_sprket_model": "drvn_sprk_test",
+			"drvn_sprket_pcd": "180.04",
+			"drvn_sprket_t": "28"
+		},
+		"st_sprket_st_chain_info": {
+			"st_chain_link_n": "283",
+			"st_chain_pitch": "145.05",
+			"st_chain_r_material": "ST",
+			"st_chain_r_material_name": "스틸",
+			"st_chain_step_n": "84",
+			"stc_sprket_pcd": "193.9",
+			"stc_sprket_t": "17"
+		},
+		"mtr_info": {
+			"blades": "3",
+			"cn": "5",
+			"drv_actual_speed": "2",
+			"drv_speed": "1780",
+			"efficiency": "85",
+			"fl": "60",
+			"mtr_model": "효성-30038",
+			"mtr_volt": "380",
+			"pole": "4",
+			"power": "30",
+			"rated_speed": "1",
+			"rotor_bars": "9"
+		},
+		"pully_belt_info": {
+			"belt_fn": "3",
+			"belt_length": "4830",
+			"belt_model": "5V-1900A",
+			"belt_num": 2,
+			"dist_pullys": "20",
+			"drv_pulley_model": "drv_plly_test2",
+			"drv_pully_pcd": "220",
+			"drvn_pulley_model": "drvn_plly_test",
+			"drvn_pully_pcd": "555"
+		}
+	},
+	
+	"now": "2021-09-28 01:18:28.887879",
+	
+	
+	"diag_threshold": {
+		"diag_th_enable": "enable",
+		"snd_th_info": {
+			"update_time": "2021/07/31 13:22:43",
+			"update_type": "auto",
+			"update_name": "algorithm",
+			"snd_oper_thre": { 
+				"min_threshold": 30.0,
+				"max_threshold": 40.0,
+				"target_frequency": 25.0,
+				"frequency_threshold": 0.2
+			}, 
+			"snd_fail_thre": { 
+				"threshold": 40.0
+			}
+		},
+		"vib_th_info": [
+			{
+				"update_time": "2021/07/31 13:22:43",
+				"update_type": "auto",
+				"update_name": "algorithm",
+				"iot_sensor_id": "A434F1CC9C91",
+				"iot_pos": 1,
+				"th_range": {
+					"range_subhamo": 10,
+					"range_1xrpm": 13,
+					"range_2xrpm": 40,
+					"range_3_4xrpm": 67,
+					"range_5_12xrpm": 120,
+					"range_hfd": 333,
+					"range_end": 1000
+				},
+				"axi_th": {
+					"axi_subhamo": 0.5687, 
+					"axi_1xrpm": 1.7241, 
+					"axi_2xrpm": 0.2699,
+					"axi_3_4xrpm": 0.3683,
+					"axi_5_12xrpm": 0.0519,
+					"axi_hfd": 0.0082
+				},
+				"hr_th": {
+					"hr_subhamo": 0.9636, 
+					"hr_1xrpm": 1.9, 
+					"hr_2xrpm": 0.5223,
+					"hr_3_4xrpm": 0.0959,
+					"hr_5_12xrpm": 0.0435,
+					"hr_hfd": 0.0087
+				},
+				"vr_th": {
+					"vr_subhamo": 0.3894, 
+					"vr_1xrpm": 0.7748, 
+					"vr_2xrpm": 0.2014,
+					"vr_3_4xrpm": 0.1256,
+					"vr_5_12xrpm": 0.0276,
+					"vr_hfd": 0.0061
+				}
+			},
+			{
+				"update_time" : "2021/07/31 13:22:43",
+				"update_type" : "auto",
+				"update_name" : "algorithm",
+				"iot_sensor_id" : "A434F1CC9C8A",
+				"iot_pos": 2,
+				"th_range": {
+					"range_subhamo": 10,
+					"range_1xrpm": 12,
+					"range_2xrpm": 37,
+					"range_3_4xrpm": 62,
+					"range_5_12xrpm": 112,
+					"range_hfd": 310,
+					"range_end": 1000
+				},
+				"axi_th" : {
+					"axi_subhamo": 0.4070, 
+					"axi_1xrpm": 1.1261, 
+					"axi_2xrpm": 0.5499,
+					"axi_3_4xrpm": 0.5636,
+					"axi_5_12xrpm": 0.1479,
+					"axi_hfd": 0.0088
+				},
+				"hr_th": {
+					"hr_subhamo": 0.6521, 
+					"hr_1xrpm": 1.9753, 
+					"hr_2xrpm": 0.8128,
+					"hr_3_4xrpm": 0.3628,
+					"hr_5_12xrpm": 0.0649,
+					"hr_hfd": 0.0122
+				},
+				"vr_th": {
+					"vr_subhamo": 0.3648, 
+					"vr_1xrpm": 1.8309, 
+					"vr_2xrpm": 0.3093,
+					"vr_3_4xrpm": 0.2760,
+					"vr_5_12xrpm": 0.0694,
+					"vr_hfd": 0.0111
+				}
+			}
+		]
+	},
+	"system": {
+		"locale": "(UTC+09:00) Seoul",
+		"ntp": "허용합니다.",
+		"ssh": "허용하지 않습니다."
+	},
+	"version": "1.0.0"
+}

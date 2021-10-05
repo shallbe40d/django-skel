@@ -361,6 +361,9 @@ window.wf = {
 		case '시스템 초기화':
 			location.href = '/wf/03_005.html';
 			break;
+		case '로그아웃':
+			window.wf.fn.logout();
+			break;
 		default:
 			break;
 		}
@@ -379,12 +382,6 @@ window.wf = {
 			break;
 		}
 	}, 1000);
-
-	/// 로그아웃
-	$('header div.d-flex div.dropdown-menu > a.dropdown-item').off().on('click', function() {
-		alert('logout');
-		window.wf.fn.logout();
-	});
 
 	/// 죄측 메뉴
 	$('#side-menu li > a:eq(0)').on('click', function(e) {
@@ -754,8 +751,8 @@ window.wf = {
 		});
 
 		/// 전동기 정보 값 바인딩
-		var mtrInfo = queryJson('device.mtr_info');
-		$('div#inFo1 table.table:eq(0) td:eq(0)').text(queryJson('device.facility_name'));
+		var mtrInfo = queryJson('device.machine_spec.mtr_info');
+		$('div#inFo1 table.table:eq(0) td:eq(0)').text(queryJson('device.machine_spec.facility_name'));
 		if ( mtrInfo ) {
 			$('div#inFo1 table.table:eq(0) td:eq(1)').text(mtrInfo['mtr_model']);
 			$('div#inFo1 table.table:eq(0) td:eq(2) > span').text(mtrInfo['power']);
@@ -794,7 +791,7 @@ window.wf = {
 		});
 
 		/// 감속기 값 바인딩
-		var rdcInfo = queryJson('device.rdc_info');
+		var rdcInfo = queryJson('device.machine_spec.rdc_info');
 		var stgClone = $('div#inFo2 table.table:eq(1)').parent().parent().clone();
 		var stgParent = $('div#inFo2 table.table:eq(1)').parent().parent().parent();
 		$('div#inFo2 table.table:eq(2)').parent().parent().remove();
@@ -824,7 +821,7 @@ window.wf = {
 					var item = $(elm);
 					if ( index == 0 ) {
 						if ( !rdcInfo ) {
-							rdcInfo = setJson('device.rdc_info', {})
+							rdcInfo = setJson('device.machine_spec.rdc_info', {})
 							rdcInfo['rdc_stg_info'] = [];
 						}
 						rdcInfo['rdc_model'] = item.find('td:eq(0) > input').val();
@@ -878,7 +875,7 @@ window.wf = {
 		});
 
 		/// 베어링 값 바인딩
-		var brInfo = queryJson('device.br_info');
+		var brInfo = queryJson('device.machine_spec.br_info');
 		var brClone = $('div#inFo3 table.table:eq(1)').parent().parent().clone();
 		var brParent = $('div#inFo3 table.table:eq(1)').parent().parent().parent();
 		$('div#inFo3 table.table:eq(3)').parent().parent().remove();
@@ -893,7 +890,7 @@ window.wf = {
 					var item = $(elm);
 					if ( index == 0 ) {
 						if ( !brInfo ) {
-							brInfo = setJson('device.br_info', {})
+							brInfo = setJson('device.machine_spec.br_info', {})
 							brInfo['br_detail_info'] = [];
 							brInfo['num_of_br'] = 0;
 						}
@@ -973,7 +970,7 @@ window.wf = {
 		}
 
 		/// 풀리 및 V-벨트 정보 값 바인딩
-		var beltInfo = queryJson('device.pully_belt_info');
+		var beltInfo = queryJson('device.machine_spec.pully_belt_info');
 		
 		if ( beltInfo ) {
 			$('div#inFo4 table.table:eq(0) td:eq(0)').text(beltInfo['drv_pulley_model']);
@@ -1003,7 +1000,7 @@ window.wf = {
 		});
 
 		/// 구동/피구동 스프라켓 및 구동체인 정보 값 바인딩
-		var sprketInfo = queryJson('device.sprket_drv_chain_info');
+		var sprketInfo = queryJson('device.machine_spec.sprket_drv_chain_info');
 		
 		if ( sprketInfo ) {
 			$('div#inFo5 table.table:eq(0) td:eq(0)').text(sprketInfo['drv_sprket_model']);
@@ -1034,7 +1031,7 @@ window.wf = {
 		});
 
 		/// 스텝체인 스프라켓 및 스텝체인 정보 값 바인딩
-		var stSprketInfo = queryJson('device.st_sprket_st_chain_info');
+		var stSprketInfo = queryJson('device.machine_spec.st_sprket_st_chain_info');
 		
 		if ( stSprketInfo ) {
 			$('div#inFo6 table.table:eq(0) td:eq(0) > span').text(stSprketInfo['stc_sprket_t']);
@@ -1063,7 +1060,7 @@ window.wf = {
 		});
 
 		/// 송풍기 정보 값 바인딩
-		var blowerInfo = queryJson('device.blower_info');
+		var blowerInfo = queryJson('device.machine_spec.blower_info');
 		
 		if ( blowerInfo ) {
 			$('div#inFo7 table.table:eq(0) td:eq(0)').text(blowerInfo['blw_model']);
@@ -1086,7 +1083,7 @@ window.wf = {
 	}
 
 	case '01_003': { /* 결함 주파수 */
-		var faultFreq = queryJson('device.fault_freq_enable');
+		var faultFreq = queryJson('device.fault_freq.fault_freq_enable');
 		if ( faultFreq['mtr_fault_freq'] != 'enable') {
 			$('div.row a.nav-link:eq(0)').hide();
 		}
@@ -1107,7 +1104,7 @@ window.wf = {
 		}
 
 		/// 전동기 결함
-		var mtrFault = queryJson('device.mtr_fault_freq');
+		var mtrFault = queryJson('device.fault_freq.mtr_fault_freq');
 		if (mtrFault) {
 			$('#freQuency1 table.table td:eq(0)').text(mtrFault['ns_rpm'] + ' rpm');
 			$('#freQuency1 table.table td:eq(1)').text(mtrFault['ns'] + ' Hz');
@@ -1122,7 +1119,7 @@ window.wf = {
 		}
 
 		/// 감속기 결함
-		var rdcFault = queryJson('device.rdc_fault_freq');
+		var rdcFault = queryJson('device.fault_freq.rdc_fault_freq');
 		var rdcRow = $('#freQuency2 tbody tr:eq(0)').clone();
 		var rdcBody = $('#freQuency2 tbody').empty();
 
@@ -1138,7 +1135,7 @@ window.wf = {
 		}
 
 		/// 베어링 결함
-		var brFault = queryJson('device.br_fault_freq');
+		var brFault = queryJson('device.fault_freq.br_fault_freq');
 		var brRow = $('#freQuency3 tbody tr:eq(0)').clone();
 		var brBody = $('#freQuency3 tbody').empty();
 
@@ -1156,7 +1153,7 @@ window.wf = {
 		}
 
 		/// 폴리 및 V-벨트 결함
-		var veltFault = queryJson('device.plly_belt_fault_freq');
+		var veltFault = queryJson('device.fault_freq.plly_belt_fault_freq');
 
 		if (veltFault) {
 			$('#freQuency4 tbody td:eq(0)').text(veltFault['drvn_fr'] + ' Hz');
@@ -1164,7 +1161,7 @@ window.wf = {
 		}
 
 		/// 구동/피구동 스프라켓 및 구동체 결함
-		var sprketFault = queryJson('device.drv_sprket_fault_freq');
+		var sprketFault = queryJson('device.fault_freq.drv_sprket_fault_freq');
 
 		if (sprketFault) {
 			$('#freQuency5 tbody td:eq(0)').text(sprketFault['drvn_fr'] + ' Hz');
@@ -1172,7 +1169,7 @@ window.wf = {
 		}
 		
 		/// 송풍기 결함
-		var blowerFault = queryJson('device.blower_fault_freq');
+		var blowerFault = queryJson('device.fault_freq.blower_fault_freq');
 
 		if (blowerFault) {
 			$('#freQuency6 tbody td:eq(0)').text(blowerFault['blw_fan_f'] + ' Hz');
@@ -1344,6 +1341,19 @@ window.wf = {
 	}
 
 	case '03_002': { /* 시스템 설정 */
+		/// ip 설정
+		$('#seT1 > div.card').hide();
+		$('#seT1 > div.card:eq(2)').show();
+		$.get("/rest/net_info", {},
+			  function(data, status) {
+				  $('#seT1 > div.card:eq(2) tbody td:eq(0)').text(data['ip']['addr']);
+				  $('#seT1 > div.card:eq(2) tbody td:eq(1)').text(data['ip']['netmask']);
+				  $('#seT1 > div.card:eq(2) tbody td:eq(2)').text(data['gateway']);
+				  $('#seT1 > div.card:eq(2) tbody td:eq(3)').text(data['dns'][0]);
+				  $('#seT1 > div.card:eq(2) tbody td:eq(4)').text(data['dns'][1]);
+			  }
+			 );
+
 		/// ssh 설정
 		var ssh = queryJson('device.system.ssh') || '허용하지 않습니다.';
 		setJson('device.system.ssh', ssh);
