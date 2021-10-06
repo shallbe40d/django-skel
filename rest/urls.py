@@ -26,7 +26,8 @@ urlpatterns = [
     url(r'device', views.device, name='device'),
 
     url(r'commJs', views.commJs, name='commJs'),
-    path(r'chart/<str:chart>', views.chart, name='chart'),
+    path(r'chart', views.chart, name='chart'),
+    path(r'download', views.download, name='download'),
     path(r'<str:path>.html', views.wf, name='wf'),
 ] + static("assets", document_root="static/assets")
 

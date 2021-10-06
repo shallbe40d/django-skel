@@ -5,6 +5,7 @@ import datetime
 import platform
 import re
 import glob
+import mimetypes
 
 from subprocess import call
 from bs4 import BeautifulSoup
@@ -87,18 +88,25 @@ def _device_set(request):
 
 
 """ get chart datat """
-def _get_chart(request, chart):
+def _get_chart(request, chart_file):
     x, y, z = [], [], []
     listFiles =  [f for f in glob.glob("./data/workspace/ictr/gateway/main/data/manual/*/*.num")]
-    with open(listFiles[0], 'r') as j:
+    file_path = listFiles[0]
+    if chart_file != "":
+        file_path = chart_file 
+    #
+    print(f"path : {chart_file} : {file_path}")
+    with open(file_path, 'r') as j:
         lines = j.readlines()
         for line in lines:
             data = re.split("\s+", line)
             x.append(data[0])
-            y.append(data[1])
-            z.append(data[2])
+            if len(data) > 1:
+                y.append(data[1])
+            if len(data) > 2:
+                z.append(data[2])
             #
-    return {"list": listFiles, "file": listFiles[0], "x": x, "y": y, "z": z}
+    return {"list": listFiles, "file": file_path, "x": x, "y": y, "z": z}
 
 
 """ 네트워크 정보 가져오기 """
@@ -310,10 +318,30 @@ def change_pw(request):
 
 
 """ /rest/chart """
-def chart(request, chart):
-    return JsonResponse(_get_chart(request, chart))
+def chart(request):
+    chart_file = request.GET.get('file')
+    if chart_file == None:
+        chart_file = ""
+
+    return JsonResponse(_get_chart(request, chart_file))
 
     
+""" /rest/download"""
+def download(request):
+    down_file = request.GET.get('file')
+    path = open(down_file, 'rb')
+    # Set the mime type
+    mime_type, _ = mimetypes.guess_type(down_file)
+    # Set the return value of the HttpResponse
+    response = HttpResponse(path, content_type=mime_type)
+    # Set the HTTP header for sending to browser
+    file_info = down_file.split("/")
+    filename = file_info[len(file_info) - 1]
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    # Return the response value
+    return response
+
+
 """ [ /wf/commonJs ] """
 def commJs(request):
     device_info = f"window['device'] = {JSON.dumps(_device_data(request), sort_keys=True, indent=4)};"
