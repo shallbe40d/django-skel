@@ -321,6 +321,16 @@
 			}
 		]
 	},
+
+	"diagnosis_type":"snd_analysis",
+	"measurement_time":"2021/09/30 11:10:03",
+	"snd_reslut" : [
+		{
+			"operation" : true,
+			"operation_index": 4.5,
+			"abnormal" : false
+		}
+	],
 	"system": {
 		"locale": "(UTC+09:00) Seoul",
 		"ntp": "허용합니다.",

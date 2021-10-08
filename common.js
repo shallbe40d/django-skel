@@ -147,6 +147,77 @@ window.wf = {
 
 			});
 		},
+		chartFFT: function(chart_data, startTime, timeInterval) {
+			startTime = 16094232; 
+			timeInterval = 100000;
+			var data = [];
+			for ( var i = 0; i < chart_data.length; i++ ) {
+				data[i] = [((startTime + i) * timeInterval), parseFloat(chart_data[i])];
+			}
+			Highcharts.chart('failChart', {
+				chart: {
+					zoomType: 'x',
+					backgroundColor: 'transparent'
+				},
+				title: {
+					text: ''
+				},
+				subtitle: {
+					text: ''
+				},
+				navigation: {
+					buttonOptions: {
+						enabled: false
+					}
+				},
+				legend: {
+					enabled: false
+				},
+				xAxis: {
+					type: 'datetime'
+				},
+				yAxis: {
+					title: {
+						text: ''
+					}
+				},
+				legend: {
+					enabled: false
+				},
+				plotOptions: {
+					series: {
+						fillOpacity: 0.15
+					},
+					area: {
+						marker: {
+							radius: 2
+						},
+						lineWidth: 1,
+						states: {
+							hover: {
+								lineWidth: 1
+							}
+						},
+						threshold: null
+					}
+				},
+
+				series: [{
+					type: 'area',
+					name: '',
+					data: data,
+					color: 'rgba(80,165,241,1)'
+				}]
+			});
+		},
+		getChart: function(fileName, callback) {
+			
+			$.get("/rest/chart", {file: fileName},
+				  function(data, status) {
+					  callback(data);
+				  }
+				 );
+		},
 		device: {
 			post: function() {
 				var cfn = (arguments.length > 0) ? arguments[0] : null;
@@ -1180,112 +1251,123 @@ window.wf = {
 		}, 500);
 		break;
 	}
-		
+	/// 센서별 시간 파형	
 	case '02_002': {
 		var sensorChar = 'v';
 		var chartData = null;
 		var vFiles = [];
 		var nFiles = [];
 		var cloneNode = $('#sensorList1 tbody > tr:eq(0)').clone();
+		var optNode = $('#sensor-ID1 option:eq(0)').clone();
+		$('#sensor-ID1').on('change', function() {
+			getChart(this.value);
+		});
 
 		function getChart(fileName) {
-			
-			$.get("/rest/chart", {file: fileName},
-				  function(data, status) {
-					  vFiles = [];
-					  nFiles = [];
-					  window.r = data;
-					  chartData = data;
-					  window.wf.fn.chart('sensorChart1', chartData['x'], 0, 0);
+			window.wf.fn.getChart(fileName, function(data) {
+				vFiles = [];
+				nFiles = [];
+				chartData = data;
+				window.wf.fn.chart('sensorChart1', chartData['x'], 0, 0);
 
-					  var fileList = chartData['list'];
-					  /// ICTR01_3_V_210618152300.num
-					  $('#sensor-ID1 option:eq(0)').text(chartData['file']);
-					  var fileInfo = chartData['file'].match(/_(\d{12})\.num/);
-					  if ( fileInfo.length > 1) {
-						  var m = fileInfo[1];
-						  $('#senSor1 div.float-end').text('측정 시점 : ' + m.substr(0,4) + '/' + m.substr(4,2) + '/' + m.substr(6,2) + ' ' + m.substr(8,2) + ':' + m.substr(10,2)  );
-					  }
-					  /// list
-					  if ( $.fn.DataTable.isDataTable("#sensorList1") ) {
-						  $('#sensorList1').DataTable().clear().destroy();
-					  }
-					  $('#sensorList1 tbody > tr').remove();
-					  for ( var i = 0; i < fileList.length; i++ ) {
-						  var fileNode = cloneNode.clone();
-						  fileNode.hide();
-						  var fileName = fileList[i].substr(fileList[i].lastIndexOf('/') + 1);
-						  var fileInfo = fileName.match(/_(\d{12})\.num/);
-						  if ( fileInfo.length > 1) {
-							  var m = fileInfo[1];
-							  fileNode.find('> td:eq(1)').text(m.substr(0,4) + '/' + m.substr(4,2) + '/' + m.substr(6,2) + ' ' + m.substr(8,2) + ':' + m.substr(10,2));
-						  }
-						  fileNode.find('> td:eq(2)').text(fileName);
-						  fileNode.find('> td:eq(3) > button').attr('file', fileList[i]).on('click', function() {
-							  location.href = "/rest/download?file=" + $(this).attr('file');
-						  });
-						  
-						  if ( fileList[i].indexOf('_V_') == -1 ) {
-							  nFiles.push(fileList[i]);
-							  fileNode.addClass('n');
-							  if (sensorChar == 'v') {
-								  $('#sensorList1 tbody').append(fileNode);
-							  }
-						  }
-						  else {
-							  vFiles.push(fileList[i]);
-							  fileNode.addClass('v');
-							  if (sensorChar != 'v') {
-								  $('#sensorList1 tbody').append(fileNode);
-							  }
-						  }
-					  }
+				var fileList = chartData['list'];
+				/// ICTR01_3_V_210618152300.num
+				var fileInfo = chartData['file'].match(/_(\d{12})\.num/);
+				if ( fileInfo.length > 1) {
+					var m = fileInfo[1];
+					$('#senSor1 div.float-end').text('측정 시점 : ' + m.substr(0,4) + '/' + m.substr(4,2) + '/' + m.substr(6,2) + ' ' + m.substr(8,2) + ':' + m.substr(10,2)  );
+				}
+				/// list
+				if ( $.fn.DataTable.isDataTable("#sensorList1") ) {
+					$('#sensorList1').DataTable().clear().destroy();
+				}
+				$('#sensorList1 tbody > tr').remove();
+				$('#sensor-ID1 option').remove();
+				
+				for ( var i = 0; i < fileList.length; i++ ) {
+					var fileNode = cloneNode.clone();
+					var opt = optNode.clone();
+					opt.val(fileList[i]);
+					if ( i == 0 ) {
+						opt.prop('selected', true);
+					}
+					//fileNode.hide();
+					var fileName = fileList[i].substr(fileList[i].lastIndexOf('/') + 1);
+					var fileInfo = fileName.match(/_(\d{12})\.num/);
+					if ( fileInfo.length > 1) {
+						var m = fileInfo[1];
+						fileNode.find('> td:eq(1)').text(m.substr(0,4) + '/' + m.substr(4,2) + '/' + m.substr(6,2) + ' ' + m.substr(8,2) + ':' + m.substr(10,2));
 
-					  $('li.nav-item:eq(0) > a > span').text('진동 센서 ( ' + vFiles.length + ' )');
-					  $('li.nav-item:eq(1) > a > span').text('소음 센서 ( ' + nFiles.length + ' )');
-					  //$('#sensorList1 tbody > tr.' + sensorChar).show();
+					}
+					opt.text(fileName);
+					fileNode.find('> td:eq(2)').text(fileName);
+					fileNode.find('> td:eq(3) > button').attr('file', fileList[i]).on('click', function() {
+						location.href = "/rest/download?file=" + $(this).attr('file');
+					});
+					
+					if ( fileList[i].indexOf('_V_') == -1 ) {
+						nFiles.push(fileList[i]);
+						fileNode.addClass('n');
+						if (sensorChar == 'n') {
+							$('#sensorList1 tbody').append(fileNode);
+							$('#sensor-ID1').append(opt);
+						}
+					}
+					else {
+						vFiles.push(fileList[i]);
+						fileNode.addClass('v');
+						if (sensorChar == 'v') {
+							$('#sensorList1 tbody').append(fileNode);
+							$('#sensor-ID1').append(opt);
+						}
+					}
+				}
 
-					  if (sensorChar == 'n') {
-						  $('input[name=formRadio1]:eq(1)').parent().hide();
-						  $('input[name=formRadio1]:eq(2)').parent().hide();
-					  }
-					  else {
-						  $('input[name=formRadio1]:eq(1)').parent().show();
-						  $('input[name=formRadio1]:eq(2)').parent().show();
-					  }
+				$('li.nav-item:eq(0) > a > span').text('진동 센서 ( ' + vFiles.length + ' )');
+				$('li.nav-item:eq(1) > a > span').text('소음 센서 ( ' + nFiles.length + ' )');
+				//$('#sensorList1 tbody > tr.' + sensorChar).show();
 
-					  $("#sensorList1").DataTable({
-						  order: [[1, 'desc']],
-						  ordering: true,
-						  pageLength: 20,
-						  serverSide: false,
-						  select: true,
-						  lengthMenu:  [20, 40, 60, 80, 100 ],
-						  dom:
-						  "<'row'<'col-sm-12'tr>>" +
-							  "<'row mb-4'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
-						  language: {
-							  zeroRecords: "설정된 IP 가 없습니다.",
-							  search: "",
-							  searchPlaceholder: "검색어 입력",
-							  lengthMenu: "_MENU_ 개 보기",
-							  paginate: {
-								  first:"맨앞",
-								  previous:"이전",
-								  next: "다음",
-								  last:"맨뒤"
-							  }
-						  }
-					  });
+				if (sensorChar == 'n') {
+					$('input[name=formRadio1]:eq(1)').parent().hide();
+					$('input[name=formRadio1]:eq(2)').parent().hide();
+				}
+				else {
+					$('input[name=formRadio1]:eq(1)').parent().show();
+					$('input[name=formRadio1]:eq(2)').parent().show();
+				}
 
-					  setTimeout(function() {
-						  $('#senSor2').removeClass('active');
-						  $('#senSor1').addClass('active');
-					  }, 500);
-				  }
-				 );
+				$("#sensorList1").DataTable({
+					order: [[1, 'desc']],
+					ordering: true,
+					pageLength: 20,
+					serverSide: false,
+					select: true,
+					lengthMenu:  [20, 40, 60, 80, 100 ],
+					dom:
+					"<'row'<'col-sm-12'tr>>" +
+						"<'row mb-4'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+					language: {
+						zeroRecords: "설정된 IP 가 없습니다.",
+						search: "",
+						searchPlaceholder: "검색어 입력",
+						lengthMenu: "_MENU_ 개 보기",
+						paginate: {
+							first:"맨앞",
+							previous:"이전",
+							next: "다음",
+							last:"맨뒤"
+						}
+					}
+				});
+
+				setTimeout(function() {
+					$('#senSor2').removeClass('active');
+					$('#senSor1').addClass('active');
+				}, 500);
+				
+			});
 		}
-		getChart('');
+		setTimeout(function() { getChart('num'); }, 100);
 
 		/// 진동, 소음 센서 click
 		$('li.nav-item > a').off().on('click', function() {
@@ -1323,6 +1405,116 @@ window.wf = {
 		break;
 	}
 		
+	/// 센서별 FFT 
+	case '02_003': {
+		var searchStart = null;
+		var searchEnd = null;
+		var chartData = null;
+		var vFiles = [];
+		var cloneNode = $('#sensorList1 tbody > tr:eq(0)').clone();
+		var optNode = $('#sensor-ID1 option:eq(0)').clone();
+		$('#sensor-ID1').on('change', function() {
+			getChartFFT(this.value);
+		});
+		function getChartFFT(fileName) {
+			window.wf.fn.getChart(fileName, function(data) {
+				vFiles = [];
+				chartData = data;
+
+				window.wf.fn.chartFFT(chartData['x'], 0, 0);
+
+				var fileList = chartData['list'];
+				var fileInfo = chartData['file'].match(/(\d{8}-\d{6})[^.]*\.txt/);
+				if ( fileInfo.length > 1) {
+					var m = fileInfo[1];
+					$('#a_form3').parent().siblings('.float-end').text('측정 시점 : ' + m.substr(0,4) + '/' + m.substr(4,2) + '/' + m.substr(6,2) + ' ' + m.substr(9,2) + ':' + m.substr(11,2)  );
+				}
+				/// list
+				if ( $.fn.DataTable.isDataTable("#sensorList1") ) {
+					$('#sensorList1').DataTable().clear().destroy();
+				}
+				$('#sensorList1 tbody > tr').remove();
+				$('#sensor-ID1 option').remove();
+				
+				for ( var i = 0; i < fileList.length; i++ ) {
+					var fileNode = cloneNode.clone();
+					var opt = optNode.clone();
+					opt.val(fileList[i]);
+					if ( i == 0 ) {
+						opt.prop('selected', true);
+					}
+					//fileNode.hide();
+					var fileName = fileList[i].substr(fileList[i].lastIndexOf('/') + 1);
+					var fileInfo = fileName.match(/(\d{8}-\d{6})[^.]*\.txt/);
+					if ( fileInfo.length > 1) {
+						var m = fileInfo[1];
+						fileNode.find('> td:eq(1)').text(m.substr(0,4) + '/' + m.substr(4,2) + '/' + m.substr(6,2) + ' ' + m.substr(9,2) + ':' + m.substr(11,2));
+
+					}
+					opt.text(fileName);
+					fileNode.find('> td:eq(2)').text(fileName);
+					fileNode.find('> td:eq(3) > button').attr('file', fileList[i]).on('click', function() {
+						location.href = "/rest/download?file=" + $(this).attr('file');
+					});
+					
+					vFiles.push(fileList[i]);
+					$('#sensorList1 tbody').append(fileNode);
+					$('#sensor-ID1').append(opt);
+				}
+
+				$("#sensorList1").DataTable({
+					order: [[1, 'desc']],
+					ordering: true,
+					pageLength: 20,
+					serverSide: false,
+					select: true,
+					lengthMenu:  [20, 40, 60, 80, 100 ],
+					dom:
+					"<'row'<'col-sm-12'tr>>" +
+						"<'row mb-4'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+					language: {
+						zeroRecords: "설정된 IP 가 없습니다.",
+						search: "",
+						searchPlaceholder: "검색어 입력",
+						lengthMenu: "_MENU_ 개 보기",
+						paginate: {
+							first:"맨앞",
+							previous:"이전",
+							next: "다음",
+							last:"맨뒤"
+						}
+					}
+				});
+			});
+		}
+								   
+		setTimeout(function() { getChartFFT('fft'); }, 100);
+
+		/// 수평, 수직, 반경 방향 radio click
+		$('input[name=formRadio1]').off().on('click', function() {
+			var typeChar = 'x';
+			switch ( $('input[name=formRadio1]').index(this) ) {
+			case 0:
+				typeChar = 'x';
+				break;
+			case 1:
+				typeChar = 'y';
+				break;
+			case 2:
+				typeChar = 'z';
+				break;
+			}
+
+			window.wf.fn.chartFFT(chartData[typeChar], 0, 0);
+		});
+		$('button > i.uil-search').parent().on('click', function() {
+			searchStart = $('input[name=start]').val();
+			searchEnd = $('input[name=end]').val();
+			//setTimeout(function() { getChartFFT('fft'); }, 100);
+		});
+		break;
+	}
+
 	case '03_001_0001': { /* 사용자 리스트 */
 		/* 사용자 추가 */
 		$('div.row a.btn-success').on('click', function() {

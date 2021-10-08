@@ -90,9 +90,17 @@ def _device_set(request):
 """ get chart datat """
 def _get_chart(request, chart_file):
     x, y, z = [], [], []
-    listFiles =  [f for f in glob.glob("./data/workspace/ictr/gateway/main/data/manual/*/*.num")]
+    if chart_file == "num":
+        listFiles =  [f for f in glob.glob("./sensor/*/*.num")]
+        #listFiles =  [f for f in glob.glob("./data/workspace/ictr/gateway/main/data/manual/*/*.num")]
+    elif chart_file == "fft":
+        listFiles =  [f for f in glob.glob("./fft/20*.txt")]
+    else:
+        listFiles =  [f for f in glob.glob("./sensor/*/*.num")]
+    #
     file_path = listFiles[0]
-    if chart_file != "":
+    #
+    if chart_file != "num" and chart_file != "fft":
         file_path = chart_file 
     #
     print(f"path : {chart_file} : {file_path}")
