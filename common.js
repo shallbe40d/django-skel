@@ -413,6 +413,15 @@ window.wf = {
 +-----------------------+
 */
 (function() {
+	var diag_threshold = queryJson('device.diag_threshold');
+	var diag_th_enable = diag_threshold['diag_th_enable'];
+	if ( diag_th_enable != "enable") {
+		$('#notSetModal').modal('show');
+	}
+	$('#notSetModal div.modal-footer > a.btn-primary').off().on('click', function() {
+		location.href = '/wf/01_004.html';
+	});
+
 	/// 상단 메뉴
 	$('#page-topbar .navbar-header a.dropdown-item').on('click', function(e) {
 		/// 사용자 관리
@@ -1251,6 +1260,88 @@ window.wf = {
 		}, 500);
 		break;
 	}
+
+	/// 임계치 자동 재설정
+	case '01_004': { /* 임계치 자동 재설정 */
+		//diag_threshold
+		
+		var snd_th_info = diag_threshold['snd_th_info'];
+		if ( snd_th_info ) {
+			var snd_oper_thre = snd_th_info['snd_oper_thre'];
+			if ( snd_oper_thre ) {
+				$('#reSet1 table:eq(0) td:eq(0)').text(snd_oper_thre['min_threshold']+'');
+				$('#reSet1 table:eq(0) td:eq(1)').text(snd_oper_thre['max_threshold']+'');
+				$('#reSet1 table:eq(0) td:eq(2)').text(snd_oper_thre['target_frequency']+'');
+				$('#reSet1 table:eq(0) td:eq(3)').text(snd_oper_thre['frequency_threshold']+'');
+			}
+
+			var snd_fail_thre = snd_th_info['snd_fail_thre'];
+			if ( snd_fail_thre ) {
+				$('#reSet1 table:eq(1) td:eq(0)').text(snd_fail_thre['threshold']+'');
+			}
+
+			$('#reSet1 table:eq(2) td:eq(0)').text(snd_th_info['update_time']);
+			$('#reSet1 table:eq(2) td:eq(1)').text(snd_th_info['update_type']);
+			$('#reSet1 table:eq(2) td:eq(2)').text(snd_th_info['update_name']);
+		}
+
+		var vib_th_info = diag_threshold['vib_th_info'];
+		if ( vib_th_info ) {
+			var sensorIdClone = $('#reSet2 div.nav > a:eq(0)').clone();
+			$('#reSet2 div.nav > a').remove();
+			var sensorDivClone = $('#senSor1').clone();
+			var sensorDivGrp = $('#senSor1').parent();
+			sensorDivGrp.empty();
+			for ( var i=0; i < vib_th_info.length; i++ ) {
+				var sensorTab = sensorIdClone.clone();
+				sensorTab.text(vib_th_info[i]['iot_sensor_id']);
+				sensorTab.off().on('click', function() {
+					sensorDivGrp.children().hide();
+					$(sensorDivGrp.children().get($(this).index())).show();
+				});
+				$('#reSet2 div.nav').append(sensorTab);
+
+				var sensorDiv = sensorDivClone.clone();
+				sensorDiv.hide();
+				sensorDiv.find('table:eq(0) td:eq(0) > span').text(vib_th_info[i]['th_range']['range_subhamo']);
+				sensorDiv.find('table:eq(0) td:eq(1) > span').text(vib_th_info[i]['th_range']['range_1xrpm']);
+				sensorDiv.find('table:eq(0) td:eq(2) > span').text(vib_th_info[i]['th_range']['range_2xrpm']);
+				sensorDiv.find('table:eq(0) td:eq(3) > span').text(vib_th_info[i]['th_range']['range_3_4xrpm']);
+				sensorDiv.find('table:eq(0) td:eq(4) > span').text(vib_th_info[i]['th_range']['range_5_12xrpm']);
+				sensorDiv.find('table:eq(0) td:eq(5) > span').text(vib_th_info[i]['th_range']['range_hfd']);
+				sensorDiv.find('table:eq(0) td:eq(6) > span').text(vib_th_info[i]['th_range']['range_end']);
+
+				sensorDiv.find('table:eq(1) tbody > tr:eq(0) > td:eq(0)').text(vib_th_info[i]['iot_pos']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(2) > td:eq(0)').text(vib_th_info[i]['axi_th']['axi_subhamo']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(2) > td:eq(1)').text(vib_th_info[i]['hr_th']['hr_subhamo']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(2) > td:eq(2)').text(vib_th_info[i]['vr_th']['vr_subhamo']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(3) > td:eq(0)').text(vib_th_info[i]['axi_th']['axi_1xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(3) > td:eq(1)').text(vib_th_info[i]['hr_th']['hr_1xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(3) > td:eq(2)').text(vib_th_info[i]['vr_th']['vr_1xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(4) > td:eq(0)').text(vib_th_info[i]['axi_th']['axi_2xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(4) > td:eq(1)').text(vib_th_info[i]['hr_th']['hr_2xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(4) > td:eq(2)').text(vib_th_info[i]['vr_th']['vr_2xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(5) > td:eq(0)').text(vib_th_info[i]['axi_th']['axi_3_4xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(5) > td:eq(1)').text(vib_th_info[i]['hr_th']['hr_3_4xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(5) > td:eq(2)').text(vib_th_info[i]['vr_th']['vr_3_4xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(6) > td:eq(0)').text(vib_th_info[i]['axi_th']['axi_5_12xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(6) > td:eq(1)').text(vib_th_info[i]['hr_th']['hr_5_12xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(6) > td:eq(2)').text(vib_th_info[i]['vr_th']['vr_5_12xrpm']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(7) > td:eq(0)').text(vib_th_info[i]['axi_th']['axi_hfd']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(7) > td:eq(1)').text(vib_th_info[i]['hr_th']['hr_hfd']);
+				sensorDiv.find('table:eq(1) tbody > tr:eq(7) > td:eq(2)').text(vib_th_info[i]['vr_th']['vr_hfd']);
+
+				if ( i == 0 ) {
+					sensorDiv.show();
+				}
+				sensorDivGrp.append(sensorDiv);
+			}
+
+		}
+
+		break;
+	}
+		
 	/// 센서별 시간 파형	
 	case '02_002': {
 		var sensorChar = 'v';

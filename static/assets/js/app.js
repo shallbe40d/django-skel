@@ -65,6 +65,8 @@
 }(jQuery);
 
 
+/**
 $(window).on('load', function() {
 	$('#notSetModal').modal('show');
 });
+*/

@@ -49,6 +49,9 @@ pip list to file
 #+BEGIN_SRC shell
 pip freeze > requirements.txt
 #+END_SRC
+
+#+RESULTS:
+
 pip install from file
 #+BEGIN_SRC shell
 pip install -r requirements.txt
@@ -154,32 +157,38 @@ SELECT * FROM sqlite_master WHERE type='table';
 | )        |                            |                            |                   |                |       |                            |                |             |     |      |         |      |                |                 |              |       |             |            |                     |        |              |              |           |               |                |              |       |            |                 |           |              |            |                     |        |              |           |           |          |         |     |       |            |           |        |            |             |           |             |          |            |              |      |       |                |    |     |
 
 ** tree
-.
-├── 00_000.html
-├── 00_001.html          *로그인*         
-├── 00_002.html          *최초 비밀번호 변경*
-├── 01_001.html          *iot 센서*
-├── 01_002_0001.html     **
-├── 01_002_0002.html
-├── 01_003.html
-├── 01_004.html
-├── 03_001_0001.html     *멤버 리스트*
-├── 03_001_0002.html     *멤버 추가*
-├── 03_001_0003.html     *멤버 상세보기*
-├── 03_001_0004.html     *멤버 수정*
-├── 03_002.html          /시스템 설정/
-├── 03_003.html          /IP 설정/
-├── 03_004.html          /진단 설정/
-├── 03_005.html          /시스템 초기화/
-├── footer.htm
-├── index.html
-├── layout-wrapper.htm
-├── notSetModal.htm
-├── page-topbar.htm
+├── 00_000.html *대쉬보드*
+├── 00_001.html *로그인*
+├── 00_002.html *최초 비번 변경*
+├── 01_001.html *IoT 센서*
+├── 01_002_0001.html *기계 사양*
+├── 01_002_0002.html *기계 사양 - 정보 수정* 
+├── 01_003.html *결함 주파수*
+├── 01_004.html *임계치 자동 재설정*
+├── 02_001.html *모니터-설비 가동 여부*
+├── 02_002.html *모니터-센서별 시간파형*
+├── 02_003.html *모니터-진동 센서별 FFT*
+├── 02_004.html *모니터-센서별 진동 등급*
+├── 02_005.html *모니터-결함진단*
+├── 02_006.html *모니터-신율/전달 효율*
+├── 03_001_0001.html *사용자 관리*
+├── 03_001_0002.html *사용자 관리 - 수정*
+├── 03_001_0003.html *사용자 관리 - 수정*
+├── 03_001_0004.html *사용자 관리 - 수정*
+├── 03_002.html *시스템 설정*
+├── 03_003.html *시스템 설정 - 보안*
+├── 03_004.html *진단 설정*
+├── 03_005.html *시스템 초기화*
+├── footer.htm *하단 공통*
+├── index.html **
+├── layout-wrapper.htm *좌-상단 공통*
+├── notSetModal.htm **
+├── page-topbar.htm **
+├── schedule.png
 ├── tdd.htm
 ├── tdd.html
 ├── tdd1.htm
-└── vertical-menu.htm
+└── vertical-menu.htm **
 
 #+BEGIN_SRC shell
   tree ./static/ -I assets
@@ -187,28 +196,28 @@ SELECT * FROM sqlite_master WHERE type='table';
 
 #+RESULTS:
 | ./static/ |                   |                    |       |
-|           | --                | 00_000.html        |       | /main/
-|           | --                | 00_001.html        |       |*
-|           | --                | 00_002.html        |       |*
-|           | --                | 01_001.html        |       |*
-|           | --                | 01_002_0001.html   |       |*
-|           | --                | 01_002_0002.html   |       |*
-|           | --                | 01_003.html        |       |*
-|           | --                | 01_004.html        |       | /임계치 설정/
-|           | --                | 02_001.html        |       | /차트/
-|           | --                | 02_002.html        |       | //
-|           | --                | 02_003.html        |       | //
-|           | --                | 02_004.html        |       | //
-|           | --                | 02_005.html        |       | //
-|           | --                | 02_006.html        |       | //
-|           | --                | 03_001_0001.html   |       |*
-|           | --                | 03_001_0002.html   |       |*
-|           | --                | 03_001_0003.html   |       |*
-|           | --                | 03_001_0004.html   |       |*
-|           | --                | 03_002.html        |       | /ip and port/
-|           | --                | 03_003.html        |       | /ip tables/
-|           | --                | 03_004.html        |       | /진단 설정 크론 작업/
-|           | --                | 03_005.html        |       | /시스템 초기화 정보 필요/
+|           | --                | 00_000.html        |       |
+|           | --                | 00_001.html        |       |
+|           | --                | 00_002.html        |       |
+|           | --                | 01_001.html        |       |
+|           | --                | 01_002_0001.html   |       |
+|           | --                | 01_002_0002.html   |       |
+|           | --                | 01_003.html        |       |
+|           | --                | 01_004.html        |       |
+|           | --                | 02_001.html        |       |
+|           | --                | 02_002.html        |       |
+|           | --                | 02_003.html        |       |
+|           | --                | 02_004.html        |       |
+|           | --                | 02_005.html        |       |
+|           | --                | 02_006.html        |       |
+|           | --                | 03_001_0001.html   |       |
+|           | --                | 03_001_0002.html   |       |
+|           | --                | 03_001_0003.html   |       |
+|           | --                | 03_001_0004.html   |       |
+|           | --                | 03_002.html        |       |
+|           | --                | 03_003.html        |       |
+|           | --                | 03_004.html        |       |
+|           | --                | 03_005.html        |       |
 |           | --                | footer.htm         |       |
 |           | --                | index.html         |       |
 |           | --                | layout-wrapper.htm |       |
@@ -250,6 +259,9 @@ SELECT * FROM sqlite_master WHERE type='table';
   @enduml
 #+END_SRC
 
+#+RESULTS:
+[[file:./flow.png]]
+
 *** 일정
 #+BEGIN_SRC  plantuml :file "./static/schedule.png" :cmdline -charset utf-8
   @startuml
@@ -274,7 +286,7 @@ SELECT * FROM sqlite_master WHERE type='table';
 		  sudo 권한 연결
 		  메인 페이지
   end note
-
+  
   [모니터링 데이타 바인딩] lasts 5 days
   note bottom
 		  모니터링 차트 데이타 파일 필요
@@ -293,6 +305,8 @@ SELECT * FROM sqlite_master WHERE type='table';
   2021-10-19 to 2021-10-19 are colored in blue 
   ' Today  
   $today to $today are colored in gold
+  [진단 임계치 설정] happens at $today
+  
   @enduml
 #+END_SRC
 #+RESULTS:
@@ -300,19 +314,45 @@ SELECT * FROM sqlite_master WHERE type='table';
 
 
 ** QnA
-*** 디바이스 > 임계치 자동 재설정
- - 어떻게 실행하고 어떤 상태를 읽어야 하는가?
+*** 진단 임계치 자동 재설정 
+http://kcfuturetech.asuscomm.com/static/01_004.html
+ - 어떻게 실행하나요?
+*** 대쉬보드 
+**** 화면 전체 관련 데이타 정보는 어디에 있나요? ( 파일 위치, 파일 정보 )
+http://kcfuturetech.asuscomm.com/wf/00_000.html
+ - 설비 가동 상태 
+ - 최근 히스토리
+ - 결함 진단 결과 
+*** 모니터링 > 설비 가동 여부 
+http://localhost:8000/wf/02_001.html
+ - 설비 가동 내역 리스트 파일은 어디에 있나요?
+ - 각 차트별 파일 정보가 어떻게 되나요?
 *** 모니터링 > 센서별 시간 파형  
+http://localhost:8000/wf/02_002.html
  - 진단 타입 정보 없음 [ 긴급진단, 소음 발생으로 인한 진단, 스케줄 진단 ]
-*** 모니터링 > 설비 가동 여부
- - 어떤 데이타를 어떻게 적용하여야 하는가?
+*** 모니터링 > 진동 센서별 FFT 
+http://kcfuturetech.asuscomm.com/wf/02_003.html
+ - 결함 분석 임계치, 결함 주파수 에 바인딩 될 정보는 어디에서 구하나요?
+*** 모니터링 >  센서별 진동 등급
+http://kcfuturetech.asuscomm.com/wf/02_004.html
+ - 관련된 파일의 위치가 어떻게 되나요?
+*** 모니터링 >  결함진단
+http://kcfuturetech.asuscomm.com/wf/02_005.html
+ - 결함 진단 리스트 및 결과 정보는 어떻게 구하나요?
+*** 모니터링 >  신율/전달 효율
+http://kcfuturetech.asuscomm.com/wf/02_006.html
+ - 차트 관련 정보 파일은 어디에 있나요?
+*** 긴급진단 및 진단 설정 
+ - 긴급 및 예약 진단을 어떻게 실행해야 되나요?
+*** 시스템 초기화   
+http://localhost:8000/wf/03_005.html
+ - 어떤 내용들을 실행해야 하나요?
 
 
 ** Task 
-*** Doing chart dir list N read file
- - read dir list 
- - select N read chart
-*** netutils
- - https://www.shallowsky.com/software/netscheme/netutils-1.4.py
-*** python-ipchains   
- - https://github.com/ldx/python-iptables
+*** symbolic link 만들기
+*** 진단 임계치 자동 재설정 
+*** ip 및 gateway 설정
+ - ifconfig, route /command line/
+*** 보안설정
+ - iptables /command line/
