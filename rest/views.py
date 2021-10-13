@@ -29,6 +29,13 @@ def _change_ip():
     # dns 2개도 수정해야함
     call(["ifconfig", "en1", "172.30.1.42", "netmask", "255.255.255.0", "broadcast", "172.30.1.255"])
     call(["route", "add", "default" "gw" "172.30.1.1"])
+    #iptables -I INPUT -s xxx.xxx.xxx.xxx -j DROP  
+    #iptables -A INPUT -s xxx.xxx.xxx.xxx -j ACCEPT
+    # accept 먼저 하고 모두를 drop 한다 ( 우선 포트 기준으로 테스트 )
+    #iptables -A INPUT -s xxx.xxx.xxx.xxx -p tcp –dport 80 -j ACCEPT
+    #iptables -A INPUT -p tcp –dport 80 -j DROP
+
+
 
 
 """ 최초 로그인 사용자의 비번 변경 """
@@ -63,6 +70,8 @@ def _device_set(request):
     result = False
     data_str = request.POST.get('data')
     subp = request.POST.get('subp')
+    srv = {}
+    srv['db'] = _get_member(request)
     if subp != None and platform.system() == 'Linux':
         sub_cmd = json.loads(subp)
         if sub_cmd['type'] == 'locale':
@@ -77,6 +86,9 @@ def _device_set(request):
         #
     #
     print(subp)
+    #re.sub('@{([^\]]+)}', srv['[:\\1:]', "asdf < @{a.b.c} > 123")
+    data_str = re.sub('@{db.member.name}', srv['db']['member']['id'], data_str)
+    #
     try:
         with open("device.json", "w") as f:
             f.write(data_str)

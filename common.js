@@ -55,6 +55,11 @@ function setJson(que, val) {
 	
 	return obj;
 }
+function timestamp() {
+	var today = new Date();
+	today.setHours(today.getHours() + 9);
+	return today.toISOString().replace('T', ' ').substring(0, 19);
+}
 
 toastr.options = {
   "closeButton": false,
@@ -1265,6 +1270,37 @@ window.wf = {
 	case '01_004': { /* 임계치 자동 재설정 */
 		//diag_threshold
 		
+		if ( diag_th_enable != "enable") {
+		}
+
+		$('#reSet1 div.text-right > a.edit').on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+				$('#reSet1 table:eq(0) td:eq(1) > input').text();
+				$('#reSet1 table:eq(0) td:eq(3) > input').text();
+				if ( !diag_threshold ) {
+					diag_threshold = {
+						"snd_th_info": {
+							"snd_oper_thre": {},
+							"snd_fail_thre": {}
+						},
+						"vib_th_info": []
+					}
+				}
+				diag_threshold['snd_th_info']['snd_oper_thre']['min_threshold'] = parseFloat($('#reSet1 table:eq(0) td:eq(0) > input').val());
+				diag_threshold['snd_th_info']['snd_oper_thre']['max_threshold'] = parseFloat($('#reSet1 table:eq(0) td:eq(1) > input').val());
+				diag_threshold['snd_th_info']['snd_oper_thre']['frequency_threshold'] = parseFloat($('#reSet1 table:eq(0) td:eq(3) > input').val());
+				diag_threshold['snd_th_info']['snd_fail_thre']['threshold'] = parseFloat($('#reSet1 table:eq(1) td:eq(0) > input').val());
+
+				diag_threshold['snd_th_info']['update_time'] = timestamp().replaceAll('-', '/');
+				diag_threshold['snd_th_info']['update_type'] = 'manual';
+				diag_threshold['snd_th_info']['update_name'] = '@{db.member.name}';
+
+				setJson('device.diag_threshold', diag_threshold)
+				window.wf.fn.device.post(function(result) {
+					toastr["success"]("저장되었습니다.")
+				});
+			}
+		});
 		var snd_th_info = diag_threshold['snd_th_info'];
 		if ( snd_th_info ) {
 			var snd_oper_thre = snd_th_info['snd_oper_thre'];
@@ -1778,7 +1814,7 @@ window.wf = {
 		$('#seT2 div > a.edit').off().on('click', function() {
 			if ( $(this).find('i.fa-save').length > 0 ) {
 				setJson('device.system.ssh', $('#seT2 td:eq(0) > select').val());
-				var subp = {'type': 'sshTemp', 'val': false};
+				var subp = {'type': 'ssh', 'val': false};
 				if ( $('#seT2 td:eq(0) > select').val() == '허용합니다.' ) {
 					subp['val'] = 'true';
 				}
@@ -1815,8 +1851,8 @@ window.wf = {
 			if ( $(this).find('i.fa-save').length > 0 ) {
 				var localeVar = $('#seT4 td:eq(0) > select').val();
 				setJson('device.system.locale', localeVar);
-				//var subp = {'type': 'locale', 'val': localeVar};
-				var subp = {'type': 'locale', 'val': 'Asia/Seoul'};
+				var subp = {'type': 'locale', 'val': localeVar};
+				//var subp = {'type': 'locale', 'val': 'Asia/Seoul'};
 				window.wf.fn.device.post(function(result) {
 					toastr["success"]("저장되었습니다.")
 				}, subp);
@@ -1825,6 +1861,11 @@ window.wf = {
 
 		break;
 	}
+	/// 보안 설정 ( iptables )
+	case '03_003': { /* 보안 설정 */
+		break;
+	}
+
 	default:
 		break;
 	}
