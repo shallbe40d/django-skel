@@ -1273,19 +1273,22 @@ window.wf = {
 		if ( diag_th_enable != "enable") {
 		}
 
+		if ( !diag_threshold ) {
+			diag_threshold = {
+				"snd_th_info": {
+					"snd_oper_thre": {},
+					"snd_fail_thre": {}
+				},
+				"vib_th_info": []
+			}
+		}
+		
+		/// 설비 가동여부/이상소음 진단 임계치
 		$('#reSet1 div.text-right > a.edit').on('click', function() {
 			if ( $(this).find('i.fa-save').length > 0 ) {
 				$('#reSet1 table:eq(0) td:eq(1) > input').text();
 				$('#reSet1 table:eq(0) td:eq(3) > input').text();
-				if ( !diag_threshold ) {
-					diag_threshold = {
-						"snd_th_info": {
-							"snd_oper_thre": {},
-							"snd_fail_thre": {}
-						},
-						"vib_th_info": []
-					}
-				}
+				
 				diag_threshold['snd_th_info']['snd_oper_thre']['min_threshold'] = parseFloat($('#reSet1 table:eq(0) td:eq(0) > input').val());
 				diag_threshold['snd_th_info']['snd_oper_thre']['max_threshold'] = parseFloat($('#reSet1 table:eq(0) td:eq(1) > input').val());
 				diag_threshold['snd_th_info']['snd_oper_thre']['frequency_threshold'] = parseFloat($('#reSet1 table:eq(0) td:eq(3) > input').val());
@@ -1321,7 +1324,9 @@ window.wf = {
 			$('#reSet1 table:eq(2) td:eq(2)').text(snd_th_info['update_name']);
 		}
 
-		var vib_th_info = diag_threshold['vib_th_info'];
+		/// 결함 분석 임계치 및 범위
+		var vib_th_info = diag_threshold['vib_th_info'];	
+
 		if ( vib_th_info ) {
 			var sensorIdClone = $('#reSet2 div.nav > a:eq(0)').clone();
 			$('#reSet2 div.nav > a').remove();
@@ -1339,6 +1344,59 @@ window.wf = {
 
 				var sensorDiv = sensorDivClone.clone();
 				sensorDiv.hide();
+
+				sensorDiv.find('div.text-right > a.edit').on('click', function() {
+					if ( $(this).find('i.fa-save').length > 0 ) {
+						if ( !vib_th_info ) {
+							vib_th_info = [
+								{ "axi_th": {},
+								  "hr_th": {},
+								  "vr_th": {},
+								  "th_range": {}
+								}
+
+							];
+						}
+						var sensorDiv = $(this).closest('#senSor1');
+
+						var i = $(this).closest('#senSor1').index();
+						vib_th_info[i]['th_range']['range_subhamo'] = sensorDiv.find('table:eq(0) td:eq(0) > span > input').val();
+						vib_th_info[i]['th_range']['range_1xrpm'] = sensorDiv.find('table:eq(0) td:eq(1) > span > input').val();
+						vib_th_info[i]['th_range']['range_2xrpm'] = sensorDiv.find('table:eq(0) td:eq(2) > span > input').val();
+						vib_th_info[i]['th_range']['range_3_4xrpm'] = sensorDiv.find('table:eq(0) td:eq(3) > span > input').val();
+						vib_th_info[i]['th_range']['range_5_12xrpm'] = sensorDiv.find('table:eq(0) td:eq(4) > span > input').val();
+						vib_th_info[i]['th_range']['range_hfd'] = sensorDiv.find('table:eq(0) td:eq(5) > span > input').val();
+						vib_th_info[i]['th_range']['range_end'] = sensorDiv.find('table:eq(0) td:eq(6) > span > input').val();
+
+						vib_th_info[i]['iot_pos'] = sensorDiv.find('table:eq(1) tbody > tr:eq(0) > td:eq(0) > input').val();
+
+						vib_th_info[i]['axi_th']['axi_subhamo'] = sensorDiv.find('table:eq(1) tbody > tr:eq(2) > td:eq(0) > input').val();
+						vib_th_info[i]['hr_th']['hr_subhamo'] = sensorDiv.find('table:eq(1) tbody > tr:eq(2) > td:eq(1) > input').val();
+						vib_th_info[i]['vr_th']['vr_subhamo'] = sensorDiv.find('table:eq(1) tbody > tr:eq(2) > td:eq(2) > input').val();
+						vib_th_info[i]['axi_th']['axi_1xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(3) > td:eq(0) > input').val();
+						vib_th_info[i]['hr_th']['hr_1xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(3) > td:eq(1) > input').val();
+						vib_th_info[i]['vr_th']['vr_1xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(3) > td:eq(2) > input').val();
+						vib_th_info[i]['axi_th']['axi_2xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(4) > td:eq(0) > input').val();
+						vib_th_info[i]['hr_th']['hr_2xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(4) > td:eq(1) > input').val();
+						vib_th_info[i]['vr_th']['vr_2xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(4) > td:eq(2) > input').val();
+						vib_th_info[i]['axi_th']['axi_3_4xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(5) > td:eq(0) > input').val();
+						vib_th_info[i]['hr_th']['hr_3_4xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(5) > td:eq(1) > input').val();
+						vib_th_info[i]['vr_th']['vr_3_4xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(5) > td:eq(2) > input').val();
+						vib_th_info[i]['axi_th']['axi_5_12xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(6) > td:eq(0) > input').val();
+						vib_th_info[i]['hr_th']['hr_5_12xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(6) > td:eq(1) > input').val();
+						vib_th_info[i]['vr_th']['vr_5_12xrpm'] = sensorDiv.find('table:eq(1) tbody > tr:eq(6) > td:eq(2) > input').val();
+						vib_th_info[i]['axi_th']['axi_hfd'] = sensorDiv.find('table:eq(1) tbody > tr:eq(7) > td:eq(0) > input').val();
+						vib_th_info[i]['hr_th']['hr_hfd'] = sensorDiv.find('table:eq(1) tbody > tr:eq(7) > td:eq(1) > input').val();
+						vib_th_info[i]['vr_th']['vr_hfd'] = sensorDiv.find('table:eq(1) tbody > tr:eq(7) > td:eq(2) > input').val();
+
+						setJson('device.diag_threshold', diag_threshold)
+						window.wf.fn.device.post(function(result) {
+							toastr["success"]("저장되었습니다.")
+						});
+
+					}
+				});
+
 				sensorDiv.find('table:eq(0) td:eq(0) > span').text(vib_th_info[i]['th_range']['range_subhamo']);
 				sensorDiv.find('table:eq(0) td:eq(1) > span').text(vib_th_info[i]['th_range']['range_1xrpm']);
 				sensorDiv.find('table:eq(0) td:eq(2) > span').text(vib_th_info[i]['th_range']['range_2xrpm']);
@@ -1348,6 +1406,7 @@ window.wf = {
 				sensorDiv.find('table:eq(0) td:eq(6) > span').text(vib_th_info[i]['th_range']['range_end']);
 
 				sensorDiv.find('table:eq(1) tbody > tr:eq(0) > td:eq(0)').text(vib_th_info[i]['iot_pos']);
+
 				sensorDiv.find('table:eq(1) tbody > tr:eq(2) > td:eq(0)').text(vib_th_info[i]['axi_th']['axi_subhamo']);
 				sensorDiv.find('table:eq(1) tbody > tr:eq(2) > td:eq(1)').text(vib_th_info[i]['hr_th']['hr_subhamo']);
 				sensorDiv.find('table:eq(1) tbody > tr:eq(2) > td:eq(2)').text(vib_th_info[i]['vr_th']['vr_subhamo']);
@@ -1863,6 +1922,50 @@ window.wf = {
 	}
 	/// 보안 설정 ( iptables )
 	case '03_003': { /* 보안 설정 */
+		var iptables = queryJson('device.system.iptable');
+		var ipClone = $('#ipList tbody tr:eq(0)').clone();
+		$('#ipList tbody tr').remove();
+
+		if ( iptables ) {
+			for ( var i=0; i < iptables.length; i++ ) {
+
+				var ip = iptables[i]['ip'];
+				ipClone.find('td:eq(0)').text((ip.indexOf('-') == -1) ? '고정' : '유동');
+				ipClone.find('td:eq(1)').text(ip);
+				ipClone.find('td:eq(2)').text(iptables[i]['date']);
+				ipClone.find('td:eq(3)').text(iptables[i]['user']);
+				$('#ipList tbody').append(ipClone.clone());
+			}
+		}
+
+		$('div.row  a.btn-success').off().on('click', function() {
+			$('#ipModal form input.form-control').val('');
+		});
+
+		$('#ipModal form').off().on('submit', function() {return false});
+
+		$('#ipModal form button.btn-primary').off().on('click', function() {
+			var ipObj = $('#iptable'); 
+			var acceptIp = ipObj.val();
+
+			if ( !acceptIp ) {
+				$('#ipModal form div.invalid-text').show();
+				return;
+			}
+
+			if ( !iptables ) {
+				iptables = setJson('device.system.iptable', []);
+			}
+
+			var acceptInfo = {'user': '@{db.member.name}', ip: acceptIp, date: timestamp()}; 
+			iptables.push(acceptInfo);
+			var subp = {'type': 'iptable', 'val': acceptIp};
+			$('#ipModal').modal('hide');
+			window.wf.fn.device.post(function(result) {
+				location.reload(true);
+			}, subp);
+		});
+
 		break;
 	}
 

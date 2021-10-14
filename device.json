@@ -18,42 +18,42 @@
     "vib_th_info": [
       {
         "axi_th": {
-          "axi_1xrpm": 1.7241,
-          "axi_2xrpm": 0.2699,
-          "axi_3_4xrpm": 0.3683,
-          "axi_5_12xrpm": 0.0519,
-          "axi_hfd": 0.0082,
-          "axi_subhamo": 0.5687
+          "axi_1xrpm": "1.7241",
+          "axi_2xrpm": "0.2699",
+          "axi_3_4xrpm": "0.3683",
+          "axi_5_12xrpm": "0.0519",
+          "axi_hfd": "0.0082",
+          "axi_subhamo": "0.5678"
         },
         "hr_th": {
-          "hr_1xrpm": 1.9,
-          "hr_2xrpm": 0.5223,
-          "hr_3_4xrpm": 0.0959,
-          "hr_5_12xrpm": 0.0435,
-          "hr_hfd": 0.0087,
-          "hr_subhamo": 0.9636
+          "hr_1xrpm": "1.9",
+          "hr_2xrpm": "0.5223",
+          "hr_3_4xrpm": "0.0959",
+          "hr_5_12xrpm": "0.0435",
+          "hr_hfd": "0.0087",
+          "hr_subhamo": "0.9636"
         },
-        "iot_pos": 1,
+        "iot_pos": "1",
         "iot_sensor_id": "A434F1CC9C91",
         "th_range": {
-          "range_1xrpm": 13,
-          "range_2xrpm": 40,
-          "range_3_4xrpm": 67,
-          "range_5_12xrpm": 120,
-          "range_end": 1000,
-          "range_hfd": 333,
-          "range_subhamo": 10
+          "range_1xrpm": "13",
+          "range_2xrpm": "40",
+          "range_3_4xrpm": "67",
+          "range_5_12xrpm": "120",
+          "range_end": "1000",
+          "range_hfd": "333",
+          "range_subhamo": "11"
         },
         "update_name": "algorithm",
         "update_time": "2021/07/31 13:22:43",
         "update_type": "auto",
         "vr_th": {
-          "vr_1xrpm": 0.7748,
-          "vr_2xrpm": 0.2014,
-          "vr_3_4xrpm": 0.1256,
-          "vr_5_12xrpm": 0.0276,
-          "vr_hfd": 0.0061,
-          "vr_subhamo": 0.3894
+          "vr_1xrpm": "0.7748",
+          "vr_2xrpm": "0.2014",
+          "vr_3_4xrpm": "0.1256",
+          "vr_5_12xrpm": "0.0276",
+          "vr_hfd": "0.0061",
+          "vr_subhamo": "0.3894"
         }
       },
       {
@@ -314,7 +314,7 @@
     }
   },
   "measurement_time": "2021/09/30 11:10:03",
-  "now": "2021-10-13 18:47:19.891734",
+  "now": "2021-10-14 19:01:29.776178",
   "snd_reslut": [
     {
       "abnormal": false,
@@ -323,6 +323,28 @@
     }
   ],
   "system": {
+    "iptable": [
+      {
+        "date": "2021-10-14 18:56:50",
+        "ip": "127.0.0.1",
+        "user": "admin"
+      },
+      {
+        "date": "2021-10-14 18:58:24",
+        "ip": "192.168.0.1",
+        "user": "admin"
+      },
+      {
+        "date": "2021-10-14 18:59:22",
+        "ip": "172.168.0.1",
+        "user": "admin"
+      },
+      {
+        "user": "admin",
+        "ip": "192.168.0.10-192.168.0.20",
+        "date": "2021-10-14 19:01:55"
+      }
+    ],
     "locale": "(UTC+09:00) Seoul",
     "ntp": "허용합니다.",
     "ssh": "허용하지 않습니다."

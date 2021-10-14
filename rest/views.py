@@ -32,10 +32,10 @@ def _change_ip():
     #iptables -I INPUT -s xxx.xxx.xxx.xxx -j DROP  
     #iptables -A INPUT -s xxx.xxx.xxx.xxx -j ACCEPT
     # accept 먼저 하고 모두를 drop 한다 ( 우선 포트 기준으로 테스트 )
+    #iptables -F INPUT
     #iptables -A INPUT -s xxx.xxx.xxx.xxx -p tcp –dport 80 -j ACCEPT
-    #iptables -A INPUT -p tcp –dport 80 -j DROP
-
-
+    #iptables -A INPUT -p tcp --dport 22 -m iprange --src-range 192.168.1.100-192.168.1.200 -j ACCEPT
+    #iptables -A INPUT -p tcp --dport 80 -j DROP
 
 
 """ 최초 로그인 사용자의 비번 변경 """
@@ -83,6 +83,8 @@ def _device_set(request):
                 call("sudo systemctl start ssh", shell=True)
             else:
                 call("sudo systemctl stop ssh", shell=True)
+        elif sub_cmd['type'] == 'iptable':
+            call(f"iptables -A INPUT -s {sub_cmd['val']} -p tcp --dport 80 -j ACCEPT", shell=True)
         #
     #
     print(subp)
@@ -434,9 +436,9 @@ def device(request):
 
 """ [ /wf/*.html ] static 폴더의 html 과 json을 bind 하여 새로운 html 출력 """
 def wf(request, path):
-    #Singleton()
-    #print(request.session.get('id', False))
-    #print(path)
+    if platform.system() == 'Linux':
+        Singleton()
+    #
     if not request.session.get('id', False):
         path =  "00_001"
     elif request.session.get('login1st') == 0:
