@@ -1865,6 +1865,22 @@ window.wf = {
 			  }
 			 );
 
+		$('#seT1 div > a.edit').off().on('click', function() {
+			if ( $(this).find('i.fa-save').length > 0 ) {
+				var cfg = {};
+				cfg['addr'] = $('#seT1 > div.card:eq(2) tbody td:eq(0) > input').val();
+				cfg['netmask'] = $('#seT1 > div.card:eq(2) tbody td:eq(1) > input').val();
+				cfg['gateway'] = $('#seT1 > div.card:eq(2) tbody td:eq(2) > input').val();
+				cfg['dns1'] = $('#seT1 > div.card:eq(2) tbody td:eq(3) > input').val();
+				cfg['dns2'] = $('#seT1 > div.card:eq(2) tbody td:eq(4) > input').val();
+
+				var subp = {'type': 'ifcfg', 'val': cfg};
+					window.wf.fn.device.post(function(result) {
+						toastr["success"]("저장되었습니다.")
+					}, subp);
+			}
+		});
+
 		/// ssh 설정
 		var ssh = queryJson('device.system.ssh') || '허용하지 않습니다.';
 		setJson('device.system.ssh', ssh);
@@ -1930,11 +1946,20 @@ window.wf = {
 			for ( var i=0; i < iptables.length; i++ ) {
 
 				var ip = iptables[i]['ip'];
-				ipClone.find('td:eq(0)').text((ip.indexOf('-') == -1) ? '고정' : '유동');
-				ipClone.find('td:eq(1)').text(ip);
-				ipClone.find('td:eq(2)').text(iptables[i]['date']);
-				ipClone.find('td:eq(3)').text(iptables[i]['user']);
-				$('#ipList tbody').append(ipClone.clone());
+				var ipElm = ipClone.clone();
+				ipElm.find('td:eq(0)').text((ip.indexOf('-') == -1) ? '고정' : '유동');
+				ipElm.find('td:eq(1)').text(ip);
+				ipElm.find('td:eq(2)').text(iptables[i]['date']);
+				ipElm.find('td:eq(3)').text(iptables[i]['user']);
+				
+				$('#ipList tbody').append(ipElm);
+				ipElm.find('td:eq(4) > button').off().on('click', function() {
+					var removeIp = iptables.splice($(this).parent().parent().index(), 1);
+					var subp = {'type': 'iptable-remove', 'val': removeIp[0]['ip']};
+					window.wf.fn.device.post(function(result) {
+						location.reload(true);
+					}, subp);
+				});
 			}
 		}
 

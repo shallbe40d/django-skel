@@ -73,9 +73,12 @@ def _device_set(request):
     srv = {}
     srv['db'] = _get_member(request)
     if subp != None and platform.system() == 'Linux':
-        sub_cmd = json.loads(subp)
+        sub_cmd = JSON.loads(subp)
         if sub_cmd['type'] == 'locale':
             call(f"sudo timedatectl set-timezone {sub_cmd['val']}", shell=True)
+        elif sub_cmd['type'] == 'ifcfg':
+            print(sub_cmd['val'])
+            print(sub_cmd['val']['addr'])
         elif sub_cmd['type'] == 'ntp':
             call(f"sudo timedatectl set-ntp {sub_cmd['val']}", shell=True)
         elif sub_cmd['type'] == 'ssh':
@@ -84,8 +87,13 @@ def _device_set(request):
             else:
                 call("sudo systemctl stop ssh", shell=True)
         elif sub_cmd['type'] == 'iptable':
-            call(f"iptables -A INPUT -s {sub_cmd['val']} -p tcp --dport 80 -j ACCEPT", shell=True)
+            call(f"sudo iptables -A INPUT -s {sub_cmd['val']} -p tcp --dport 80 -j ACCEPT", shell=True)
+        elif sub_cmd['type'] == 'iptable-remove':
+            call(f"sudo iptables -I INPUT -s {sub_cmd['val']} -j DROP", shell=True)
         #
+    else:
+        sub_cmd = JSON.loads(subp)
+        print(sub_cmd['val'])
     #
     print(subp)
     #re.sub('@{([^\]]+)}', srv['[:\\1:]', "asdf < @{a.b.c} > 123")

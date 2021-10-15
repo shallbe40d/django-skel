@@ -351,8 +351,7 @@ http://localhost:8000/wf/03_005.html
 
 ** Task 
 *** symbolic link 만들기
-*** 진단 임계치 자동 재설정 
 *** ip 및 gateway 설정
  - ifconfig, route /command line/
 *** 보안설정
- - iptables /command line/
+ - IoT에서 동작 테스트 => _device_set
