@@ -6,7 +6,7 @@
   $ pyenv virtualenv 3.9.1 pyenv391
   $ cd ~/.emacs.d/source/python/django/wireframe
   $ pyenv local 3.9.1
-  $ echo "set venv as 3.9.1"
+  $ echo "set venv as 3.9.1 => env 디렉토리를 생성한다."
   $ python3.9 -m venv env
   $ source env/bin/activate
   $ echo "django install from pip"
@@ -41,10 +41,15 @@
 	sudo update-locale LANG=ko_KR.UTF-8 LC_MESSAGES=POSIX
 
 ** pip list
+#+BEGIN_SRC shell
+python -m pip install Django
 pip list
+#+END_SRC
+
 #+BEGIN_SRC shell
 pip freeze
 #+END_SRC
+
 pip list to file 
 #+BEGIN_SRC shell
 pip freeze > requirements.txt
@@ -324,11 +329,11 @@ http://kcfuturetech.asuscomm.com/wf/00_000.html
  - 최근 히스토리
  - 결함 진단 결과 
 *** 모니터링 > 설비 가동 여부 
-http://localhost:8000/wf/02_001.html
+http://kcfuturetech.asuscomm.com/wf/02_001.html
  - 설비 가동 내역 리스트 파일은 어디에 있나요?
  - 각 차트별 파일 정보가 어떻게 되나요?
 *** 모니터링 > 센서별 시간 파형  
-http://localhost:8000/wf/02_002.html
+http://kcfuturetech.asuscomm.com/wf/02_002.html
  - 진단 타입 정보 없음 [ 긴급진단, 소음 발생으로 인한 진단, 스케줄 진단 ]
 *** 모니터링 > 진동 센서별 FFT 
 http://kcfuturetech.asuscomm.com/wf/02_003.html
@@ -345,7 +350,7 @@ http://kcfuturetech.asuscomm.com/wf/02_006.html
 *** 긴급진단 및 진단 설정 
  - 긴급 및 예약 진단을 어떻게 실행해야 되나요?
 *** 시스템 초기화   
-http://localhost:8000/wf/03_005.html
+http://kcfuturetech.asuscomm.com/wf/03_005.html
  - 어떤 내용들을 실행해야 하나요?
 
 

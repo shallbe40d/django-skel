@@ -1,4 +1,4 @@
-#!/Users/helix/.emacs.d/source/python/django/wireframe/env/bin/python3.9
+#!/Users/helix/prj/django-skel/env/bin/python
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

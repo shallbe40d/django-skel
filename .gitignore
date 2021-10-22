@@ -3,6 +3,7 @@
 .log/
 *.pyc
 **/*.pyc
-env/**/*.pyc
+env
+**/env
 rest/**/*.pyc
 wireframe/**/*.pyc
