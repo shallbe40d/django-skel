@@ -126,7 +126,7 @@ def _get_chart(request, chart_file):
         file_path = chart_file 
     #
     print(f"path : {chart_file} : {file_path}")
-    with open(file_path, 'r') as j:
+    with open(file_path, 'r', encoding='utf-8', errors='ignore') as j:
         lines = j.readlines()
         for line in lines:
             data = re.split("\s+", line)
